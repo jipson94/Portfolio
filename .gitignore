@@ -6,3 +6,10 @@ Desktop.ini
 # Dossiers d'outils éventuels
 node_modules/
 .vscode/
+
+# Fichiers de travail impeccable (notes internes, gardés privés)
+PRODUCT.md
+DESIGN.md
+.impeccable/
+.claude/
+.cursor/

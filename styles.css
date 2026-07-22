@@ -269,28 +269,14 @@ a { color: inherit; text-decoration: none; }
   align-items: start;
 }
 .about-media { position: sticky; top: 110px; }
-.portrait-placeholder {
-  aspect-ratio: 4 / 5;
+.portrait {
+  width: 100%;
+  height: auto;
+  display: block;
   border-radius: var(--radius);
-  background: linear-gradient(160deg, #171716, #333331);
-  color: var(--gold-bright);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
   border: 1px solid var(--line);
-}
-.portrait-placeholder span {
-  font-family: var(--font-serif);
-  font-size: 3.4rem;
-}
-.portrait-placeholder small {
-  font-family: var(--font-sans);
-  font-size: .78rem;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--cream-soft);
+  background: #fff;
+  box-shadow: 0 20px 44px -30px rgba(22, 19, 14, .5);
 }
 .pull-quote {
   margin: 26px 0 0;
@@ -440,6 +426,45 @@ a { color: inherit; text-decoration: none; }
   justify-content: center;
 }
 .work--plus .work-mono { background: transparent; border: 1px dashed var(--line); }
+
+/* Réalisations : études de cas + mur de logos */
+.works-subtitle {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 66px 0 26px;
+}
+.cases { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+.case {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.case:hover { transform: translateY(-5px); box-shadow: 0 22px 44px -26px rgba(22, 19, 14, .5); }
+.case-media { aspect-ratio: 4 / 3; background: var(--paper-2); }
+.case-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.case-body { padding: 22px 24px 24px; }
+.case-tag { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 600; color: var(--gold); }
+.case h3 { font-family: var(--font-serif); font-weight: 500; font-size: 1.3rem; margin: 8px 0 4px; }
+.case-body p { margin: 0; font-size: .9rem; color: var(--ink-soft); }
+
+.logo-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 16px; }
+.logo-tile {
+  aspect-ratio: 3 / 2;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: border-color .2s var(--ease), transform .2s var(--ease);
+}
+.logo-tile:hover { border-color: var(--gold); transform: translateY(-3px); }
+.logo-tile img { max-width: 100%; max-height: 58px; width: auto; height: auto; object-fit: contain; }
 
 /* ---------- Clients ---------- */
 .client-wall {
@@ -682,6 +707,7 @@ a { color: inherit; text-decoration: none; }
   .about-grid { grid-template-columns: 1fr; }
   .about-media { position: static; max-width: 360px; }
   .cards { grid-template-columns: 1fr; }
+  .cases { grid-template-columns: 1fr; }
   .approach { grid-template-columns: 1fr; gap: 20px; }
 
   .nav {

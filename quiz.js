@@ -83,7 +83,7 @@ function render() {
   const isResult = current >= QUESTIONS.length;
   root.innerHTML = `
     <div class="quiz-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progressPercent()}">
-      <span style="width:${Math.max(progressPercent(), isResult ? 100 : 8)}%"></span>
+      <span style="transform:scaleX(${Math.max(progressPercent(), isResult ? 100 : 8) / 100})"></span>
     </div>
     <div class="quiz-step">
       ${isResult ? resultHTML() : questionHTML(QUESTIONS[current])}

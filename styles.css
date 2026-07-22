@@ -46,6 +46,13 @@ img { max-width: 100%; display: block; }
 
 a { color: inherit; text-decoration: none; }
 
+/* Accessibilité : focus clavier bien visible */
+:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
 .container {
   width: 100%;
   max-width: var(--max);
@@ -511,9 +518,12 @@ a { color: inherit; text-decoration: none; }
 .quiz-progress span {
   display: block;
   height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
   background: linear-gradient(90deg, var(--gold), var(--gold-bright));
   border-radius: 100px;
-  transition: width .45s var(--ease);
+  transition: transform .45s var(--ease);
 }
 .quiz-step { animation: quizFade .35s var(--ease); }
 @keyframes quizFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }

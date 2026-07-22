@@ -13,3 +13,7 @@ DESIGN.md
 .impeccable/
 .claude/
 .cursor/
+
+# Skills installés dans le projet (ne pas publier)
+.agents/
+skills-lock.json

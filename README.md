@@ -7,6 +7,7 @@ Trois fichiers, aucune installation requise.
 index.html   → le contenu de la page
 styles.css   → l'apparence (couleurs, typographies, mise en page)
 script.js    → les petites interactions (menu mobile, apparitions)
+quiz.js      → le questionnaire de qualification des visiteurs
 ```
 
 ## 👀 Voir le site
@@ -29,10 +30,19 @@ Remplacez-le par le logo :
 <img src="images/jovial.png" alt="Logo Jovial Cosmetics" />
 ```
 
-### 3. Changer les couleurs / polices
+### 3. Le questionnaire (section « Votre projet »)
+Un mini-quiz qualifie les visiteurs (profil, besoin, échéance) puis compose un
+**e-mail pré-rempli vers vous** avec leurs réponses.
+- Pour modifier les questions/réponses : éditez le tableau `QUESTIONS` en haut de `quiz.js`.
+- Pour changer les recommandations de fin : éditez l'objet `FOCUS` dans `quiz.js`.
+- ⚠️ *Limite* : vous ne recevez la réponse que si le visiteur **envoie** l'e-mail ouvert.
+  Pour capturer **toutes** les réponses automatiquement (sans dépendre de leur messagerie),
+  on pourra brancher un service de formulaire gratuit (ex. Formspree) — dites-le-moi.
+
+### 4. Changer les couleurs / polices
 Tout est centralisé en haut de `styles.css` dans le bloc `:root` (les variables `--gold`, `--paper`, `--ink`…).
 
-### 4. Corriger un texte
+### 5. Corriger un texte
 Modifiez directement le texte concerné dans `index.html`.
 
 ## 🌐 Mettre en ligne gratuitement

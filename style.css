@@ -1387,3 +1387,10 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
   .hero-grid .hero-id{display:flex;align-items:flex-end;gap:14px}
   .hero-id .hero-socials{margin:0 0 .55em!important;flex:none}
 }
+/* Ma démarche, téléphone : étapes en grille 2 × 2 au lieu d'une colonne */
+@media (max-width:720px){
+  .steps{grid-template-columns:1fr 1fr!important;column-gap:16px!important;row-gap:32px!important}
+  .step-num{width:48px;height:48px;font-size:15px}
+  .step h3{font-size:18px;margin:14px 0 6px}
+  .step p{font-size:13px;line-height:1.5}
+}

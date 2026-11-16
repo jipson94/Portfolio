@@ -1444,3 +1444,20 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
   #services .card p,#services .card h3,.home-formations .f-card p,.home-formations .f-card h3,.blog-sec .posts.teaser h3,.blog-sec .posts.teaser .excerpt{text-wrap:wrap!important}
   .home-formations .f-card p,.home-formations .f-card h3,.home-formations .f-card .f-theme{margin-left:0!important;margin-right:0!important}
 }
+/* ===== En-têtes des pages, téléphone : la décoration ne passe plus sous le texte =====
+   L'astérisque, plus petit, occupe le coin haut droit (à hauteur du fil d'Ariane) ;
+   le titre et le texte commencent en dessous, sur toute la largeur. */
+@keyframes spinDecoM{to{transform:rotate(360deg)}}
+@media (max-width:720px){
+  .page-hero{padding:22px 0 44px!important}
+  .page-hero .ast-deco{width:92px!important;right:16px!important;top:14px!important;opacity:1!important;transform:none;animation:spinDecoM 24s linear infinite!important}
+  .page-hero .crumbs{min-height:92px;margin-bottom:6px;padding-top:10px;padding-right:120px}
+  .page-hero h1{font-size:clamp(44px,13vw,60px)}
+  .page-hero p{font-size:15.5px;max-width:none}
+  .page-hero .floaty{display:none}
+}
+@media (max-width:720px) and (prefers-reduced-motion:reduce){.page-hero .ast-deco{animation:none!important}}
+@media (max-width:720px){.page-hero .crumbs{min-height:108px}}
+@media (max-width:720px){.page-hero .back-projets~.crumbs{min-height:0;padding-top:0;margin-bottom:22px}}
+/* Fiche projet, téléphone : le visuel qui remonte sur l'en-tête ne cache plus le titre */
+@media (max-width:720px){.page-hero:has(.back-projets){padding-bottom:116px!important}}

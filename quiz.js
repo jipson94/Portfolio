@@ -1,249 +1,98 @@
-/* =========================================================
-   Questionnaire de qualification — Jipson Mathas
-   100 % navigateur : profile le visiteur, propose une reco
-   personnalisée, puis compose un e-mail pré-rempli vers Jipson.
-   Pour modifier les questions : éditez le tableau QUESTIONS ci-dessous.
-   ========================================================= */
+/* « Votre projet en 1 minute » — questionnaire qui oriente le visiteur puis pré-remplit le formulaire de contact. */
+(function () {
+  const box = document.getElementById('quiz'); if (!box) return;
 
-const EMAIL = 'jipsondecorezmathas@gmail.com';
-
-// --- Les questions (faciles à modifier / ajouter) ---
-const QUESTIONS = [
-  {
-    id: 'profil',
-    question: 'Pour commencer, vous êtes plutôt…',
-    options: [
-      { value: 'entreprise',   label: 'Une entreprise / organisation' },
-      { value: 'entrepreneur', label: 'Un entrepreneur / une startup' },
-      { value: 'particulier',  label: 'Un particulier / porteur de projet' },
-      { value: 'pro',          label: 'Un recruteur / confrère / partenaire' },
-    ],
-  },
-  {
-    id: 'besoin',
-    question: "Qu'est-ce qui vous amène ?",
-    options: [
-      { value: 'identite',  label: 'Créer mon identité visuelle (logo, charte)' },
-      { value: 'refonte',   label: 'Refondre / moderniser mon image de marque' },
-      { value: 'digital',   label: 'Développer ma présence digitale' },
-      { value: 'strategie', label: 'Une stratégie de communication globale' },
-    ],
-  },
-  {
-    id: 'etape',
-    question: 'Où en êtes-vous dans votre réflexion ?',
-    options: [
-      { value: 'precis',      label: "J'ai un projet précis et défini" },
-      { value: 'idee',        label: 'J’ai une idée à explorer' },
-      { value: 'comparaison', label: 'Je compare plusieurs prestataires' },
-      { value: 'veille',      label: 'Je me renseigne pour plus tard' },
-    ],
-  },
-  {
-    id: 'echeance',
-    question: 'Pour quand, idéalement ?',
-    options: [
-      { value: 'urgent',   label: "C'est urgent (ce mois-ci)" },
-      { value: 'court',    label: 'Dans 1 à 3 mois' },
-      { value: 'long',     label: 'Dans plus de 3 mois' },
-      { value: 'flexible', label: 'Pas de date précise' },
-    ],
-  },
-];
-
-// --- Recommandation selon le besoin exprimé ---
-const FOCUS = {
-  identite:  { title: 'Création graphique · Identité visuelle',
-               text: "On pose des fondations solides : un logo unique et une charte graphique cohérente, déclinables sur tous vos supports." },
-  refonte:   { title: 'Communication 360° · Refonte de marque',
-               text: "On modernise votre image et on l'harmonise sur l'ensemble de vos points de contact." },
-  digital:   { title: 'Digital · Présence & acquisition',
-               text: "On déploie une stratégie digitale sur-mesure : contenus, réseaux sociaux, SEO et campagnes ciblées." },
-  strategie: { title: 'Conseil & Communication 360°',
-               text: "On construit une stratégie de communication globale, alignée sur vos objectifs business." },
-};
-
-// --- État ---
-const answers = {};   // { profil: {value,label}, ... }
-let current = 0;      // index de la question courante (0..QUESTIONS.length) ; = length → écran résultat
-const root = document.getElementById('quiz');
-
-if (root) init();
-
-function init() {
-  render();
-}
-
-// Barre de progression : avance à chaque étape (résultat = 100 %)
-function progressPercent() {
-  return Math.round((current / QUESTIONS.length) * 100);
-}
-
-function render() {
-  const isResult = current >= QUESTIONS.length;
-  root.innerHTML = `
-    <div class="quiz-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${progressPercent()}">
-      <span style="transform:scaleX(${Math.max(progressPercent(), isResult ? 100 : 8) / 100})"></span>
-    </div>
-    <div class="quiz-step">
-      ${isResult ? resultHTML() : questionHTML(QUESTIONS[current])}
-    </div>
-  `;
-  isResult ? bindResult() : bindQuestion();
-}
-
-function questionHTML(step) {
-  const opts = step.options.map((o, i) => {
-    const selected = answers[step.id] && answers[step.id].value === o.value;
-    return `
-      <button class="quiz-option${selected ? ' is-selected' : ''}" data-value="${o.value}" data-index="${i}">
-        <span class="quiz-option-key">${String.fromCharCode(65 + i)}</span>
-        <span class="quiz-option-label">${o.label}</span>
-      </button>`;
-  }).join('');
-
-  return `
-    <p class="quiz-count">Question ${current + 1} / ${QUESTIONS.length}</p>
-    <h3 class="quiz-question">${step.question}</h3>
-    <div class="quiz-options">${opts}</div>
-    <div class="quiz-nav">
-      ${current > 0 ? '<button class="quiz-back" data-back>← Précédent</button>' : '<span></span>'}
-    </div>
-  `;
-}
-
-function bindQuestion() {
-  root.querySelectorAll('.quiz-option').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const step = QUESTIONS[current];
-      const opt = step.options[Number(btn.dataset.index)];
-      answers[step.id] = { value: opt.value, label: opt.label, question: step.question };
-      // Retour visuel puis passage à l'étape suivante
-      root.querySelectorAll('.quiz-option').forEach((b) => b.classList.remove('is-selected'));
-      btn.classList.add('is-selected');
-      setTimeout(() => { current++; render(); }, 260);
-    });
-  });
-  const back = root.querySelector('[data-back]');
-  if (back) back.addEventListener('click', () => { current--; render(); });
-}
-
-function resultHTML() {
-  const besoin = answers.besoin ? answers.besoin.value : 'identite';
-  const focus = FOCUS[besoin] || FOCUS.identite;
-  const isPro = answers.profil && answers.profil.value === 'pro';
-  const urgent = answers.echeance && answers.echeance.value === 'urgent';
-
-  const heading = isPro
-    ? 'Merci de votre visite 👋'
-    : 'Voici comment je peux vous aider';
-
-  const lead = isPro
-    ? "Ravi de vous compter parmi mes visiteurs ! Mon parcours et mes réalisations sont juste au-dessus. Laissez-moi un mot, je vous réponds avec plaisir."
-    : focus.text;
-
-  const focusCard = isPro ? '' : `
-    <div class="quiz-focus">
-      <span class="quiz-focus-tag">Piste recommandée</span>
-      <strong>${focus.title}</strong>
-    </div>`;
-
-  const urgentNote = urgent
-    ? '<p class="quiz-urgent">⚡ Vous êtes pressé ? Précisez-le, je peux prioriser votre demande.</p>'
-    : '';
-
-  return `
-    <p class="quiz-count">C'est tout bon !</p>
-    <h3 class="quiz-question">${heading}</h3>
-    <p class="quiz-result-lead">${lead}</p>
-    ${focusCard}
-    ${urgentNote}
-    <form class="quiz-form" id="quiz-form" novalidate>
-      <div class="quiz-field">
-        <label for="q-name">Votre prénom</label>
-        <input type="text" id="q-name" name="name" placeholder="Ex. Marie" required />
-      </div>
-      <div class="quiz-field">
-        <label for="q-email">Votre e-mail</label>
-        <input type="email" id="q-email" name="email" placeholder="vous@exemple.com" required />
-      </div>
-      <div class="quiz-field">
-        <label for="q-msg">Un mot sur votre projet (optionnel)</label>
-        <textarea id="q-msg" name="message" rows="3" placeholder="Décrivez en une phrase ce que vous avez en tête…"></textarea>
-      </div>
-      <p class="quiz-error" id="quiz-error" hidden>Merci d'indiquer votre prénom et un e-mail valide.</p>
-      <div class="quiz-actions">
-        <button type="button" class="quiz-back" data-back>← Précédent</button>
-        <button type="submit" class="btn btn--dark">Envoyer ma demande</button>
-      </div>
-    </form>
-  `;
-}
-
-function bindResult() {
-  const back = root.querySelector('[data-back]');
-  if (back) back.addEventListener('click', () => { current--; render(); });
-
-  const form = document.getElementById('quiz-form');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('q-name').value.trim();
-    const email = document.getElementById('q-email').value.trim();
-    const message = document.getElementById('q-msg').value.trim();
-    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-    if (!name || !emailOk) {
-      document.getElementById('quiz-error').hidden = false;
-      return;
-    }
-    window.location.href = buildMailto(name, email, message);
-    showThankYou(name);
-  });
-}
-
-function buildMailto(name, email, message) {
-  const lines = [
-    'Bonjour Jipson,',
-    '',
-    'Voici ma demande depuis votre portfolio :',
-    '',
+  const Q = [
+    { k: 'profil', q: 'Pour commencer, vous êtes plutôt…', r: ['Une institution / organisation', 'Une entreprise', 'Un entrepreneur / une startup', 'Un particulier / porteur de projet', 'Un étudiant / une étudiante', 'Un recruteur'] },
+    { k: 'besoin', q: 'De quoi avez-vous besoin en priorité ?', r: ['Identité visuelle & design', 'Vidéo & motion design', 'Communication & relations publiques', 'Site web', 'IA & données', 'Une formation pour mon équipe'] },
+    { k: 'etape', q: 'Où en est votre projet ?', r: ['Une simple idée', 'Un projet bien défini', 'La refonte de l’existant', 'C’est urgent'] },
+    { k: 'delai', q: 'Dans quel délai souhaitez-vous démarrer ?', r: ['Moins de 2 semaines', 'Dans le mois', 'D’ici 1 à 3 mois', 'Pas encore défini'] }
   ];
-  QUESTIONS.forEach((q) => {
-    const a = answers[q.id];
-    if (a) lines.push(`• ${labelFor(q.id)} : ${a.label}`);
+
+  const CONSEILS = {
+    'Identité visuelle & design': ['Création d’identité visuelle', 'Je vous propose de construire une identité claire et mémorable : logo, charte graphique et premiers supports. C’est ce que j’ai fait pour plus de 150 marques.', 'projet.html?id=le-crime-du-soir', 'Voir un exemple de création'],
+    'Vidéo & motion design': ['Vidéo & motion design', 'Un film ou une animation courte pour expliquer, convaincre ou annoncer — comme le film des Assises Nationales de l’Industrie du Congo.', 'projet.html?id=anic-2026', 'Voir le projet ANIC 2026'],
+    'Communication & relations publiques': ['Stratégie de communication', 'On commence par un diagnostic de vos publics et de vos messages, puis un plan d’actions concret : contenus, relations presse, réseaux sociaux.', '#services', 'Voir les services'],
+    'Site web': ['Site web professionnel', 'Un site rapide, clair et adapté au mobile, relié à votre nom de domaine — pensé pour transformer les visiteurs en contacts.', '#services', 'Voir les services'],
+    'IA & données': ['IA & analyse de données', 'Des outils d’IA et des tableaux de bord adaptés à votre activité pour gagner du temps et décider sur des chiffres fiables.', '#services', 'Voir les services'],
+    'Une formation pour mon équipe': ['Formation sur mesure', 'Des formations pratiques de 2 semaines à 3 mois, dans votre structure, en session ouverte ou à distance.', 'formations.html', 'Voir le catalogue des formations']
+  };
+
+  const A = {}; let step = 0;
+  const esc = s => s.replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+
+  function render() {
+    if (step < Q.length) {
+      const q = Q[step];
+      box.innerHTML = `
+        <div class="quiz-top">
+          <span class="quiz-step">Question ${step + 1} / ${Q.length}</span>
+          <div class="quiz-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${Q.length}" aria-valuenow="${step}"><i style="width:${step / Q.length * 100}%"></i></div>
+        </div>
+        <h3 class="quiz-q" tabindex="-1">${q.q}</h3>
+        <div class="quiz-opts">${q.r.map((r, i) => `<button type="button" class="quiz-opt${A[q.k] === r ? ' on' : ''}" data-v="${esc(r)}"><span>${String.fromCharCode(65 + i)}</span>${r}</button>`).join('')}</div>
+        ${step ? '<button type="button" class="quiz-back">← Question précédente</button>' : ''}`;
+    } else {
+      const recruteur = A.profil === 'Un recruteur';
+      const etudiant = A.profil === 'Un étudiant / une étudiante';
+      const c = recruteur
+        ? ['Profil polyvalent', 'Communication, design, vidéo, web, IA et données : un profil capable de relier stratégie et production. Je serais ravi d’échanger sur votre besoin.', '#apropos', 'Relire mon parcours']
+        : etudiant
+        ? ['Apprendre par la pratique', 'Pour un projet d’études, un mémoire ou pour vous former à un métier du numérique, je propose des formations pratiques et un accompagnement adapté à votre niveau.', 'formations.html', 'Voir les formations']
+        : CONSEILS[A.besoin];
+      box.innerHTML = `
+        <div class="quiz-top"><span class="quiz-step">Résultat</span><div class="quiz-bar"><i style="width:100%"></i></div></div>
+        <p class="quiz-label">Ce que je vous propose</p>
+        <h3 class="quiz-q" tabindex="-1">${c[0]}</h3>
+        <p class="quiz-txt">${c[1]}</p>
+        <ul class="quiz-recap">${Q.map(q => `<li><small>${q.q.replace(/[?…]/g, '').replace('Pour commencer, vous êtes plutôt', 'Vous êtes')}</small>${A[q.k]}</li>`).join('')}</ul>
+        <div class="quiz-actions">
+          <button type="button" class="btn quiz-send">Envoyer ma demande →</button>
+          <button type="button" class="quiz-back quiz-restart">Recommencer</button>
+        </div>`;
+    }
+    const h = box.querySelector('.quiz-q'); if (h && render.started) h.focus({preventScroll: true});
+    render.started = true;
+    // Écran de résultat : seuls « Envoyer ma demande » et « Recommencer » restent
+    const sk = document.querySelector('[data-to-form]'); if (sk) sk.hidden = step >= Q.length;
+  }
+
+  box.addEventListener('click', e => {
+    const opt = e.target.closest('.quiz-opt');
+    if (opt) { A[Q[step].k] = opt.dataset.v; step++; render(); return; }
+    if (e.target.closest('.quiz-restart')) { step = 0; Object.keys(A).forEach(k => delete A[k]); render(); return; }
+    if (e.target.closest('.quiz-back')) { step = Math.max(0, step - 1); render(); return; }
+    if (e.target.closest('.quiz-send')) {
+      // Pré-remplit le formulaire de contact avec les réponses
+      const sujet = document.getElementById('c-sujet'), msg = document.getElementById('c-msg');
+      const map = { 'Une formation pour mon équipe': 'Une formation' };
+      if (sujet) {
+        const wanted = A.profil === 'Un recruteur' ? 'Autre' : (map[A.besoin] || 'Un projet (communication, design, vidéo, web)');
+        const norm = s => s.replace(/[\u00A0\u202F]/g, ' ').trim();
+        [...sujet.options].forEach((o, i) => { if (norm(o.text) === wanted) sujet.selectedIndex = i; });
+      }
+      if (msg) msg.value = `Bonjour Jipson,\n\n— Profil : ${A.profil}\n— Besoin : ${A.besoin}\n— Avancement : ${A.etape}\n— Délai : ${A.delai}\n\nMon projet en quelques mots : `;
+      showForm('Plus qu’à me dire qui vous êtes.');
+    }
   });
-  lines.push('');
-  if (message) { lines.push(`Mon projet : ${message}`, ''); }
-  lines.push(`— ${name} (${email})`);
 
-  const subject = `Nouveau projet via le portfolio — ${name}`;
-  const body = lines.join('\r\n');
-  return `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
+  /* Formulaire intégré dans la même carte que le questionnaire */
+  const form = document.getElementById('contact-form');
+  const skip = document.querySelector('[data-to-form]');
+  function showForm(title) {
+    if (!form) return;
+    box.hidden = true; form.hidden = false; if (skip) skip.hidden = true;
+    const h = form.querySelector('.quiz-q'); if (h && title) h.textContent = title;
+    const card = form.closest('.quiz-card'); const top = card.getBoundingClientRect().top;
+    if (top < 70 || top > innerHeight * 0.5) card.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start'});
+    setTimeout(() => { const n = document.getElementById('c-nom'); if (n) n.focus({preventScroll: true}); }, 350);
+  }
+  function showQuiz() {
+    box.hidden = false; if (form) form.hidden = true; if (skip) skip.hidden = step >= Q.length;
+    const h = box.querySelector('.quiz-q'); if (h) h.focus({preventScroll: true});
+  }
+  if (skip) skip.addEventListener('click', () => showForm('Écrivez-moi directement.'));
+  document.querySelectorAll('[data-to-quiz]').forEach(b => b.addEventListener('click', showQuiz));
 
-function labelFor(id) {
-  return {
-    profil: 'Profil',
-    besoin: 'Besoin',
-    etape: 'Avancement',
-    echeance: 'Échéance',
-  }[id] || id;
-}
-
-function showThankYou(name) {
-  root.innerHTML = `
-    <div class="quiz-done">
-      <div class="quiz-done-check">✓</div>
-      <h3 class="quiz-question">Merci, ${escapeHtml(name)} !</h3>
-      <p class="quiz-result-lead">Votre e-mail pré-rempli vient de s'ouvrir — il ne reste qu'à l'envoyer. Je vous réponds très vite.</p>
-      <p class="quiz-done-alt">L'e-mail ne s'est pas ouvert ?
-        <a href="mailto:${EMAIL}">Écrivez-moi directement</a>.</p>
-    </div>
-  `;
-}
-
-function escapeHtml(s) {
-  const d = document.createElement('div');
-  d.textContent = s;
-  return d.innerHTML;
-}
+  render();
+})();

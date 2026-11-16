@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<script src="i18n.js"></script>
+<script>try{if(!sessionStorage.jmIntro&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formations — Jipson Mathas</title>
+<meta name="description" content="Formations proposées par Jipson Mathas : communication institutionnelle, relations publiques, intelligence artificielle, design graphique, motion design, analyse de données et web.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="256x256">
+<link rel="apple-touch-icon" href="images/icone-180.png">
+<meta name="theme-color" content="#0f2167">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Jipson Mathas">
+<meta property="og:title" content="Formations — Jipson Mathas">
+<meta property="og:description" content="Formations pratiques de 2 semaines à 3 mois : communication, relations publiques, IA, design graphique, motion design, analyse de données et web.">
+<meta property="og:url" content="https://jipsonmathas.com/formations.html">
+<meta property="og:image" content="https://jipsonmathas.com/images/partage.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jipsonmathas.com/formations.html"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap bar">
+    <a href="index.html" class="logo" aria-label="Jipson Mathas — accueil"><img src="images/logo-signature.png" alt="Jipson Mathas" width="209" height="64"></a>
+    <nav aria-label="Menu principal">
+      <a href="index.html#apropos">À propos</a>
+      <a href="index.html#services">Services</a>
+      <a href="projets.html">Projets</a>
+      <a href="formations.html" class="on" aria-current="page">Formations</a>
+      <a href="actualites.html">Actualités</a>
+    </nav>
+    <a href="index.html#contact" class="pill">Me contacter</a>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<main>
+  <div class="page-hero" style="padding-bottom:110px">
+    <svg class="ast-deco" viewBox="0 0 200 200" aria-hidden="true"><path d="M84 0h32v61.4l43.4-43.4 22.6 22.6L138.6 84H200v32h-61.4l43.4 43.4-22.6 22.6L116 138.6V200H84v-61.4L40.6 182 18 159.4 61.4 116H0V84h61.4L18 40.6 40.6 18 84 61.4z"/></svg>
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Accueil</a> / Formations</div>
+      <h1>Formations</h1>
+      <p>Des formations pratiques en communication, création visuelle, intelligence artificielle et outils numériques — pour monter en compétences et gagner en autonomie.</p>
+      <div style="position:relative;display:flex;gap:12px;flex-wrap:wrap;margin-top:28px">
+        <a href="#catalogue" class="btn">Voir le catalogue</a>
+        <a href="mailto:contact@jipsonmathas.com?subject=Demande%20de%20formation" class="pill">Demander une formation sur mesure</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formats proposés -->
+  <div class="wrap">
+    <div class="formats">
+      <div class="format">
+        <span class="card-ico"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg></span>
+        <h3>Dans votre structure</h3>
+        <p>Une formation conçue pour votre équipe, adaptée à vos besoins, vos outils et vos objectifs.</p>
+      </div>
+      <div class="format">
+        <span class="card-ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c2.8 0 5 2.2 5 5"/></svg></span>
+        <h3>Sessions ouvertes</h3>
+        <p>Des sessions en groupe à Brazzaville, ouvertes aux professionnels de différentes structures.</p>
+      </div>
+      <div class="format">
+        <span class="card-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
+        <h3>À distance</h3>
+        <p>Des formations en ligne, en direct, pour se former où que l'on soit.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Catalogue -->
+  <section id="catalogue" class="catalog-sec">
+    <div class="wrap">
+      <div class="catalog-head">
+        <div><div class="kicker">Catalogue</div><h2>Les formations</h2></div>
+        <p style="color:var(--dim);font-size:14px;max-width:420px">Choisissez une formation pour vous inscrire ou demander un devis.</p>
+      </div>
+      <div class="filters" role="group" aria-label="Filtrer les formations"></div>
+      <div class="catalog"></div>
+    </div>
+  </section>
+
+  <!-- Déroulement -->
+  <section class="how-sec">
+    <div class="wrap">
+      <div class="process-head">
+        <div><div class="kicker">Déroulement</div><h2>Comment ça se passe</h2></div>
+        <p>Chaque formation est pratique : on travaille sur des cas concrets, proches de votre quotidien.</p>
+      </div>
+      <div class="steps">
+        <div class="steps-line"><i></i></div>
+        <div class="step"><div class="step-num">01</div><h3>Échange</h3><p>On discute de vos besoins, de votre public et de vos objectifs.</p></div>
+        <div class="step"><div class="step-num">02</div><h3>Programme</h3><p>Je vous propose un programme adapté à votre niveau et à votre contexte.</p></div>
+        <div class="step"><div class="step-num">03</div><h3>Formation</h3><p>Des apports clairs et beaucoup de pratique, sur vos propres cas.</p></div>
+        <div class="step"><div class="step-num">04</div><h3>Suivi</h3><p>Des supports à garder et un temps d'échange après la formation.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="f-cta">
+    <div class="wrap">
+      <div class="kicker" style="justify-content:center">Sur mesure</div>
+      <h2>Une formation pour votre équipe ?</h2>
+      <p>Dites-moi ce dont vous avez besoin : je construis un programme adapté à votre structure, à votre rythme et à votre budget.</p>
+      <a href="mailto:contact@jipsonmathas.com?subject=Demande%20de%20formation" class="btn">contact@jipsonmathas.com</a>
+    </div>
+  </section>
+</main>
+
+<!-- Formulaire d'inscription / demande de devis (Netlify Forms) -->
+<dialog class="f-modal" id="f-modal" aria-labelledby="fm-title">
+  <form class="f-form" name="formation" method="POST" action="merci.html" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="formation">
+    <p class="hp" aria-hidden="true"><label>Ne pas remplir <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+    <button type="button" class="fm-close" aria-label="Fermer">×</button>
+    <p class="fm-kicker">Formation</p>
+    <h3 id="fm-title">Votre demande</h3>
+    <div class="fm-choice" role="radiogroup" aria-label="Type de demande">
+      <label><input type="radio" name="demande" value="Inscription" checked><span>Je m'inscris</span></label>
+      <label><input type="radio" name="demande" value="Demande de devis"><span>Je demande un devis</span></label>
+    </div>
+    <div class="fm-grid">
+      <div class="field full"><label for="fm-formation">Formation</label><select id="fm-formation" name="formation" required></select></div>
+      <div class="field"><label for="fm-nom">Nom et prénom</label><input id="fm-nom" name="nom" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="fm-mail">E-mail</label><input id="fm-mail" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="fm-tel">Téléphone / WhatsApp</label><input id="fm-tel" name="telephone" type="tel" autocomplete="tel" required></div>
+      <div class="field"><label for="fm-format">Format souhaité</label>
+        <select id="fm-format" name="format">
+          <option value="Session ouverte">Session ouverte</option><option value="Dans votre structure">Dans votre structure</option><option value="À distance">À distance</option>
+        </select></div>
+      <div class="field fm-devis"><label for="fm-structure">Structure / entreprise</label><input id="fm-structure" name="structure" type="text" autocomplete="organization"></div>
+      <div class="field fm-devis"><label for="fm-nb">Nombre de participants</label><input id="fm-nb" name="participants" type="number" min="1" inputmode="numeric"></div>
+      <div class="field full"><label for="fm-msg">Message <span>(facultatif)</span></label><textarea id="fm-msg" name="message" rows="3" placeholder="Vos attentes, vos disponibilités, votre niveau…"></textarea></div>
+    </div>
+    <button type="submit" class="btn">Envoyer ma demande →</button>
+  </form>
+</dialog>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="y"></span> Jipson Mathas</span>
+    <a href="index.html">Retour à l'accueil ↑</a>
+  </div>
+</footer>
+
+<script src="formations.js"></script>
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+  const header = document.querySelector('header');
+  addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 10), {passive:true});
+  const burger = document.querySelector('.burger'), nav = document.querySelector('nav');
+  burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+
+  // Catalogue : une carte par formation, toutes les informations visibles
+  const cat = document.querySelector('.catalog');
+  cat.innerHTML = FORMATIONS.map(f => `
+    <article class="f-card-full" id="${f.id}" data-theme="${f.theme}" data-id="${f.id}">
+      <span class="f-art">${formationArt(f)}</span>
+      <div class="fc-body">
+        <span class="f-theme">${f.theme} · ${f.duree}</span>
+        <h3>${f.titre}</h3>
+        <p class="f-sum">${f.resume}</p>
+        <h4>Objectifs</h4>
+        <ul class="fc-goals">${f.objectifs.map(o => `<li>${o}</li>`).join('')}</ul>
+        <div class="fc-facts">
+          <div class="f-fact"><small>Durée indicative</small><b>${f.duree}</b></div>
+          <div class="f-fact"><small>Public</small><b>${f.public}</b></div>
+          <div class="f-fact"><small>Formats</small><b class="fmt-list"><span>Dans votre structure</span><span>Session ouverte</span><span>À distance</span></b></div>
+        </div>
+        <div class="f-actions">
+          <button type="button" class="btn" data-open="Inscription">S'inscrire</button>
+          <button type="button" class="pill" data-open="Demande de devis">Demander un devis</button>
+          <a class="pill dl-pdf" href="programmes/programme-${f.id}.pdf" download="Programme - ${f.titre.replace(/[:/\\?*"<>|]/g, '')}.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 19h16"/></svg>Programme (PDF)</a>
+        </div>
+      </div>
+    </article>`).join('');
+
+  // Formulaire : s'ouvre au clic sur une formation, avec la formation et le type de demande déjà choisis
+  const modal = document.getElementById('f-modal'), form = modal.querySelector('form'), sel = document.getElementById('fm-formation');
+  sel.innerHTML = FORMATIONS.map(f => `<option value="${f.titre}">${f.titre}</option>`).join('');
+  const syncType = () => modal.classList.toggle('is-devis', form.demande.value === 'Demande de devis');
+  form.addEventListener('change', e => { if (e.target.name === 'demande') syncType(); });
+  function openForm(f, type) {
+    sel.value = f.titre;
+    form.querySelector(`input[name="demande"][value="${type}"]`).checked = true; syncType();
+    if (modal.showModal) modal.showModal(); else modal.setAttribute('open', '');
+    setTimeout(() => document.getElementById('fm-nom').focus(), 50);
+  }
+  cat.addEventListener('click', e => {
+    if (e.target.closest('a')) return;                       // le lien PDF garde son comportement
+    const b = e.target.closest('[data-open]'); if (!b) return;          // seulement les boutons S'inscrire / Demander un devis
+    const card = b.closest('.f-card-full');
+    openForm(FORMATIONS.find(f => f.id === card.dataset.id), b.dataset.open);
+  });
+  modal.querySelector('.fm-close').addEventListener('click', () => modal.close());
+  modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });   // clic en dehors du formulaire
+
+  // Filtres par thème
+  const filtersEl = document.querySelector('.filters');
+  const themes = ['Toutes', ...new Set(FORMATIONS.map(f => f.theme))];
+  filtersEl.innerHTML = themes.map((t, i) => `<button class="${i ? '' : 'on'}" data-theme="${t}">${t}</button>`).join('');
+  filtersEl.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    filtersEl.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    cat.querySelectorAll('.f-card-full').forEach(it => it.classList.toggle('hide', b.dataset.theme !== 'Toutes' && it.dataset.theme !== b.dataset.theme));
+  });
+
+  // Formation visée par l'adresse (ex. formations.html#motion-design) : on s'y place
+  const target = location.hash && document.getElementById(location.hash.slice(1));
+  if (target && target.classList.contains('f-card-full')) {
+    target.classList.add('is-target');
+    const go = () => target.scrollIntoView({block: 'center'});
+    document.readyState === 'complete' ? setTimeout(go, 100) : addEventListener('load', () => setTimeout(go, 100));
+  }
+
+  // Frise « Comment ça se passe »
+  const steps = document.querySelector('.steps');
+  new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { steps.classList.add('in'); o.disconnect(); } }), {threshold:.3}).observe(steps);
+</script>
+<script src="site.js"></script>
+<script>I18N.apply()</script>
+<script src="typo.js"></script>
+<script src="motion.js"></script>
+</body>
+</html>

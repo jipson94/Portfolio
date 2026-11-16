@@ -1,59 +1,10 @@
-# Portfolio — Jipson Mathas
+# Jipson Mathas — Portfolio
 
-Site portfolio d'une seule page (one-page), inspiré du press-book.
-Trois fichiers, aucune installation requise.
+Site vitrine de Jipson Mathas, créatif à Brazzaville : communication, design graphique, motion design, données et web.
 
-```
-index.html   → le contenu de la page
-styles.css   → l'apparence (couleurs, typographies, mise en page)
-script.js    → les petites interactions (menu mobile, apparitions)
-quiz.js      → le questionnaire de qualification des visiteurs
-```
+Site statique (HTML, CSS, JavaScript), sans étape de construction : il suffit d'ouvrir `index.html` ou de publier le dossier tel quel (Netlify).
 
-## 👀 Voir le site
-
-Double-cliquez sur **`index.html`** : il s'ouvre dans votre navigateur.
-
-## ✏️ Personnaliser
-
-### 1. Ajouter votre photo
-Dans `index.html`, cherchez `portrait-placeholder` (section « À propos »).
-Créez un dossier `images/`, déposez-y votre photo, puis remplacez tout le bloc par :
-```html
-<img src="images/jipson.jpg" alt="Jipson Mathas" />
-```
-
-### 2. Ajouter les vrais logos clients
-Dans la section « Réalisations », chaque carte contient un monogramme, ex. `<span class="work-mono">JC</span>`.
-Remplacez-le par le logo :
-```html
-<img src="images/jovial.png" alt="Logo Jovial Cosmetics" />
-```
-
-### 3. Le questionnaire (section « Votre projet »)
-Un mini-quiz qualifie les visiteurs (profil, besoin, échéance) puis compose un
-**e-mail pré-rempli vers vous** avec leurs réponses.
-- Pour modifier les questions/réponses : éditez le tableau `QUESTIONS` en haut de `quiz.js`.
-- Pour changer les recommandations de fin : éditez l'objet `FOCUS` dans `quiz.js`.
-- ⚠️ *Limite* : vous ne recevez la réponse que si le visiteur **envoie** l'e-mail ouvert.
-  Pour capturer **toutes** les réponses automatiquement (sans dépendre de leur messagerie),
-  on pourra brancher un service de formulaire gratuit (ex. Formspree) — dites-le-moi.
-
-### 4. Changer les couleurs / polices
-Tout est centralisé en haut de `styles.css` dans le bloc `:root` (les variables `--gold`, `--paper`, `--ink`…).
-
-### 5. Corriger un texte
-Modifiez directement le texte concerné dans `index.html`.
-
-## 🌐 Mettre en ligne gratuitement
-
-Options simples, sans serveur :
-- **Netlify Drop** — glissez le dossier sur https://app.netlify.com/drop
-- **GitHub Pages** — hébergement gratuit depuis un dépôt GitHub
-- **Cloudflare Pages** — https://pages.cloudflare.com
-
-## Bon à savoir
-- **Palette** : « Noir & minimal » (monochrome + accent or discret). Tout se règle dans `:root` (`styles.css`).
-- **Localisation** : *Brazzaville, Congo* (confirmée), affichée dans le contact et le pied de page.
-- **LinkedIn** : lien vers `linkedin.com/in/jipsonmathas` dans le contact et le pied de page.
-- À compléter si souhaité : portrait, vrais logos, intitulés de poste, dates, études.
+- `projets.js` : les projets affichés sur la page Projets
+- `formations.js` : le catalogue des formations et leurs programmes
+- `articles.js` : les actualités
+- `traductions.js` : les textes en anglais et en chinois

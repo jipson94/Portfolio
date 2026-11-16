@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<script src="i18n.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Message envoyé — Jipson Mathas</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="256x256">
+<link rel="apple-touch-icon" href="images/icone-180.png">
+<meta name="theme-color" content="#0f2167">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Jipson Mathas">
+<meta property="og:title" content="Message envoyé — Jipson Mathas">
+<meta property="og:description" content="Merci pour votre message.">
+<meta property="og:url" content="https://jipsonmathas.com/">
+<meta property="og:image" content="https://jipsonmathas.com/images/partage.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="merci">
+<header id="top">
+  <div class="wrap bar">
+    <a href="index.html" class="logo" aria-label="Jipson Mathas — accueil"><img src="images/logo-signature.png" alt="Jipson Mathas" width="209" height="64"></a>
+    <nav aria-label="Menu principal">
+      <a href="index.html#apropos">À propos</a>
+      <a href="index.html#services">Services</a>
+      <a href="projets.html">Projets</a>
+      <a href="formations.html">Formations</a>
+      <a href="actualites.html">Actualités</a>
+    </nav>
+    <a href="index.html#contact" class="pill">Me contacter</a>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+<main>
+  <div class="page-hero">
+    <svg class="ast-deco" viewBox="0 0 200 200" aria-hidden="true"><path d="M84 0h32v61.4l43.4-43.4 22.6 22.6L138.6 84H200v32h-61.4l43.4 43.4-22.6 22.6L116 138.6V200H84v-61.4L40.6 182 18 159.4 61.4 116H0V84h61.4L18 40.6 40.6 18 84 61.4z"/></svg>
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Accueil</a> / Message envoyé</div>
+      <h1>Merci&nbsp;!</h1>
+      <p>Votre message a bien été envoyé. Je vous réponds dans les meilleurs délais.</p>
+      <div style="position:relative;display:flex;gap:12px;flex-wrap:wrap;margin-top:28px">
+        <a href="projets.html" class="btn">Voir mes projets</a>
+        <a href="formations.html" class="pill">Découvrir les formations</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer></footer>
+<script>
+  // Menu : fond au défilement et bouton du menu sur téléphone (comme sur les autres pages)
+  const header = document.querySelector('header');
+  addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 10), {passive:true});
+  const burger = document.querySelector('.burger'), nav = document.querySelector('header nav');
+  burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+</script>
+<script src="site.js"></script>
+<script>I18N.apply()</script>
+<script src="typo.js"></script>
+<script src="motion.js"></script>
+</body>
+</html>

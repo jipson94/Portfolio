@@ -1,344 +1,356 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jipson Mathas — Design & Communication Digitale</title>
-  <meta name="description" content="Jipson Mathas, expert en design & communication digitale. Identités visuelles, interfaces web, contenus digitaux et stratégies de communication à fort impact depuis 2018." />
-  <meta name="author" content="Jipson Mathas" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-
-  <!-- Aperçu de partage (LinkedIn, WhatsApp, Facebook…) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Jipson Mathas · Design & Communication Digitale" />
-  <meta property="og:description" content="Expert en design & communication digitale : identités visuelles, sites web et stratégies digitales à fort impact, depuis 2018." />
-  <meta property="og:image" content="https://jipson94.github.io/Portfolio/images/og-image.jpg" />
-  <meta property="og:url" content="https://jipson94.github.io/Portfolio/" />
-  <meta property="og:locale" content="fr_FR" />
-  <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- Polices (chargées sans bloquer l'affichage : la page apparaît tout de suite) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Hanken+Grotesk:wght@400;500;600&display=swap" media="print" onload="this.media='all'" />
-  <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Hanken+Grotesk:wght@400;500;600&display=swap" />
-  </noscript>
-
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8">
+<script src="i18n.js"></script>
+<script>try{if(!sessionStorage.jmIntro&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jipson Mathas — Communication, design et numérique</title>
+<meta name="description" content="Jipson Mathas, expert en communication, design et technologies numériques : communication institutionnelle, relations publiques, IA, design graphique, motion design, analyse de données et développement web.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="256x256">
+<link rel="apple-touch-icon" href="images/icone-180.png">
+<meta name="theme-color" content="#0f2167">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Jipson Mathas">
+<meta property="og:title" content="Jipson Mathas — Communication, design et numérique">
+<meta property="og:description" content="Expert en communication, design et technologies numériques à Brazzaville : communication institutionnelle, relations publiques, IA, design graphique, motion design, données et web.">
+<meta property="og:url" content="https://jipsonmathas.com/">
+<meta property="og:image" content="https://jipsonmathas.com/images/partage.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jipsonmathas.com/"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Jipson Mathas","url":"https://jipsonmathas.com/","image":"https://jipsonmathas.com/images/partage.jpg","jobTitle":"Expert en communication, design et technologies numériques","email":"mailto:contact@jipsonmathas.com","telephone":"+242061800888","sameAs":["https://www.linkedin.com/in/jipsonmathas","https://www.facebook.com/jipsonmathas"],"address":{"@type":"PostalAddress","addressLocality":"Brazzaville","addressCountry":"CG"},"knowsAbout":["Communication institutionnelle","Relations publiques","Intelligence artificielle","Design graphique","Motion design","Analyse de données","Développement web"]}
+</script>
 </head>
 <body>
 
-  <!-- ============ EN-TÊTE / NAVIGATION ============ -->
-  <header class="site-header" id="site-header">
-    <div class="container header-inner">
-      <a href="#accueil" class="logo">Jipson&nbsp;Mathas<span class="logo-dot">.</span></a>
+<header id="top">
+  <div class="wrap bar">
+    <a href="#top" class="logo" aria-label="Jipson Mathas — accueil"><img src="images/logo-signature.png" alt="Jipson Mathas" width="209" height="64"></a>
+    <nav aria-label="Menu principal">
+      <a href="#apropos">À propos</a>
+      <a href="#services">Services</a>
+      <a href="projets.html">Projets</a>
+      <a href="formations.html">Formations</a>
+      <a href="actualites.html">Actualités</a>
+    </nav>
+    <a href="#contact" class="pill">Me contacter</a>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+  </div>
+</header>
 
-      <nav class="nav" id="nav">
-        <a href="#apropos">À propos</a>
-        <a href="#expertise">Expertise</a>
-        <a href="#realisations">Réalisations</a>
-        <a href="#projet">Votre projet</a>
-        <a href="#contact" class="nav-cta">Discutons</a>
-      </nav>
-
-      <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
-
-  <!-- ============ HÉRO ============ -->
-  <section class="hero" id="accueil">
-    <div class="container hero-inner">
-      <p class="eyebrow eyebrow--light">Design &amp; Communication Digitale</p>
-      <h1 class="hero-title">
-        Je donne à vos idées<br />
-        une <em>identité</em> qui performe.
-      </h1>
-      <p class="hero-lead">
-        Expert en design &amp; communication digitale, j'accompagne les marques dans la
-        création d'identités visuelles, d'interfaces web et de stratégies digitales à fort impact.
-      </p>
-      <div class="hero-actions">
-        <a href="#projet" class="btn btn--gold">Démarrer un projet</a>
-        <a href="#realisations" class="btn btn--ghost">Voir les réalisations</a>
+<main>
+  <!-- ====== ACCUEIL ====== -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-id">
+        <h2 class="hero-name anim" aria-label="Jipson Mathas"><span>Jipson</span><span>Mathas</span></h2>
+        <div class="hero-socials anim" style="animation-delay:.6s" data-socials></div>
       </div>
 
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-num">2018</span>
-          <span class="stat-label">Créatif depuis</span>
+      <div class="stage">
+        <div class="ast-wrap"><svg class="asterisk" viewBox="0 0 200 200" aria-hidden="true">
+          <path d="M84 0h32v61.4l43.4-43.4 22.6 22.6L138.6 84H200v32h-61.4l43.4 43.4-22.6 22.6L116 138.6V200H84v-61.4L40.6 182 18 159.4 61.4 116H0V84h61.4L18 40.6 40.6 18 84 61.4z"/>
+        </svg></div>
+        <img class="me anim" style="animation-delay:.15s" src="images/jipson-detoure-2.webp" alt="Portrait de Jipson Mathas">
+        <a href="#apropos" class="down" aria-label="Descendre">↓</a>
+      </div>
+
+      <div class="hero-side anim" style="animation-delay:.35s">
+        <p class="hero-kicker">Communication · Design · Numérique</p>
+        <h1>Je donne à vos idées une identité qui performe.</h1>
+        <p>Un seul interlocuteur pour la stratégie, le design, la vidéo et le web : votre message est vu, compris et retenu. À Brazzaville comme à distance.</p>
+        <div class="hero-ctas"><a href="#contact" class="btn">Démarrer un projet</a><a href="projets.html" class="pill">Voir mes projets</a></div></div>
+    </div>
+  </div>
+
+  <div class="marquee logos-band" role="region" aria-label="Ils m'ont fait confiance">
+    <div class="track">
+      <img src="images/logos/logo-jovial.png" alt="Jovial Cosmetics" decoding="async" class="lg-jovial">
+      <img src="images/logos/logo-amore.png" alt="Amore BZV" decoding="async" class="lg-amore">
+      <img src="images/logos/logo-nzela.png" alt="Nzela" decoding="async" class="lg-nzela">
+      <img src="images/logos/logo-digiresto.png" alt="Digi Resto" decoding="async" class="lg-digiresto">
+      <img src="images/logos/logo-bioteen.png" alt="Bioteen" decoding="async" class="lg-bioteen">
+      <img src="images/logos/logo-clc.png" alt="Centre des Lumières Christiques" decoding="async" class="lg-clc">
+      <img src="images/logos/logo-diabo.png" alt="Diabo E-Sport Club" decoding="async" class="lg-diabo">
+      <img src="images/logos/logo-kbpublishing.png" alt="Kriss Brochec Publishing" decoding="async" class="lg-kbpublishing">
+      <img src="images/logos/logo-lokoiffeur.png" alt="Lo Koiffeur" decoding="async" class="lg-lokoiffeur">
+      <img src="images/logos/logo-kitokonature.png" alt="Kitoko Nature" decoding="async" class="lg-kitokonature">
+      <img src="images/logos/logo-mamadigitale.png" alt="Mama Digitale" decoding="async" class="lg-mamadigitale">
+      <img src="images/logos/logo-digifacpay.png" alt="Digi Fac Pay" decoding="async" class="lg-digifacpay">
+      <img src="images/logos/logo-kemonie.png" alt="Kémonie" decoding="async" class="lg-kemonie">
+      <img src="images/logos/logo-effitiedilgreen.png" alt="Effetti Edil-Green" decoding="async" class="lg-effitiedilgreen">
+      <img src="images/logos/logo-enattendantlefutur.png" alt="En Attendant Le Futur" decoding="async" class="lg-enattendantlefutur">
+      <img src="images/logos/logo-ndule.png" alt="Ndule" decoding="async" class="lg-ndule">
+      <img src="images/logos/logo-jalooreji.png" alt="Jaloo Reji" decoding="async" class="lg-jalooreji">
+      <img src="images/logos/logo-ucsed.png" alt="UCSED" decoding="async" class="lg-ucsed">
+      <span class="track-dup" aria-hidden="true">
+      <img src="images/logos/logo-jovial.png" alt="" decoding="async" class="lg-jovial">
+      <img src="images/logos/logo-amore.png" alt="" decoding="async" class="lg-amore">
+      <img src="images/logos/logo-nzela.png" alt="" decoding="async" class="lg-nzela">
+      <img src="images/logos/logo-digiresto.png" alt="" decoding="async" class="lg-digiresto">
+      <img src="images/logos/logo-bioteen.png" alt="" decoding="async" class="lg-bioteen">
+      <img src="images/logos/logo-clc.png" alt="" decoding="async" class="lg-clc">
+      <img src="images/logos/logo-diabo.png" alt="" decoding="async" class="lg-diabo">
+      <img src="images/logos/logo-kbpublishing.png" alt="" decoding="async" class="lg-kbpublishing">
+      <img src="images/logos/logo-lokoiffeur.png" alt="" decoding="async" class="lg-lokoiffeur">
+      <img src="images/logos/logo-kitokonature.png" alt="" decoding="async" class="lg-kitokonature">
+      <img src="images/logos/logo-mamadigitale.png" alt="" decoding="async" class="lg-mamadigitale">
+      <img src="images/logos/logo-digifacpay.png" alt="" decoding="async" class="lg-digifacpay">
+      <img src="images/logos/logo-kemonie.png" alt="" decoding="async" class="lg-kemonie">
+      <img src="images/logos/logo-effitiedilgreen.png" alt="" decoding="async" class="lg-effitiedilgreen">
+      <img src="images/logos/logo-enattendantlefutur.png" alt="" decoding="async" class="lg-enattendantlefutur">
+      <img src="images/logos/logo-ndule.png" alt="" decoding="async" class="lg-ndule">
+      <img src="images/logos/logo-jalooreji.png" alt="" decoding="async" class="lg-jalooreji">
+      <img src="images/logos/logo-ucsed.png" alt="" decoding="async" class="lg-ucsed">
+      </span>
+    </div>
+  </div>
+
+  <!-- ====== À PROPOS ====== -->
+  <section id="apropos">
+    <div class="wrap about">
+      <div class="reveal">
+        <div class="kicker">À propos</div>
+        <h2>À la croisée de la technique, du design et de la communication.</h2>
+        <p>J'accompagne les organisations, les entreprises et les porteurs de projets dans la conception de messages clairs, la valorisation de leur image et la réalisation de solutions numériques adaptées à leurs objectifs.</p>
+        <p>Formé en <strong>Réseaux &amp; Télécommunications</strong>, j'ai choisi de mettre la rigueur de l'ingénierie au service de la communication et du design. Depuis <strong>2016</strong>, je relie stratégie, créativité et outils numériques dans des projets cohérents, en freelance comme au sein de <strong>Rhema Communication</strong>, l'agence créative que j'ai cofondée.</p>
+        <ul class="about-stats">
+          <li><span>Créatif depuis</span><b>2016</b></li>
+          <li><span>Clients accompagnés</span><b data-count="300" data-suffix="+">300+</b></li>
+          <li><span>Id. visuelles créées</span><b data-count="150" data-suffix="+">150+</b></li>
+        </ul></div>
+      <div class="query reveal">
+        <h3>Un projet, une question<br>ou une discussion ?</h3>
+        <small>Écrivez-moi à</small>
+        <a class="mail" href="mailto:contact@jipsonmathas.com"><span>contact@jipsonmathas.com</span><span>→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== MA DÉMARCHE ====== -->
+  <section id="demarche" class="process-sec">
+    <div class="wrap">
+      <div class="process-head reveal">
+        <div><div class="kicker">Ma démarche</div><h2>De l'idée<br>à la mise en ligne</h2></div>
+        <p>Chaque projet commence par la compréhension du besoin, du public et du résultat attendu. Je construis ensuite une réponse qui associe le bon message, le bon format et les outils adaptés.</p>
+      </div>
+      <div class="steps">
+        <div class="steps-line"><i></i></div>
+        <div class="step"><div class="step-num">01</div><h3>Comprendre</h3><p>Le besoin, le public visé et le résultat attendu.</p></div>
+        <div class="step"><div class="step-num">02</div><h3>Concevoir</h3><p>Le bon message, le bon format et les outils adaptés.</p></div>
+        <div class="step"><div class="step-num">03</div><h3>Réaliser</h3><p>De la rédaction à la création visuelle, de l'analyse au développement.</p></div>
+        <div class="step"><div class="step-num">04</div><h3>Mettre en ligne</h3><p>La diffusion du projet sur les bons canaux, prêt à être vu.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== DOMAINES ====== -->
+  <section id="services" class="services-sec">
+    <div class="wrap">
+      <div class="dom-head reveal">
+        <div><div class="kicker">Services</div><h2>Mes domaines<br>d'expertise</h2></div>
+        <div class="stats">
+          <div class="stat"><b data-count="5">5</b><span>domaines<br>d'expertise</span></div>
+          <div class="stat"><b data-count="360" data-suffix="°">360°</b><span>de la stratégie<br>à la mise en ligne</span></div>
+          <div class="stat"><b>BZV</b><span>Brazzaville<br>& à distance</span></div>
         </div>
-        <div class="stat">
-          <span class="stat-num">30+</span>
-          <span class="stat-label">Clients accompagnés</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">4</span>
-          <span class="stat-label">Pôles d'expertise</span>
-        </div>
+      </div>
+      <div class="cards reveal">
+        <a href="#contact" class="card"><span class="card-ico"><svg viewBox="0 0 24 24"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1zM15 9a4 4 0 0 1 0 6M18 6a8 8 0 0 1 0 12"/></svg></span><h3>Communication &amp; relations publiques</h3><p>Stratégie éditoriale, rédaction, réseaux sociaux, relations avec la presse et les parties prenantes : je valorise votre organisation et porte vos messages.</p><ul class="card-tags"><li>Communication institutionnelle</li><li>Réseaux sociaux</li><li>Relations presse</li></ul></a>
+        <a href="#contact" class="card"><span class="card-ico"><svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 1 9-9c0 2-1.5 3-3 3h-2a2 2 0 0 0-1.5 3.3A1.6 1.6 0 0 1 12 21z"/><circle cx="7.5" cy="11" r="1"/><circle cx="11" cy="7" r="1"/><circle cx="16" cy="8.5" r="1"/></svg></span><h3>Identité visuelle &amp; design graphique</h3><p>Logos, chartes graphiques et supports imprimés ou numériques qui rendent votre marque reconnaissable au premier regard.</p><ul class="card-tags"><li>Logo &amp; charte</li><li>Print &amp; packaging</li><li>Visuels pour les réseaux</li></ul></a>
+        <a href="#contact" class="card"><span class="card-ico"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg></span><h3>Photo, vidéo &amp; couverture médiatique</h3><p>Captation photo et vidéo de vos événements, reportages, montage et motion design : vos temps forts racontés et prêts à être diffusés.</p><ul class="card-tags"><li>Couverture d'événements</li><li>Captation photo &amp; vidéo</li><li>Montage &amp; motion design</li></ul></a>
+        <a href="#contact" class="card"><span class="card-ico"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></span><h3>IA &amp; données</h3><p>Des outils d'IA pour soutenir la création et la productivité, et des données organisées et présentées pour faciliter la décision.</p><ul class="card-tags"><li>Contenus assistés par IA</li><li>Tableaux de bord</li><li>Formation des équipes</li></ul></a>
+        <a href="#contact" class="card"><span class="card-ico"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></span><h3>Développement web</h3><p>Conception et réalisation de sites et d'expériences numériques, rapides, adaptés au téléphone et faciles à trouver.</p><ul class="card-tags"><li>Design web &amp; UI</li><li>Sites vitrines</li><li>SEO &amp; publicité en ligne</li></ul></a>
+        <a href="#contact" class="card cta"><span class="arrow">↗</span><div><h3>Un projet en tête ?</h3><p>Parlons-en : réponse rapide, à Brazzaville ou à distance.</p></div></a>
       </div>
     </div>
-    <p class="hero-quote">« Ce qui compte n'est pas d'atteindre l'impossible, mais de viser aussi haut que possible. »</p>
   </section>
 
-  <!-- ============ À PROPOS ============ -->
-  <section class="section section--paper" id="apropos">
-    <div class="container about-grid">
-      <div class="about-media">
-        <img class="portrait" src="images/portrait.jpg" width="1100" height="799"
-             alt="Portrait de Jipson Mathas, expert en design et communication digitale" loading="lazy" />
-        <blockquote class="pull-quote">
-          « Nous sommes ce que nous faisons à répétition. L'excellence n'est donc pas un acte, mais une habitude. »
-          <cite>— Aristote</cite>
-        </blockquote>
-      </div>
-
-      <div class="about-text">
-        <p class="eyebrow">À propos</p>
-        <h2 class="section-title">À la croisée de la technique, du design et du marketing.</h2>
-        <p>
-          Fort d'un background en <strong>Réseaux &amp; Télécommunications</strong>, j'ai choisi de mettre
-          la rigueur de l'ingénierie au service du design et de la communication digitale. Depuis 2018,
-          je conçois et pilote des projets créatifs à fort impact : identités visuelles, interfaces web,
-          contenus digitaux et stratégies de communication sur mesure.
-        </p>
-        <p>
-          J'interviens aussi bien en freelance qu'au sein de structures comme
-          <strong>Rhema Communication</strong>, l'agence créative que j'ai cofondée. Chaque projet repose
-          sur une approche structurée : comprendre les objectifs business, créer des solutions visuelles
-          cohérentes et mesurer les résultats.
-        </p>
-
-        <div class="approach">
-          <div class="approach-step">
-            <span class="approach-num">01</span>
-            <h3>Comprendre</h3>
-            <p>Cerner vos objectifs business, votre marché et vos audiences.</p>
-          </div>
-          <div class="approach-step">
-            <span class="approach-num">02</span>
-            <h3>Créer</h3>
-            <p>Concevoir des solutions visuelles cohérentes, durables et mémorables.</p>
-          </div>
-          <div class="approach-step">
-            <span class="approach-num">03</span>
-            <h3>Mesurer</h3>
-            <p>Analyser les résultats pour optimiser en continu votre présence.</p>
-          </div>
+  <!-- ====== APERÇU DES FORMATIONS (la page complète est formations.html ; le catalogue est dans formations.js) ====== -->
+  <section id="formation" class="edu-sec home-formations">
+    <div class="wrap">
+      <div class="blog-head reveal">
+        <div><div class="kicker">Formations</div><h2 style="font-size:clamp(34px,4vw,48px);font-weight:600;letter-spacing:-.03em;line-height:1.15">Je forme aussi<br>vos équipes</h2></div>
+        <div style="max-width:420px">
+          <p style="color:var(--dim);font-size:14px;margin-bottom:18px">Des formations pratiques en communication, création visuelle, intelligence artificielle et outils numériques — dans votre structure, en session ouverte ou à distance.</p>
+          <a href="formations.html" class="btn">Voir toutes les formations →</a>
         </div>
       </div>
+      <div class="cards f-teaser reveal"></div>
     </div>
   </section>
 
-  <!-- ============ EXPERTISE ============ -->
-  <section class="section section--dark" id="expertise">
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow eyebrow--light">Expertise</p>
-        <h2 class="section-title section-title--light">Quatre pôles pour une communication à 360°.</h2>
-        <p class="section-intro">De la première esquisse d'un logo au pilotage d'une stratégie complète, je couvre l'ensemble de la chaîne créative et marketing.</p>
+  <!-- ====== APERÇU DES ACTUALITÉS (la page complète est actualites.html) ====== -->
+  <section id="actualites" class="blog-sec">
+    <div class="wrap">
+      <div class="blog-head reveal">
+        <div><div class="kicker">Actualités</div><h2>Derniers articles</h2></div>
+        <a href="actualites.html" class="btn">Voir toutes les actualités →</a>
       </div>
-
-      <div class="cards">
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-          </div>
-          <span class="card-num">01</span>
-          <h3>Création graphique</h3>
-          <p>Je sculpte le caractère de votre marque à travers une identité visuelle unique, durable et mémorable.</p>
-          <ul class="card-list">
-            <li>Identité visuelle &amp; charte graphique</li>
-            <li>Design web &amp; print</li>
-            <li>Motion design &amp; vidéo</li>
-            <li>Illustration &amp; packaging</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="m7 8 3 3-3 3"/><path d="M13 14h4"/></svg>
-          </div>
-          <span class="card-num">02</span>
-          <h3>Digital</h3>
-          <p>Une stratégie digitale sur-mesure pour vous démarquer, captiver votre audience et transformer vos ambitions en résultats.</p>
-          <ul class="card-list">
-            <li>Stratégie &amp; création de contenu</li>
-            <li>SEO &amp; web analytics</li>
-            <li>Social media &amp; community management</li>
-            <li>Publicité (Google, Meta, LinkedIn Ads)</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 5-6"/><circle cx="19" cy="7" r="1.4"/></svg>
-          </div>
-          <span class="card-num">03</span>
-          <h3>Conseil &amp; Marketing</h3>
-          <p>Je vous accompagne dans la définition et la mise en place d'une stratégie marketing efficace et personnalisée.</p>
-          <ul class="card-list">
-            <li>Audit &amp; diagnostic marketing</li>
-            <li>Plan d'action &amp; positionnement</li>
-            <li>Mise en place des campagnes</li>
-            <li>Formation &amp; accompagnement des équipes</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <div class="card-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>
-          </div>
-          <span class="card-num">04</span>
-          <h3>Communication 360°</h3>
-          <p>Une symphonie où chaque élément joue ensemble pour créer une expérience de marque cohérente et impactante.</p>
-          <ul class="card-list">
-            <li>Stratégie &amp; conseil</li>
-            <li>Gestion de l'image de marque</li>
-            <li>Activation digitale</li>
-            <li>Relations publiques &amp; influenceurs</li>
-          </ul>
-        </article>
-      </div>
+      <div class="posts teaser reveal"></div>
     </div>
   </section>
 
-  <!-- ============ RÉALISATIONS ============ -->
-  <section class="section section--paper" id="realisations">
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">Réalisations</p>
-        <h2 class="section-title">Là où vos visions deviennent ma mission.</h2>
-        <p class="section-intro">Une sélection d'identités visuelles et de chartes graphiques créées pour des marques aux univers variés.</p>
+  <!-- ====== CONTACT : questionnaire « Votre projet en 1 minute » + formulaire intégré (quiz.js) ======
+       Le formulaire fonctionne automatiquement une fois le site publié sur Netlify (messages visibles dans Netlify > Forms). -->
+  <section id="contact" class="quiz-sec">
+    <span id="projet-express" class="anchor" aria-hidden="true"></span>
+    <div class="wrap quiz-wrap">
+      <div class="quiz-intro reveal">
+        <div class="kicker">Contact</div>
+        <h2>Votre projet en 1&nbsp;minute.</h2>
+        <p>Quatre questions pour cerner votre besoin. À la fin, je vous dis concrètement comment je peux vous aider — et votre demande est prête à envoyer.</p>
+        <div class="direct-wa" data-wa-row hidden>
+          <a class="wa-btn" data-whatsapp target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1-.7-.3-1.4-.7-2-1.3-.5-.5-1-1.1-1.3-1.7-.1-.2 0-.4.1-.5l.4-.4.2-.4v-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.6.6-.9 1.4-.9 2.2.1 1 .5 1.9 1.1 2.7 1.1 1.6 2.5 2.9 4.2 3.7.5.2 1 .4 1.5.5.6.2 1.2.2 1.7.1.6-.1 1.2-.5 1.5-1 .2-.4.2-.8.1-1.2l-.3-.3z"/></svg>
+            <span><b>Discuter sur WhatsApp</b><small>+242 06 180 08 88</small></span>
+          </a>
+        </div>
+        <div class="contact-socials" data-socials></div>
       </div>
 
-      <div class="cases">
-        <article class="case">
-          <div class="case-media"><img src="images/projet-lecrimedusoir.jpg" alt="Couverture du livre « Le Crime du Soir »" loading="lazy" /></div>
-          <div class="case-body">
-            <span class="case-tag">Édition</span>
-            <h3>Le Crime du Soir</h3>
-            <p>Création de la couverture du livre (Jean Rodrigue Ngakosso)</p>
+      <div class="quiz-card reveal">
+        <div id="quiz" class="quiz" aria-live="polite"></div>
+
+        <form class="contact-form" id="contact-form" name="contact" method="POST" action="merci.html" data-netlify="true" netlify-honeypot="bot-field" hidden>
+          <input type="hidden" name="form-name" value="contact">
+          <p class="hp" aria-hidden="true"><label>Ne pas remplir <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+          <div class="form-head full">
+            <p class="quiz-label">Votre demande</p>
+            <h3 class="quiz-q" tabindex="-1">Plus qu'à me dire qui vous êtes.</h3>
           </div>
-        </article>
-        <article class="case">
-          <div class="case-media"><img src="images/projet-massfood.jpg" alt="Flyer publicitaire Mass Food" loading="lazy" /></div>
-          <div class="case-body">
-            <span class="case-tag">Print</span>
-            <h3>Mass Food</h3>
-            <p>Réalisation d'un flyer promotionnel</p>
+          <div class="field"><label for="c-nom">Nom et prénom</label><input id="c-nom" name="nom" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="c-mail">E-mail</label><input id="c-mail" name="email" type="email" autocomplete="email" required></div>
+          <div class="field full"><label for="c-tel">Téléphone / WhatsApp <span>(facultatif)</span></label><input id="c-tel" name="telephone" type="tel" autocomplete="tel"></div>
+          <div class="field full"><label for="c-msg">Votre message</label><textarea id="c-msg" name="message" rows="5" required placeholder="Présentez votre projet, vos objectifs et vos délais."></textarea></div>
+          <div class="form-actions full">
+            <button type="submit" class="btn">Envoyer le message</button>
+            <button type="button" class="quiz-back" data-to-quiz>← Revenir au questionnaire</button>
           </div>
-        </article>
-      </div>
+        </form>
 
-      <h3 class="works-subtitle">Identités visuelles &amp; logos</h3>
-      <div class="logo-wall">
-        <div class="logo-tile"><img src="images/logo-jovial.png" alt="Jovial Cosmetics" title="Jovial Cosmetics" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-amore.png" alt="Amore BZV" title="Amore BZV" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-nzela.png" alt="Nzela" title="Nzela" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-digiresto.png" alt="Digi Resto" title="Digi Resto" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-bioteen.png" alt="Bioteen" title="Bioteen" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-clc.png" alt="Centre des Lumières Christiques" title="Centre des Lumières Christiques" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-diabo.png" alt="Diabo E-Sport Club" title="Diabo E-Sport Club" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-kbpublishing.png" alt="Kriss Brochec Publishing" title="Kriss Brochec Publishing" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-lokoiffeur.png" alt="Lo Koiffeur" title="Lo Koiffeur" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-kitokonature.png" alt="Kitoko Nature" title="Kitoko Nature" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-mamadigitale.png" alt="Mama Digitale" title="Mama Digitale" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-digifacpay.png" alt="Digi Fac Pay" title="Digi Fac Pay" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-kemonie.png" alt="Kémonie" title="Kémonie" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-effitiedilgreen.png" alt="Effetti Edil-Green" title="Effetti Edil-Green" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-enattendantlefutur.png" alt="En Attendant Le Futur" title="En Attendant Le Futur" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-ndule.png" alt="Ndule" title="Ndule" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-jalooreji.png" alt="Jaloo Reji" title="Jaloo Reji" loading="lazy" /></div>
-        <div class="logo-tile"><img src="images/logo-ucsed.png" alt="UCSED" title="UCSED" loading="lazy" /></div>
+        <button type="button" class="quiz-skip" data-to-form>Pas le temps&nbsp;? Écrire directement →</button>
       </div>
     </div>
-  </section>
+  </section></main>
 
-  <!-- ============ CLIENTS ============ -->
-  <section class="section section--paper2" id="clients">
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">Ils me font confiance</p>
-        <h2 class="section-title">Des marques accompagnées dans la création et la gestion de leurs contenus digitaux.</h2>
-      </div>
-      <ul class="client-wall">
-        <li>Digi Resto</li>
-        <li>CDS</li>
-        <li>Dinfeng</li>
-        <li>AZ Entreprise Générale du Bâtiment</li>
-        <li>Étudiants Congolais</li>
-        <li>Elite International</li>
-        <li>Joel &amp; Joyce Wedding</li>
-        <li>Jean Simon Ottavi</li>
-        <li>Nzela</li>
-        <li>Cabinet Médical Luiz</li>
-        <li>Prophète Majabu Kasongo</li>
-        <li>Orientas</li>
-        <li>Kebane</li>
-        <li>Revival Center for Nation</li>
-        <li>Ounko</li>
-      </ul>
-    </div>
-  </section>
+<footer>
+  <div class="wrap">
+    <span>© <span id="y"></span> Jipson Mathas</span>
+    <a href="#top">Retour en haut ↑</a>
+  </div>
+</footer>
 
-  <!-- ============ QUESTIONNAIRE ============ -->
-  <section class="section section--paper quiz-section" id="projet">
-    <div class="container">
-      <div class="section-head quiz-head">
-        <p class="eyebrow">Faisons connaissance</p>
-        <h2 class="section-title">Votre projet en 1 minute.</h2>
-        <p class="section-intro">Quelques questions pour cerner votre besoin, et vous dire à la fin comment je peux vous aider concrètement.</p>
-      </div>
+<script src="articles.js"></script>
+<script src="formations.js"></script>
+<script>
+  // Aperçu : 3 formations mises en avant
+  document.querySelector('.f-teaser').innerHTML = ['ia-productivite', 'communication-institutionnelle', 'motion-design']
+    .map(id => FORMATIONS.find(f => f.id === id)).filter(Boolean).map(formationCardArt).join('');
 
-      <div class="quiz" id="quiz" aria-live="polite">
-        <noscript>
-          <p style="text-align:center">Activez JavaScript pour répondre au questionnaire, ou écrivez-moi directement à
-          <a href="mailto:jipsondecorezmathas@gmail.com">jipsondecorezmathas@gmail.com</a>.</p>
-        </noscript>
-      </div>
-    </div>
-  </section>
+  // Aperçu : les 3 articles les plus récents, qui mènent chacun vers sa page
+  document.querySelector('.posts.teaser').innerHTML = [...ARTICLES].sort((x, y) => y.date.localeCompare(x.date)).slice(0, 3).map(postCard).join('');
 
-  <!-- ============ CONTACT ============ -->
-  <section class="section section--dark contact" id="contact">
-    <div class="container contact-inner">
-      <p class="eyebrow eyebrow--light">Contact</p>
-      <h2 class="section-title section-title--light">Discutons de la façon dont je peux<br />contribuer à vos projets.</h2>
-      <p class="section-intro">Un logo à créer, une refonte, une stratégie digitale à lancer ? Parlons-en.</p>
+  document.getElementById('y').textContent = new Date().getFullYear();
+  const header = document.querySelector('header');
+  addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 10), {passive:true});
+  const burger = document.querySelector('.burger'), nav = document.querySelector('nav');
+  burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); burger.setAttribute('aria-expanded', false); }));
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12});
+  document.querySelectorAll('.reveal, .steps').forEach(el => io.observe(el));
 
-      <div class="contact-actions">
-        <a href="mailto:jipsondecorezmathas@gmail.com" class="btn btn--gold">Envoyer un e-mail</a>
-        <a href="tel:+242068050665" class="btn btn--ghost-light">+242 06 805 06 65</a>
-      </div>
+  /* ARTICLES : voir le fichier articles.js */
+  // L'aperçu des derniers articles est généré plus bas, après le chargement de articles.js
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-      <div class="contact-details">
-        <a href="mailto:jipsondecorezmathas@gmail.com">jipsondecorezmathas@gmail.com</a>
-        <span>+242 06 805 06 65 · 06 180 08 88</span>
-        <a href="https://www.linkedin.com/in/jipsonmathas" target="_blank" rel="noopener">linkedin.com/in/jipsonmathas</a>
-        <span class="contact-loc">Brazzaville · Congo</span>
-      </div>
-    </div>
-  </section>
+  // Nom qui apparaît lettre par lettre
+  const name = document.querySelector('.hero-name');
+  if (!reduce) {
+    name.classList.add('split');
+    let i = 0;
+    name.querySelectorAll('span').forEach(line => {
+      line.innerHTML = [...line.textContent].map(c => `<span class="ch" style="animation-delay:${(0.05 + i++ * 0.03).toFixed(2)}s">${c}</span>`).join('');
+    });
+  }
 
-  <!-- ============ PIED DE PAGE ============ -->
-  <footer class="footer">
-    <div class="container footer-inner">
-      <span class="footer-logo">Jipson Mathas<span class="logo-dot">.</span></span>
-      <p class="footer-tag">Design &amp; Communication Digitale</p>
-      <p class="footer-location">Brazzaville · Congo</p>
-      <ul class="footer-socials">
-        <li><a href="https://www.linkedin.com/in/jipsonmathas" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="mailto:jipsondecorezmathas@gmail.com">E-mail</a></li>
-        <li><a href="tel:+242068050665">Téléphone</a></li>
-      </ul>
-      <p class="footer-copy">© <span id="year"></span> Jipson Mathas · Tous droits réservés.</p>
-    </div>
-  </footer>
+  // Ondes du fond : centrées sur la tête / l'astérisque, quelle que soit la taille de l'écran
+  (function () {
+    const hero = document.querySelector('.hero'), ast = document.querySelector('.asterisk');
+    if (!hero || !ast) return;
+    const place = () => {
+      const h = hero.getBoundingClientRect(), a = ast.getBoundingClientRect();
+      hero.style.setProperty('--wx', Math.round(a.left + a.width / 2 - h.left) + 'px');
+      hero.style.setProperty('--wy', Math.round(a.top + a.height / 2 - h.top) + 'px');
+    };
+    place();
+    addEventListener('load', place);
+    if ('ResizeObserver' in window) new ResizeObserver(place).observe(hero); else addEventListener('resize', place);
+  })();
 
-  <script src="script.js"></script>
-  <script src="quiz.js"></script>
+  // Chiffres qui défilent
+  const countIO = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target, end = +el.dataset.count, suf = el.dataset.suffix || '', t0 = performance.now(), dur = 1400;
+    const tick = t => { const p = Math.min(1, (t - t0) / dur), v = Math.round(end * (1 - Math.pow(1 - p, 3))); el.textContent = v + suf; if (p < 1) requestAnimationFrame(tick); };
+    if (!reduce) requestAnimationFrame(tick);
+    countIO.unobserve(el);
+  }), {threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(el => countIO.observe(el));
+
+  // Lumière qui suit la souris sur les cartes
+  document.querySelectorAll('.card').forEach(c => c.addEventListener('pointermove', e => {
+    const r = c.getBoundingClientRect();
+    c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }));
+
+  if (fine && !reduce) {
+    // Parallaxe de la photo et de l'astérisque
+    const hero = document.querySelector('.hero'), me = document.querySelector('.me'), ast = document.querySelector('.ast-wrap');
+    hero.addEventListener('pointermove', e => {
+      const r = hero.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      me.style.setProperty('--px', (x * 18) + 'px'); me.style.setProperty('--py', (y * 10) + 'px');
+      ast.style.transform = `translate(${x * -36}px, ${y * -24}px)`;
+    });
+    hero.addEventListener('pointerleave', () => { me.style.setProperty('--px','0px'); me.style.setProperty('--py','0px'); ast.style.transform = ''; });
+
+    // Curseur personnalisé
+    document.body.classList.add('has-cursor');
+    const dot = document.createElement('div'), ring = document.createElement('div');
+    dot.className = 'cur-dot'; ring.className = 'cur-ring';
+    document.body.append(dot, ring);
+    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+    addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx}px, ${my}px)`; });
+    (function loop(){ rx += (mx - rx) * .18; ry += (my - ry) * .18; ring.style.transform = `translate(${rx}px, ${ry}px)`; requestAnimationFrame(loop); })();
+    document.querySelectorAll('a, button, .card').forEach(el => {
+      el.addEventListener('pointerenter', () => ring.classList.add('big'));
+      el.addEventListener('pointerleave', () => ring.classList.remove('big'));
+    });
+
+    // Boutons magnétiques
+    document.querySelectorAll('.btn, .pill').forEach(b => {
+      b.addEventListener('pointermove', e => {
+        const r = b.getBoundingClientRect();
+        b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .25}px, ${(e.clientY - r.top - r.height / 2) * .35}px)`;
+      });
+      b.addEventListener('pointerleave', () => { b.style.transform = ''; });
+    });
+  }
+</script>
+<script src="quiz.js"></script>
+<script src="site.js"></script>
+<script>I18N.apply()</script>
+<script src="typo.js"></script>
+<script src="motion.js"></script>
 </body>
 </html>

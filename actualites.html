@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<script src="i18n.js"></script>
+<script>try{if(!sessionStorage.jmIntro&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro")}catch(e){}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Actualités — Jipson Mathas</title>
+<meta name="description" content="Actualités et articles de Jipson Mathas : projets, coulisses et réflexions sur la communication, le design et les technologies numériques.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="256x256">
+<link rel="apple-touch-icon" href="images/icone-180.png">
+<meta name="theme-color" content="#0f2167">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Jipson Mathas">
+<meta property="og:title" content="Actualités — Jipson Mathas">
+<meta property="og:description" content="Projets, coulisses et réflexions sur la communication, le design et les technologies numériques.">
+<meta property="og:url" content="https://jipsonmathas.com/actualites.html">
+<meta property="og:image" content="https://jipsonmathas.com/images/partage.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jipsonmathas.com/actualites.html"><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap bar">
+    <a href="index.html" class="logo" aria-label="Jipson Mathas — accueil"><img src="images/logo-signature.png" alt="Jipson Mathas" width="209" height="64"></a>
+    <nav aria-label="Menu principal">
+      <a href="index.html#apropos">À propos</a>
+      <a href="index.html#services">Services</a>
+      <a href="projets.html">Projets</a>
+      <a href="formations.html">Formations</a>
+      <a href="actualites.html" class="on" aria-current="page">Actualités</a>
+    </nav>
+    <a href="index.html#contact" class="pill">Me contacter</a>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+
+<main>
+  <div class="page-hero">
+    <svg class="ast-deco" viewBox="0 0 200 200" aria-hidden="true"><path d="M84 0h32v61.4l43.4-43.4 22.6 22.6L138.6 84H200v32h-61.4l43.4 43.4-22.6 22.6L116 138.6V200H84v-61.4L40.6 182 18 159.4 61.4 116H0V84h61.4L18 40.6 40.6 18 84 61.4z"/></svg>
+    <div class="wrap">
+      <div class="crumbs"><a href="index.html">Accueil</a> / Actualités</div>
+      <h1>Actualités</h1>
+      <p>Projets, coulisses et réflexions sur la communication, le design et les outils numériques.</p>
+    </div>
+  </div>
+
+  <section class="page-list">
+    <div class="wrap">
+      <div class="filters" role="group" aria-label="Filtrer les articles"></div>
+      <div class="posts"></div>
+      <p class="empty" hidden>Aucun article dans cette catégorie pour le moment.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="y"></span> Jipson Mathas</span>
+    <a href="index.html">Retour à l'accueil ↑</a>
+  </div>
+</footer>
+
+<script src="articles.js"></script>
+<script src="pubs.js"></script>
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+  const header = document.querySelector('header');
+  addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 10), {passive:true});
+  const burger = document.querySelector('.burger'), nav = document.querySelector('nav');
+  burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
+
+  // Liste de tous les articles, du plus récent au plus ancien
+  const list = [...ARTICLES].sort((x, y) => y.date.localeCompare(x.date));
+  const postsEl = document.querySelector('.posts'), filtersEl = document.querySelector('.filters'), empty = document.querySelector('.empty');
+  // Liste des articles, avec un encart d'annonce toutes les 3 cartes
+  postsEl.innerHTML = list.map((a, i) => postCard(a) + ((i + 1) % 3 === 0 && i < list.length - 1 ? pubHTML(pubsDuJour(), 'feed') : '')).join('');
+
+  // Filtres par catégorie (mémorisés dans l'adresse : actualites.html?cat=...)
+  const cats = ['Tous', ...new Set(list.map(a => a.categorie))];
+  filtersEl.innerHTML = cats.map(c => `<button data-cat="${c}">${c}</button>`).join('');
+  function filter(cat) {
+    let shown = 0;
+    filtersEl.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.cat === cat));
+    postsEl.querySelectorAll('.post').forEach(p => { const ok = cat === 'Tous' || p.dataset.cat === cat; p.classList.toggle('hide', !ok); shown += ok; });
+    empty.hidden = shown > 0;
+    postsEl.querySelectorAll('.pub-slot').forEach(s => { s.hidden = cat !== 'Tous'; });   // annonces seulement sur « Tous »
+  }
+  filtersEl.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    filter(b.dataset.cat);
+    const u = new URL(location); b.dataset.cat === 'Tous' ? u.searchParams.delete('cat') : u.searchParams.set('cat', b.dataset.cat);
+    history.replaceState(null, '', u);
+  });
+  const start = new URLSearchParams(location.search).get('cat');
+  filter(cats.includes(start) ? start : 'Tous');
+</script>
+<script src="site.js"></script>
+<script>I18N.apply()</script>
+<script src="typo.js"></script>
+<script src="motion.js"></script>
+</body>
+</html>

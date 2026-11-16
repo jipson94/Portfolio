@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Programme de formation — Jipson Mathas</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png" sizes="256x256">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Fiche imprimable (A4) utilisée pour générer les PDF du dossier « programmes/ » -->
+<style>
+  @page{size:A4;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#fff;color:#0b1850;font-family:"Plus Jakarta Sans",system-ui,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .page{width:210mm;min-height:297mm;display:flex;flex-direction:column}
+  .top{background:linear-gradient(135deg,#1d44c2,#0f2167);color:#fff;padding:14mm 16mm 12mm;position:relative;overflow:hidden}
+  .top::after{content:"";position:absolute;right:-30mm;top:-30mm;width:90mm;height:90mm;border-radius:50%;background:#fff799;opacity:.95}
+  .top img.logo{height:15mm;position:relative;z-index:1}
+  .top .art{position:absolute;right:14mm;top:14mm;width:52mm;aspect-ratio:4/3;border-radius:4mm;overflow:hidden;z-index:1;box-shadow:0 4mm 10mm rgba(0,0,0,.25)}
+  .top .art svg,.top .art img{width:100%;height:100%;object-fit:cover;display:block}
+  .kicker{position:relative;z-index:1;margin-top:9mm;font-size:9pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff799}
+  h1{position:relative;z-index:1;font-size:22pt;line-height:1.15;letter-spacing:-.02em;margin-top:2mm;max-width:118mm;text-wrap:balance}
+  .resume{position:relative;z-index:1;font-size:10.5pt;line-height:1.5;color:#d6dfff;margin-top:4mm;max-width:118mm}
+  .facts{display:grid;grid-template-columns:1fr 2fr 1.4fr;gap:4mm;padding:7mm 16mm 0}
+  .fact{border:1px solid #d5dcf3;border-radius:3mm;padding:3mm 4mm}
+  .fact small{display:block;font-size:7.5pt;color:#5a6795;font-weight:600}
+  .fact b{font-size:9.5pt;line-height:1.35}
+  .body{padding:6mm 16mm 0;flex:1}
+  h2{font-size:12pt;margin:5mm 0 3mm;display:flex;align-items:center;gap:3mm}
+  h2::before{content:"";width:3mm;height:3mm;border-radius:50%;background:#1d44c2}
+  .goals{list-style:none;columns:2;column-gap:8mm}
+  .goals li{position:relative;padding-left:5mm;font-size:9.5pt;line-height:1.45;margin-bottom:1.5mm;break-inside:avoid}
+  .goals li::before{content:"✓";position:absolute;left:0;color:#1d44c2;font-weight:800}
+  .mods{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+  .mod{display:flex;gap:3mm;border-radius:3mm;background:#f3f5fd;padding:3.5mm;break-inside:avoid}
+  .num{flex:none;width:8mm;height:8mm;border-radius:50%;background:#0f2167;color:#fff799;display:grid;place-items:center;font-weight:800;font-size:8.5pt}
+  .mod small{display:block;font-size:7.5pt;font-weight:700;color:#1d44c2}
+  .mod b{display:block;font-size:9.5pt;margin:.5mm 0 1.5mm}
+  .mod ul{list-style:none}
+  .mod li{font-size:8.5pt;line-height:1.4;color:#3d4a7a;padding-left:3mm;position:relative}
+  .mod li::before{content:"";position:absolute;left:0;top:1.6mm;width:1.2mm;height:1.2mm;border-radius:50%;background:#1d44c2}
+  .final{margin-top:4mm;background:#fff799;border-radius:3mm;padding:4mm 5mm}
+  .final small{font-size:7.5pt;font-weight:700;color:#5a5520}
+  .final b{display:block;font-size:10pt;margin-top:.5mm}
+  .note{font-size:8pt;color:#5a6795;margin-top:3mm}
+  .foot{margin-top:6mm;background:#0f2167;color:#d6dfff;padding:6mm 16mm;display:flex;justify-content:space-between;align-items:center;font-size:8.5pt}
+  .foot b{color:#fff799}
+  /* compactage pour tenir sur une page A4 */
+  .top{padding:11mm 16mm 9mm}.kicker{margin-top:6mm}.resume{margin-top:3mm}
+  .facts{padding-top:5mm}.body{padding-top:3mm}h2{margin:4mm 0 2.5mm}
+  .mod{padding:3mm}.mod b{margin:.3mm 0 1mm}.final{margin-top:3mm;padding:3mm 4.5mm}.note{margin-top:2mm}.foot{margin-top:5mm;padding:5mm 16mm}
+  .page{height:297mm;min-height:0;overflow:hidden}
+  /* Éléments ajoutés par site.js (bouton WhatsApp flottant, lien d'accès) : inutiles sur la fiche PDF */
+  .wa-float,.skip{display:none!important}
+  @media screen{body{background:#dfe4f3}.page{margin:10mm auto;box-shadow:0 5mm 20mm rgba(0,0,0,.15);background:#fff}}
+</style>
+</head>
+<body>
+<div class="page" id="page"></div>
+<script src="formations.js"></script>
+<script src="site.js"></script>
+<script>
+  const f = FORMATIONS.find(x => x.id === new URLSearchParams(location.search).get('id')) || FORMATIONS[0];
+  const p = PROGRAMMES[f.id] || {modules: []};
+  document.title = 'Programme — ' + f.titre + ' — Jipson Mathas';
+  document.getElementById('page').innerHTML = `
+    <div class="top">
+      <img class="logo" src="images/logo-signature.png" alt="Jipson Mathas">
+      <div class="art">${formationArt(f)}</div>
+      <div class="kicker">Programme de formation · ${f.theme}</div>
+      <h1>${f.titre.replace(/ ([:;?!])/g, ' $1')}</h1>
+      <p class="resume">${f.resume}</p>
+    </div>
+    <div class="facts">
+      <div class="fact"><small>Durée</small><b>${f.duree} · ${p.modules.length} modules</b></div>
+      <div class="fact"><small>Public</small><b>${f.public}</b></div>
+      <div class="fact"><small>Formats</small><b>Dans votre structure · Session ouverte · À distance</b></div>
+    </div>
+    <div class="body">
+      <h2>Objectifs</h2>
+      <ul class="goals">${f.objectifs.map(o => `<li>${o}</li>`).join('')}</ul>
+      <h2>Programme</h2>
+      <div class="mods">${p.modules.map((m, i) => `
+        <div class="mod"><span class="num">${String(i + 1).padStart(2, '0')}</span><div>
+          <small>${m.periode}</small><b>${m.titre}</b>
+          <ul>${m.points.map(x => `<li>${x}</li>`).join('')}</ul>
+        </div></div>`).join('')}
+      </div>
+      ${p.projet ? `<div class="final"><small>PROJET FINAL</small><b>${p.projet}</b></div>` : ''}
+      <p class="note">Rythme indicatif adaptable à votre disponibilité (par exemple 2 séances par semaine), en présentiel à Brazzaville ou à distance. Programme ajustable selon le niveau et les besoins des participants.</p>
+    </div>
+    <div class="foot">
+      <span><b>Jipson Mathas</b> — Communication, design et technologies numériques · ${SITE.ville}</span>
+      <span>${SITE.email}${SITE.telephone ? ' · ' + SITE.telephone : ''}${SITE.whatsapp ? ' · <span style="white-space:nowrap">WhatsApp +' + SITE.whatsapp.replace(/^(\d{3})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5') + '</span>' : ''} · jipsonmathas.com</span>
+    </div>`;
+  document.querySelector('footer')?.remove();
+</script>
+</body>
+</html>

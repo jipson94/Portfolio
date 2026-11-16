@@ -282,7 +282,7 @@
 <script src="projets.js"></script>
 <script>
   // Aperçu : les 4 premiers projets (même ordre que projets.html) ; les autres sont sur projets.html
-  document.querySelector('.p-teaser').innerHTML = PROJETS.filter(p => p.id !== 'anic-2026' && p.images && p.images.length).slice(0, 4).map(p => `
+  document.querySelector('.p-teaser').innerHTML = PROJETS.filter(p => !['anic-2026', 'digifacpay'].includes(p.id) && p.images && p.images.length).slice(0, 4).map(p => `
       <a class="mini" href="projet.html?id=${encodeURIComponent(p.id)}">
         <span class="mini-img"><img src="${p.images[0]}" alt="" loading="lazy"></span>
         <b>${p.titre}</b>

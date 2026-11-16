@@ -1461,3 +1461,5 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 @media (max-width:720px){.page-hero .back-projets~.crumbs{min-height:0;padding-top:0;margin-bottom:22px}}
 /* Fiche projet, téléphone : le visuel qui remonte sur l'en-tête ne cache plus le titre */
 @media (max-width:720px){.page-hero:has(.back-projets){padding-bottom:116px!important}}
+/* En-têtes : pas de lueur au passage de la souris */
+.motion .hero::after,.motion .page-hero::after{display:none!important}

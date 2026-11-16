@@ -1338,3 +1338,6 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 .home-projets{background:linear-gradient(165deg,#1d44c2 0%,#1636a3 100%)!important}
 .home-projets .mini{background:rgba(9,20,69,.35)}
 .home-projets .project p,.home-projets .project .sub{color:rgba(255,255,255,.82)}
+/* Accueil : 4 projets sur une ligne */
+.home-projets .p-teaser{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+@media (max-width:900px){.home-projets .p-teaser{grid-template-columns:repeat(2,minmax(0,1fr))!important}}

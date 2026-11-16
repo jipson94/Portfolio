@@ -189,27 +189,38 @@ const SITE = {
 })();
 
 /* ============================================================
-   En-têtes : des vagues (cercles qui s'élargissent) suivent le curseur,
-   ou le doigt sur téléphone, à la place de l'ancienne lueur.
+   En-têtes : « quelque chose qui se balade sous les draps ».
+   Un renflement doux (lumière dessus, ombre dessous) suit le curseur
+   avec un temps de retard et s'étire dans le sens du mouvement.
+   Sans souris (téléphone) ou à l'arrêt, il se promène tout seul ;
+   un toucher l'attire vers le doigt.
    ============================================================ */
 (function () {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.querySelectorAll('.hero, .page-hero').forEach(h => {
-    let last = 0, lx = -999, ly = -999, live = 0;
-    const wave = (x, y, big) => {
-      if (live > 10) return;
-      const w = document.createElement('span');
-      w.className = 'hwave' + (big ? ' big' : ''); w.setAttribute('aria-hidden', 'true');
-      w.style.left = x + 'px'; w.style.top = y + 'px';
-      h.appendChild(w); live++;
-      w.addEventListener('animationend', () => { w.remove(); live--; });
-    };
-    const at = e => { const r = h.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
-    h.addEventListener('pointermove', e => {
-      const [x, y] = at(e), now = performance.now();
-      if (now - last < 120 || Math.hypot(x - lx, y - ly) < 36) return;
-      last = now; lx = x; ly = y; wave(x, y, false);
-    }, {passive: true});
-    h.addEventListener('pointerdown', e => { const [x, y] = at(e); wave(x, y, true); setTimeout(() => wave(x, y, true), 180); }, {passive: true});
+    const b = document.createElement('span');
+    b.className = 'sheet-bump'; b.setAttribute('aria-hidden', 'true');
+    h.appendChild(b);
+    let W = h.clientWidth, H = h.clientHeight;
+    let x = W * .7, y = H * .45, tx = x, ty = y, lastMove = -1e9, t0 = performance.now(), visible = true, raf = 0;
+    addEventListener('resize', () => { W = h.clientWidth; H = h.clientHeight; }, {passive: true});
+    const aim = e => { const r = h.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top; lastMove = performance.now(); };
+    h.addEventListener('pointermove', aim, {passive: true});
+    h.addEventListener('pointerdown', aim, {passive: true});
+    new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && !raf) raf = requestAnimationFrame(tick); }).observe(h);
+    function tick(now) {
+      raf = 0; if (!visible) return;
+      if (now - lastMove > 2200) {            // promenade lente quand personne ne le guide
+        const s = (now - t0) / 1000;
+        tx = W * (.5 + .36 * Math.sin(s * .23) + .08 * Math.sin(s * .71));
+        ty = H * (.5 + .28 * Math.sin(s * .31 + 1.3) + .06 * Math.cos(s * .9));
+      }
+      const dx = (tx - x) * .055, dy = (ty - y) * .055;
+      x += dx; y += dy;
+      const v = Math.min(Math.hypot(dx, dy) / 14, .45), ang = Math.atan2(dy, dx) * 180 / Math.PI;
+      b.style.transform = `translate(${x}px, ${y}px) rotate(${ang}deg) scale(${1 + v}, ${1 - v * .45})`;
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
   });
 })();

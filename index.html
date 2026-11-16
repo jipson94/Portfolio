@@ -181,7 +181,24 @@
         <div><div class="kicker">Projets</div><h2>Quelques réalisations</h2></div>
         <a href="projets.html" class="btn">Voir tous les projets →</a>
       </div>
+      <!-- Projet mis en avant (même présentation que sur projets.html) -->
+      <div class="project reveal">
+        <div class="project-img">
+          <video src="videos/anic-showreel.mp4" poster="videos/anic-showreel.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Extrait du film ANIC 2026"></video>
+          <span class="tag">2026</span>
+          <span class="reel-badge">Showreel</span>
+          <button class="reel-toggle" aria-label="Mettre en pause la vidéo">❚❚</button>
+        </div>
+        <div>
+          <h2>ANIC 2026</h2>
+          <p class="sub">Film officiel des Assises Nationales de l'Industrie du Congo</p>
+          <p>Brazzaville, 7 au 9 décembre 2026. Montage des images terrain (drone, usines, chaînes de production), habillage animé, titres et cartons thématiques. Animations codées avec <strong>Remotion</strong>, export 1080p et 4K.</p>
+          <ul class="chips"><li>Montage</li><li>Motion design</li><li>Habillage graphique</li><li>Remotion / React</li><li>Export 4K</li></ul>
+          <a href="projet.html?id=anic-2026" class="btn" style="margin-top:26px">Voir le projet en détail →</a>
+        </div>
+      </div>
       <div class="minis cat-grid p-teaser reveal"></div>
+      <div class="p-teaser-more"><a href="projets.html" class="pill">Voir tous les projets →</a></div>
     </div>
   </section>
 
@@ -264,13 +281,23 @@
 <script src="formations.js"></script>
 <script src="projets.js"></script>
 <script>
-  // Aperçu : 6 projets mis en avant (identifiants de projets.js) ; la liste complète est sur projets.html
-  document.querySelector('.p-teaser').innerHTML = ['digifacpay', 'bioteen', 'la-luciole', 'sikkas', 'kemonie', 'le-crime-du-soir']
-    .map(id => PROJETS.find(p => p.id === id)).filter(p => p && p.images && p.images.length).map(p => `
+  // Aperçu : les 12 premiers projets (même ordre que projets.html) ; les autres sont sur projets.html
+  document.querySelector('.p-teaser').innerHTML = PROJETS.filter(p => p.id !== 'anic-2026' && p.images && p.images.length).slice(0, 12).map(p => `
       <a class="mini" href="projet.html?id=${encodeURIComponent(p.id)}">
         <span class="mini-img"><img src="${p.images[0]}" alt="" loading="lazy"></span>
         <b>${p.titre}</b>
       </a>`).join('');
+
+  // Showreel ANIC : pause / lecture
+  (() => {
+    const vid = document.querySelector('.home-projets video'), tog = document.querySelector('.home-projets .reel-toggle');
+    if (!vid || !tog) return;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { vid.removeAttribute('autoplay'); vid.pause(); tog.textContent = '▶'; }
+    tog.addEventListener('click', () => {
+      if (vid.paused) { vid.play(); tog.textContent = '❚❚'; tog.setAttribute('aria-label', 'Mettre en pause la vidéo'); }
+      else { vid.pause(); tog.textContent = '▶'; tog.setAttribute('aria-label', 'Lire la vidéo'); }
+    });
+  })();
 
   // Aperçu : 3 formations mises en avant
   document.querySelector('.f-teaser').innerHTML = ['ia-productivite', 'communication-institutionnelle', 'motion-design']

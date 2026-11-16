@@ -1329,3 +1329,12 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 /* Accueil : aperçu des projets */
 .home-projets .p-teaser{margin-top:8px}
 .home-projets{background:#0f2167!important}
+/* Accueil : bloc ANIC + 12 projets, comme sur projets.html */
+.home-projets .project{margin-top:8px}
+.home-projets .p-teaser{margin-top:56px!important}
+.p-teaser-more{margin-top:24px}
+@media (max-width:720px){.home-projets .p-teaser{margin-top:40px!important}}
+/* Accueil : Projets en bleu vif, Formations reste en bleu nuit */
+.home-projets{background:linear-gradient(165deg,#1d44c2 0%,#1636a3 100%)!important}
+.home-projets .mini{background:rgba(9,20,69,.35)}
+.home-projets .project p,.home-projets .project .sub{color:rgba(255,255,255,.82)}

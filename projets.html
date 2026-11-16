@@ -107,8 +107,8 @@
   burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
 
   // Grille unique de tous les projets (le film ANIC est déjà présenté en tête de page)
-  // 6 projets visibles, le bouton déroule les suivants
-  const SHOW = 6, LIST = PROJETS.filter(p => p.id !== 'anic-2026' && p.images && p.images.length);
+  // 12 projets visibles, le bouton déroule les suivants
+  const SHOW = 12, LIST = PROJETS.filter(p => p.id !== 'anic-2026' && p.images && p.images.length);
   document.querySelector('.all-projects').innerHTML = LIST.map((p, i) => `
     <a class="mini${i >= SHOW ? ' is-more' : ''}" href="projet.html?id=${encodeURIComponent(p.id)}">
       <span class="mini-img"><img src="${p.images[0]}" alt="" loading="lazy"></span>

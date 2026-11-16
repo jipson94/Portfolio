@@ -174,6 +174,17 @@
     </div>
   </section>
 
+  <!-- ====== APERÇU DES PROJETS (la page complète est projets.html ; les projets sont dans projets.js) ====== -->
+  <section id="projets" class="home-projets">
+    <div class="wrap">
+      <div class="blog-head reveal">
+        <div><div class="kicker">Projets</div><h2>Quelques réalisations</h2></div>
+        <a href="projets.html" class="btn">Voir tous les projets →</a>
+      </div>
+      <div class="minis cat-grid p-teaser reveal"></div>
+    </div>
+  </section>
+
   <!-- ====== APERÇU DES FORMATIONS (la page complète est formations.html ; le catalogue est dans formations.js) ====== -->
   <section id="formation" class="edu-sec home-formations">
     <div class="wrap">
@@ -251,7 +262,16 @@
 
 <script src="articles.js"></script>
 <script src="formations.js"></script>
+<script src="projets.js"></script>
 <script>
+  // Aperçu : 6 projets mis en avant (identifiants de projets.js) ; la liste complète est sur projets.html
+  document.querySelector('.p-teaser').innerHTML = ['digifacpay', 'bioteen', 'la-luciole', 'sikkas', 'kemonie', 'le-crime-du-soir']
+    .map(id => PROJETS.find(p => p.id === id)).filter(p => p && p.images && p.images.length).map(p => `
+      <a class="mini" href="projet.html?id=${encodeURIComponent(p.id)}">
+        <span class="mini-img"><img src="${p.images[0]}" alt="" loading="lazy"></span>
+        <b>${p.titre}</b>
+      </a>`).join('');
+
   // Aperçu : 3 formations mises en avant
   document.querySelector('.f-teaser').innerHTML = ['ia-productivite', 'communication-institutionnelle', 'motion-design']
     .map(id => FORMATIONS.find(f => f.id === id)).filter(Boolean).map(formationCardArt).join('');

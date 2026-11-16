@@ -1326,3 +1326,6 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 .all-wrap .all-projects{margin-top:0!important}
 .all-wrap .cat-more{margin-top:24px}
 @media (max-width:720px){.all-wrap{margin-top:40px!important}}
+/* Accueil : aperçu des projets */
+.home-projets .p-teaser{margin-top:8px}
+.home-projets{background:#0f2167!important}

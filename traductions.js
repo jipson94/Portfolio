@@ -947,5 +947,7 @@ I18N.load([
   ["Présent du début à la fin, je photographie les moments clés, les prises de parole et les échanges, puis je sélectionne et retouche les meilleures images pour qu'elles soient prêtes à être publiées.","Present from start to finish, I photograph the key moments, speeches and exchanges, then select and retouch the best images so they are ready to publish.","我全程在场，拍摄关键时刻、演讲与交流，随后精选并修饰最佳图片，使其可直接发布。"],
   ["Sélection de photos retouchées","Selection of retouched photos","精选修饰照片"],
   ["Images adaptées aux réseaux sociaux","Images formatted for social media","适配社交媒体的图片"],
-  ["Laboratoire Luiz","Luiz Laboratory","Luiz 实验室"]
+  ["Laboratoire Luiz","Luiz Laboratory","Luiz 实验室"],
+  ["Quelques réalisations","Selected work","精选作品"],
+  ["Voir tous les projets →","See all projects →","查看全部项目 →"]
 ]);

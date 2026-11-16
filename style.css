@@ -1410,15 +1410,3 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
   .fc-facts .f-fact:nth-child(2){grid-column:1/-1;order:3}
   .fc-facts .f-fact:nth-child(3){grid-column:auto!important}
 }
-/* En-têtes : la lueur qui suivait la souris est désactivée */
-.motion .hero::after,.motion .page-hero::after{display:none!important}
-/* En-têtes : renflement « sous les draps » (site.js) */
-.sheet-bump{position:absolute;left:0;top:0;z-index:1;width:440px;height:440px;margin:-220px 0 0 -220px;border-radius:50%;pointer-events:none;
-  will-change:transform;filter:blur(7px);
-  background:
-    radial-gradient(closest-side at 43% 38%,rgba(255,255,255,.30),rgba(255,255,255,.12) 42%,rgba(255,255,255,.03) 68%,transparent 80%),
-    radial-gradient(closest-side at 60% 66%,rgba(3,10,48,.55),rgba(3,10,48,.28) 48%,transparent 82%)}
-@media (max-width:720px){.sheet-bump{width:300px;height:300px;margin:-150px 0 0 -150px}}
-.sheet-bump{filter:blur(8px);background:
-  radial-gradient(closest-side at 42% 36%,rgba(255,255,255,.40),rgba(255,255,255,.16) 40%,rgba(255,255,255,.04) 66%,transparent 80%),
-  radial-gradient(closest-side at 61% 68%,rgba(3,10,48,.70),rgba(3,10,48,.34) 46%,transparent 82%)}

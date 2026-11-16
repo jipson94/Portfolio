@@ -187,3 +187,29 @@ const SITE = {
     location.href = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(lignes.join('\n'));
   });
 })();
+
+/* ============================================================
+   En-têtes : des vagues (cercles qui s'élargissent) suivent le curseur,
+   ou le doigt sur téléphone, à la place de l'ancienne lueur.
+   ============================================================ */
+(function () {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('.hero, .page-hero').forEach(h => {
+    let last = 0, lx = -999, ly = -999, live = 0;
+    const wave = (x, y, big) => {
+      if (live > 10) return;
+      const w = document.createElement('span');
+      w.className = 'hwave' + (big ? ' big' : ''); w.setAttribute('aria-hidden', 'true');
+      w.style.left = x + 'px'; w.style.top = y + 'px';
+      h.appendChild(w); live++;
+      w.addEventListener('animationend', () => { w.remove(); live--; });
+    };
+    const at = e => { const r = h.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    h.addEventListener('pointermove', e => {
+      const [x, y] = at(e), now = performance.now();
+      if (now - last < 120 || Math.hypot(x - lx, y - ly) < 36) return;
+      last = now; lx = x; ly = y; wave(x, y, false);
+    }, {passive: true});
+    h.addEventListener('pointerdown', e => { const [x, y] = at(e); wave(x, y, true); setTimeout(() => wave(x, y, true), 180); }, {passive: true});
+  });
+})();

@@ -1394,3 +1394,33 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
   .step h3{font-size:18px;margin:14px 0 6px}
   .step p{font-size:13px;line-height:1.5}
 }
+/* Formations : bouton « S'inscrire » sans contour (toutes tailles d'écran) */
+.f-actions .btn{border:0!important;outline:none}
+.f-actions .btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+/* Formations, téléphone : S'inscrire et Devis côte à côte, Programme (PDF) sur toute la largeur */
+@media (max-width:720px){
+  .f-actions{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
+  .f-actions>*{width:100%;min-width:0;justify-content:center;text-align:center;padding:12px 10px!important;font-size:13.5px;white-space:normal;line-height:1.25}
+  .f-actions .dl-pdf{grid-column:1/-1}
+}
+/* Formations, téléphone : cases d'infos lisibles (Durée + Formats côte à côte, Public sur toute la largeur) */
+@media (max-width:720px){
+  .fc-facts{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .fc-facts .f-fact{min-width:0;word-break:normal;overflow-wrap:normal;hyphens:none}
+  .fc-facts .f-fact:nth-child(2){grid-column:1/-1;order:3}
+  .fc-facts .f-fact:nth-child(3){grid-column:auto!important}
+}
+/* En-têtes : vagues au survol (remplacent la lueur qui suivait la souris) */
+.motion .hero::after,.motion .page-hero::after{display:none!important}
+.hwave{position:absolute;z-index:1;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;pointer-events:none;
+  border:1.5px solid rgba(255,247,153,.55);box-shadow:0 0 0 1px rgba(255,255,255,.06) inset;
+  transform:scale(.06);opacity:.9;animation:hwave 1.6s cubic-bezier(.15,.7,.3,1) forwards}
+.hwave.big{width:520px;height:520px;margin:-260px 0 0 -260px;border-width:2px;animation-duration:1.9s}
+@keyframes hwave{to{transform:scale(1);opacity:0}}
+/* Vagues : plus visibles, trois cercles concentriques */
+.hwave{border:2px solid rgba(255,247,153,.85);box-shadow:none;opacity:0;animation:hwave2 1.7s cubic-bezier(.2,.65,.3,1) forwards}
+.hwave::before,.hwave::after{content:"";position:absolute;border-radius:50%;border:1.5px solid rgba(255,247,153,.6)}
+.hwave::before{inset:17%}
+.hwave::after{inset:34%;border-color:rgba(255,255,255,.45)}
+.hwave.big{animation:hwave2 2s cubic-bezier(.2,.65,.3,1) forwards}
+@keyframes hwave2{0%{transform:scale(.05);opacity:0}12%{opacity:1}55%{opacity:.7}100%{transform:scale(1);opacity:0}}

@@ -1412,3 +1412,35 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 }
 /* Page Projets : fond distinct du pied de page (le pied de page garde sa couleur habituelle) */
 .projets-page{background:var(--roi)!important}
+/* ===== Accueil, téléphone : cartes 2 par ligne (Services, Projets, Formations, Articles) ===== */
+@media (max-width:720px){
+  #services .cards,.home-projets .p-teaser,.home-formations .f-teaser,.blog-sec .posts.teaser{grid-template-columns:1fr 1fr!important;gap:10px!important}
+  /* nombre impair : la dernière carte prend toute la largeur */
+  .home-projets .p-teaser>:last-child:nth-child(odd),.home-formations .f-teaser>:last-child:nth-child(odd),.blog-sec .posts.teaser>:last-child:nth-child(odd){grid-column:1/-1}
+  /* Services : cartes compactes */
+  #services .card{padding:16px 14px!important;min-height:0!important;border-radius:16px}
+  #services .card-ico{width:38px;height:38px}
+  #services .card-ico svg{width:19px;height:19px}
+  #services .card h3{font-size:15px;line-height:1.25;margin:12px 0 6px!important}
+  #services .card p{font-size:12.5px;line-height:1.45}
+  #services .card-tags{display:none}
+  #services .card.cta h3{margin-top:0!important}
+  #services .card.cta .arrow{font-size:20px}
+  /* Projets */
+  .home-projets .mini b{font-size:13px;padding:2px 4px 4px}
+  /* Formations */
+  .home-formations .f-card{padding:10px 10px 14px!important;min-height:0!important}
+  .home-formations .f-card .f-theme{font-size:10.5px}
+  .home-formations .f-card h3{font-size:14px;line-height:1.3;margin:8px 0 4px!important}
+  .home-formations .f-card p{font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  /* Articles */
+  .blog-sec .posts.teaser .post-body{padding:12px 10px 14px}
+  .blog-sec .posts.teaser .post-meta{font-size:10.5px;gap:4px;flex-wrap:wrap}
+  .blog-sec .posts.teaser h3{font-size:14px;line-height:1.3}
+  .blog-sec .posts.teaser .excerpt{font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .blog-sec .posts.teaser .more{font-size:12px}
+}
+@media (max-width:720px){
+  #services .card p,#services .card h3,.home-formations .f-card p,.home-formations .f-card h3,.blog-sec .posts.teaser h3,.blog-sec .posts.teaser .excerpt{text-wrap:wrap!important}
+  .home-formations .f-card p,.home-formations .f-card h3,.home-formations .f-card .f-theme{margin-left:0!important;margin-right:0!important}
+}

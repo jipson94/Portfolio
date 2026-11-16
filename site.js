@@ -163,3 +163,27 @@ const SITE = {
     });
   }
 })();
+
+/* ============================================================
+   Formulaires hors Netlify (ex. GitHub Pages) : l'envoi Netlify
+   n'existe pas, le message part donc par WhatsApp, déjà rédigé.
+   Sur Netlify, rien ne change : les formulaires s'envoient normalement.
+   ============================================================ */
+(function () {
+  if (!/\.github\.io$/.test(location.hostname) || !SITE.whatsapp) return;
+  document.addEventListener('submit', e => {
+    const form = e.target;
+    if (!form.matches('form[data-netlify]')) return;
+    e.preventDefault();
+    const titre = form.getAttribute('name') === 'formation' ? 'Demande de formation' : 'Message depuis le site';
+    const lignes = [titre];
+    form.querySelectorAll('input[name], select[name], textarea[name]').forEach(el => {
+      if (['form-name', 'bot-field'].includes(el.name) || !el.value.trim()) return;
+      if ((el.type === 'radio' || el.type === 'checkbox') && !el.checked) return;
+      if (el.closest('[hidden]') || el.offsetParent === null && el.type !== 'radio') return;
+      const lab = el.type === 'radio' ? 'Demande' : ((form.querySelector('label[for="' + el.id + '"]') || {}).firstChild || {}).textContent;
+      lignes.push((lab ? lab.trim() + ' : ' : '') + el.value.trim());
+    });
+    location.href = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(lignes.join('\n'));
+  });
+})();

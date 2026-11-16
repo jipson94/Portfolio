@@ -1341,3 +1341,6 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 /* Accueil : 4 projets sur une ligne */
 .home-projets .p-teaser{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 @media (max-width:900px){.home-projets .p-teaser{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+/* Accueil : 3 projets sous ANIC */
+.home-projets .p-teaser{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+@media (max-width:720px){.home-projets .p-teaser{grid-template-columns:1fr!important}}

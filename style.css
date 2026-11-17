@@ -1570,3 +1570,11 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 .dv-table .m-pu{display:none!important}
 @media (max-width:560px){.dv-table .m-pu{display:block!important}.dv-table tfoot td{font-size:15px}}
 .devis-actions .pill{display:inline-flex!important;align-items:center;min-height:48px}
+
+/* Formations : les 3 cartes de format (structure, sessions ouvertes, à distance) en jaune */
+.formats .format{background:var(--orange,#fff799)!important;border-color:transparent!important;color:#0f2167}
+.formats .format h3{color:#0f2167!important}
+.formats .format p{color:#3a4570!important}
+.formats .format .card-ico{background:#0f2167!important;color:var(--orange,#fff799)!important}
+.formats .format .card-ico svg{stroke:var(--orange,#fff799)!important}
+.motion .formats .format:hover{border-color:#0f2167!important}

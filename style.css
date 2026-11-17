@@ -1514,3 +1514,42 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
   .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row b{font-size:11.5px}
   .f-teaser .f-card:not(:last-child:nth-child(odd)) .f-illu{display:none}
 }
+
+/* Pages Actualités et article : même fond clair que la section Articles de l'accueil (l'en-tête bleu reste) */
+.page-list,.article-page{background:#f6f4ee!important;color:#0f2167}
+.page-list .post,.more-posts .post{background:#fff!important;border:1px solid rgba(15,33,103,.1)!important;box-shadow:0 8px 24px rgba(15,33,103,.06)}
+.page-list .post:hover,.more-posts .post:hover{border-color:#1d44c2!important}
+.page-list .post h3,.more-posts .post h3,.more-posts h2{color:#0f2167!important}
+.page-list .post p,.more-posts .post p,.page-list .post-meta,.more-posts .post-meta{color:#4a557f!important}
+.page-list .post-meta .cat,.more-posts .post-meta .cat,.page-list .post .more,.more-posts .post .more{color:#1d44c2!important}
+.page-list .filters button{color:#4a557f;border-color:rgba(15,33,103,.2)}
+.page-list .filters button:hover{color:#0f2167;border-color:#0f2167}
+.page-list .filters button.on{background:#0f2167;color:#fff;border-color:#0f2167}
+.page-list .empty{color:#4a557f}
+.article-body,.article-body h3{color:#0f2167}
+.article-body p,.article-body li{color:#3a4570!important}
+.article-body strong{color:#0f2167!important}
+.article-body a{color:#1d44c2}
+.share{border-top-color:rgba(15,33,103,.12)!important}
+.share span{color:#4a557f!important}
+.share a,.share button{color:#0f2167!important;border-color:rgba(15,33,103,.2)!important}
+.share a:hover,.share button:hover{background:#0f2167!important;border-color:#0f2167!important;color:#fff!important}
+.author{background:#fff!important;border-color:rgba(15,33,103,.1)!important}
+.author b{color:#0f2167}
+.author span{color:#4a557f!important}
+.back{color:#1d44c2!important}
+
+/* Formations : montants plus grands et bien gras */
+.fp-row b{font-size:22px!important;font-weight:800!important;letter-spacing:-.01em}
+.fp-row+.fp-row b{font-size:18px!important}
+.fp-row small{font-size:10.5px}
+.f-card-art .fp-row b{font-size:17px!important}
+.f-card-art .fp-row+.fp-row b{font-size:15px!important}
+@media (max-width:760px){
+  .fp-row b{font-size:18px!important}
+  .fp-row+.fp-row b{font-size:16px!important}
+  .f-card-art .fp-row b{font-size:16px!important}
+  .f-card-art .fp-row+.fp-row b{font-size:14px!important}
+  .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row b{font-size:14px!important}
+  .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row+.fp-row b{font-size:13px!important}
+}

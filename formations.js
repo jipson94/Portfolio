@@ -278,3 +278,20 @@ const programmeHTML = f => {
       <p class="prog-note">Rythme indicatif adaptable à votre disponibilité (par exemple 2 séances par semaine), en présentiel ou à distance.</p>
     </div>`;
 };
+
+/* Devis automatique (page Formations) — règles de calcul, à ajuster librement.
+   - Session ouverte / À distance : prix par personne × nombre de participants.
+   - Dans votre structure : forfait « prixEntreprise » jusqu'à « groupeInclus » participants,
+     puis chaque participant en plus coûte « partSupp » × le prix par personne. */
+const DEVIS = { groupeInclus: 10, partSupp: 0.5, validiteJours: 30 };
+function calculDevis(f, format, nb) {
+  nb = Math.max(1, parseInt(nb, 10) || 1);
+  if (format === 'Dans votre structure') {
+    const lignes = [{ label: 'Forfait groupe', detail: `jusqu'à ${DEVIS.groupeInclus} participants`, qte: 1, pu: f.prixEntreprise }];
+    const supp = nb - DEVIS.groupeInclus;
+    if (supp > 0) lignes.push({ label: 'Participant supplémentaire', detail: '', qte: supp, pu: Math.round(f.prix * DEVIS.partSupp) });
+    return { nb, lignes, total: lignes.reduce((s, l) => s + l.qte * l.pu, 0) };
+  }
+  const lignes = [{ label: 'Participant', detail: format, qte: nb, pu: f.prix }];
+  return { nb, lignes, total: nb * f.prix };
+}

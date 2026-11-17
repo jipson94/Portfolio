@@ -144,7 +144,20 @@
     </div>
     <button type="submit" class="btn">Envoyer ma demande →</button>
   </form>
+
+  <!-- Devis produit à partir des informations saisies -->
+  <div class="devis-view" hidden>
+    <button type="button" class="fm-close" aria-label="Fermer">×</button>
+    <p class="fm-kicker">Votre devis est prêt</p>
+    <div class="devis-doc" id="devis-doc"></div>
+    <div class="devis-actions">
+      <button type="button" class="btn" id="dv-pdf">Télécharger le devis (PDF)</button>
+      <button type="button" class="pill" id="dv-wa">Envoyer à Jipson par WhatsApp</button>
+      <button type="button" class="dv-back" id="dv-back">← Modifier ma demande</button>
+    </div>
+  </div>
 </dialog>
+<div id="devis-print" class="devis-doc" aria-hidden="true"></div>
 
 <footer>
   <div class="wrap">
@@ -188,7 +201,7 @@
   // Formulaire : s'ouvre au clic sur une formation, avec la formation et le type de demande déjà choisis
   const modal = document.getElementById('f-modal'), form = modal.querySelector('form'), sel = document.getElementById('fm-formation');
   sel.innerHTML = FORMATIONS.map(f => `<option value="${f.titre}">${f.titre}</option>`).join('');
-  const syncType = () => modal.classList.toggle('is-devis', form.demande.value === 'Demande de devis');
+  const syncType = () => { const dv = form.demande.value === 'Demande de devis'; modal.classList.toggle('is-devis', dv); document.getElementById('fm-nb').required = dv; };
   form.addEventListener('change', e => { if (e.target.name === 'demande') syncType(); });
   function openForm(f, type) {
     sel.value = f.titre;
@@ -202,7 +215,59 @@
     const card = b.closest('.f-card-full');
     openForm(FORMATIONS.find(f => f.id === card.dataset.id), b.dataset.open);
   });
-  modal.querySelector('.fm-close').addEventListener('click', () => modal.close());
+  modal.querySelectorAll('.fm-close').forEach(b => b.addEventListener('click', () => modal.close()));
+
+  // Devis : à l'envoi d'une demande de devis, le devis est produit avec les informations saisies
+  const view = modal.querySelector('.devis-view'), doc = document.getElementById('devis-doc');
+  const showForm = () => { view.hidden = true; form.hidden = false; };
+  modal.addEventListener('close', showForm);
+  const html = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const money = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' FCFA';
+  let dernier = null;
+  form.addEventListener('submit', e => {
+    if (form.demande.value !== 'Demande de devis') return;          // inscription : envoi habituel
+    e.preventDefault(); e.stopPropagation();
+    const f = FORMATIONS.find(x => x.titre === sel.value), v = n => (form[n].value || '').trim();
+    const c = calculDevis(f, v('format'), v('participants'));
+    const now = new Date(), fin = new Date(now.getTime() + DEVIS.validiteJours * 864e5);
+    const loc = (window.I18N && I18N.locale) || 'fr-FR', d = x => x.toLocaleDateString(loc, {day: 'numeric', month: 'long', year: 'numeric'});
+    const num = 'DV-' + now.toISOString().slice(0, 10).replace(/-/g, '') + '-' + String(Math.floor(Math.random() * 900) + 100);
+    dernier = {num, f, c, nom: v('nom'), structure: v('structure'), email: v('email'), tel: v('telephone'), format: v('format'), msg: v('message')};
+    const tel = SITE.whatsapp.replace(/^242(\d{2})(\d{3})(\d{2})(\d{2})$/, '+242 $1 $2 $3 $4');
+    doc.innerHTML = `
+      <div class="dv-top">
+        <img src="images/logo-signature.png" alt="Jipson Mathas">
+        <div class="dv-id"><b class="dv-title">DEVIS</b><span><span>N°</span> ${num}</span><span><span>Date :</span> ${d(now)}</span><span><span>Valable jusqu'au :</span> ${d(fin)}</span></div>
+      </div>
+      <div class="dv-parties">
+        <div><small>Émetteur</small><b>Jipson Mathas</b><span>Formations en communication, design et outils numériques</span><span>Brazzaville, Congo</span><span>${tel}</span></div>
+        <div><small>Client</small><b>${html(dernier.nom)}</b>${dernier.structure ? `<span>${html(dernier.structure)}</span>` : ''}<span>${html(dernier.email)}</span><span>${html(dernier.tel)}</span></div>
+      </div>
+      <div class="dv-obj"><small>Objet</small><b>${html(f.titre)}</b><span><span>Format :</span> <span>${html(dernier.format)}</span> · <span>Durée :</span> <span>${html(f.duree)}</span> · <span>Participants :</span> ${c.nb}</span></div>
+      <table class="dv-table">
+        <thead><tr><th>Désignation</th><th>Qté</th><th>Prix unitaire</th><th>Montant</th></tr></thead>
+        <tbody>${c.lignes.map(l => `<tr><td><b>${l.label}</b>${l.detail ? `<small>${html(l.detail)}</small>` : ''}<small class="m-pu">${l.qte} × ${money(l.pu)}</small></td><td>${l.qte}</td><td>${money(l.pu)}</td><td>${money(l.qte * l.pu)}</td></tr>`).join('')}</tbody>
+        <tfoot><tr><td colspan="2">Total</td><td></td><td>${money(c.total)}</td></tr></tfoot>
+      </table>
+      ${dernier.msg ? `<div class="dv-msg"><small>Votre message</small><p>${html(dernier.msg)}</p></div>` : ''}
+      <p class="dv-note">Devis estimatif établi à partir de votre demande. Le montant sera confirmé par Jipson Mathas après un échange sur vos besoins (dates, lieu, contenu).</p>`;
+    form.hidden = true; view.hidden = false; view.scrollTop = 0;
+    setTimeout(() => { document.getElementById('devis-print').innerHTML = doc.innerHTML; }, 50);   // copie (déjà traduite) pour l'impression
+    // Sur Netlify, la demande est aussi enregistrée en arrière-plan
+    if (!/\.github\.io$/.test(location.hostname)) fetch('/', {method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: new URLSearchParams(new FormData(form)).toString()}).catch(() => {});
+  });
+  document.getElementById('dv-back').addEventListener('click', showForm);
+  document.getElementById('dv-pdf').addEventListener('click', () => {
+    const t = document.title; document.title = 'Devis ' + dernier.num + ' - ' + dernier.nom;   // nom proposé pour le PDF
+    addEventListener('afterprint', () => { document.body.classList.remove('print-devis'); document.title = t; }, {once: true});
+    document.body.classList.add('print-devis'); window.print();
+  });
+  document.getElementById('dv-wa').addEventListener('click', () => {
+    const x = dernier, l = [`Bonjour, voici ma demande de devis (${x.num}).`, `Formation : ${x.f.titre}`, `Format : ${x.format}`, `Participants : ${x.c.nb}`, `Montant estimé : ${money(x.c.total)}`, `Nom : ${x.nom}`];
+    if (x.structure) l.push(`Structure : ${x.structure}`);
+    l.push(`E-mail : ${x.email}`, `Téléphone : ${x.tel}`); if (x.msg) l.push(`Message : ${x.msg}`);
+    open('https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(l.join('\n')), '_blank', 'noopener');
+  });
   modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });   // clic en dehors du formulaire
 
   // Filtres par thème

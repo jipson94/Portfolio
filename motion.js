@@ -34,7 +34,8 @@
   document.body.append(bar);
 
   /* 3. Titres mot par mot */
-  $$('main h2, main .page-hero h1, .hero-side h1').forEach(h => {
+  const small = matchMedia('(max-width: 760px)').matches;   // téléphone : animations réduites
+  (small ? [] : $$('main h2, main .page-hero h1, .hero-side h1')).forEach(h => {
     if (h.closest('#quiz, .contact-form, .hero-name')) return;
     let n = 0;
     const walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
@@ -58,7 +59,7 @@
     g.classList.remove('reveal'); g.classList.add('stagger');
     [...g.children].forEach((c, i) => c.style.setProperty('--i', i));
   });
-  $$('.project-img, .p-media, .article-cover').forEach(el => el.classList.add('clipr'));
+  if (!small) $$('.project-img, .p-media, .article-cover').forEach(el => el.classList.add('clipr'));
 
   const io = new IntersectionObserver(entries => entries.forEach(e => {
     if (!e.isIntersecting) return;
@@ -98,7 +99,7 @@
 
   /* 7. Ordinateur uniquement */
   if (fine) {
-    $$('.card, .work, .post, .format').forEach(el => {
+    [].forEach(el => {   // cartes inclinables en 3D désactivées (allègement)
       el.addEventListener('pointermove', e => {
         const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
         el.style.transform = 'perspective(900px) rotateX(' + (-y * 7) + 'deg) rotateY(' + (x * 9) + 'deg) translateY(-6px)';

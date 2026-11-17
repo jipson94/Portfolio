@@ -110,6 +110,10 @@ const SITE = {
     map.forEach((a, id) => { const s = document.getElementById(id); if (s) spy.observe(s); });
     // « À propos » reste actif pendant « Ma démarche »
     const dem = document.getElementById('demarche'); if (dem && map.get('apropos')) { map.set('demarche', map.get('apropos')); spy.observe(dem); }
+    const pl = document.querySelector('header nav a[href="projets.html"]'), ps = document.getElementById('projets');
+    if (pl && ps) { spyLinks.push(pl); map.set('projets', pl); spy.observe(ps); }
+    const top = document.querySelector('.hero');
+    if (top) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) spyLinks.forEach(l => { l.classList.remove('on'); l.removeAttribute('aria-current'); }); }), {rootMargin: '-45% 0px -50% 0px'}).observe(top);
   }
 
   // En-têtes des pages : les ondes du fond sont centrées sur l'astérisque qui tourne

@@ -45,7 +45,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2022",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -93,7 +93,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2024",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -154,7 +154,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2021",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -194,7 +194,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2018",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -232,7 +232,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2019",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -274,7 +274,7 @@ const PROJETS = [
     "sousTitre": "Couverture d'un roman policier pour Les Éditions Hemar",
     "categorie": "Édition · Design graphique",
     "domaine": "Édition & print",
-    "annee": "",
+    "annee": "2021",
     "client": "Jean Rodrigue Ngakosso — Les Éditions Hemar",
     "lieu": "Brazzaville, Congo",
     "role": "Conception de la couverture et infographie (avec Léo Ganghas)",
@@ -311,7 +311,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2018",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -350,7 +350,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2020",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -405,7 +405,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2021",
     "lieu": "",
     "role": "Refonte du logo et création de la charte graphique",
     "outils": [
@@ -459,7 +459,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2023",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -501,7 +501,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2024",
     "lieu": "",
     "role": "Création de la charte graphique",
     "outils": [
@@ -539,7 +539,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2018",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -579,7 +579,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2019",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -632,7 +632,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2023",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -678,7 +678,7 @@ const PROJETS = [
     "cat": "identite"
   },
   {
-    "annee": "",
+    "annee": "2021",
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
     "role": "Création du logo et de la charte graphique",
@@ -723,7 +723,7 @@ const PROJETS = [
     "cat": "identite"
   },
   {
-    "annee": "",
+    "annee": "2023",
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
     "role": "Refonte du logo et création de la charte graphique",
@@ -766,7 +766,7 @@ const PROJETS = [
     "cat": "identite"
   },
   {
-    "annee": "",
+    "annee": "2021",
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
     "role": "Création du logo et de la charte graphique",
@@ -814,7 +814,7 @@ const PROJETS = [
     "cat": "identite"
   },
   {
-    "annee": "",
+    "annee": "2020",
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
     "role": "Création du logo et de la charte graphique",
@@ -852,7 +852,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "",
+    "annee": "2021",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -899,7 +899,7 @@ const PROJETS = [
     "sousTitre": "Flyer promotionnel pour une entreprise agricole congolaise",
     "categorie": "Print · Design graphique",
     "domaine": "Édition & print",
-    "annee": "",
+    "annee": "2022",
     "client": "Mass Food — agriculture & transformation agricole",
     "lieu": "Congo",
     "role": "Conception graphique du flyer recto verso",
@@ -934,7 +934,7 @@ const PROJETS = [
     "titre": "Jaloore Ji",
     "cat": "identite",
     "modele": "identite",
-    "annee": "",
+    "annee": "2023",
     "images": [
       "images/projets/g/x-jaloore-ji-01.jpg",
       "images/projets/g/x-jaloore-ji-06.jpg",
@@ -942,28 +942,30 @@ const PROJETS = [
       "images/projets/g/x-jaloore-ji-04.jpg",
       "images/projets/g/x-jaloore-ji-07.jpg",
       "images/projets/g/x-jaloore-ji-08.jpg"
-    ]
+    ],
+    "variante": 0
   },
   {
     "id": "le-boudoire-de-kriss",
     "titre": "Le Boudoir de Kriss",
     "cat": "identite",
     "modele": "identite",
-    "annee": "",
+    "annee": "2018",
     "images": [
       "images/projets/g/x-le-boudoire-de-kriss-01.jpg",
       "images/projets/g/x-le-boudoire-de-kriss-02.jpg",
       "images/projets/g/x-le-boudoire-de-kriss-03.jpg",
       "images/projets/g/x-le-boudoire-de-kriss-05.jpg",
       "images/projets/g/x-le-boudoire-de-kriss-07.jpg"
-    ]
+    ],
+    "variante": 1
   },
   {
     "id": "serj-taigba",
     "titre": "Serj Taigba Coaching",
     "cat": "edition",
     "modele": "edition",
-    "annee": "",
+    "annee": "2023",
     "images": [
       "images/projets/g/x-serj-taigba-01.jpg",
       "images/projets/g/x-serj-taigba-02.jpg",
@@ -972,54 +974,58 @@ const PROJETS = [
       "images/projets/g/x-serj-taigba-09.jpg",
       "images/projets/g/x-serj-taigba-11.jpg",
       "images/projets/g/x-serj-taigba-12.jpg"
-    ]
+    ],
+    "variante": 0
   },
   {
     "id": "gaddigital",
     "titre": "GadDigital",
     "cat": "identite",
     "modele": "identite",
-    "annee": "",
+    "annee": "2021",
     "images": [
       "images/projets/g/x-gaddigital-04.jpg",
       "images/projets/g/x-gaddigital-01.jpg",
       "images/projets/g/x-gaddigital-02.jpg",
       "images/projets/g/x-gaddigital-03.jpg"
-    ]
+    ],
+    "variante": 2
   },
   {
     "id": "lavallee",
     "titre": "La Vallée",
     "cat": "identite",
     "modele": "identite",
-    "annee": "",
+    "annee": "2019",
     "images": [
       "images/projets/g/x-lavallee-02.jpg",
       "images/projets/g/x-lavallee-04.jpg",
       "images/projets/g/x-lavallee-08.jpg",
       "images/projets/g/x-lavallee-09.jpg",
       "images/projets/g/x-lavallee-10.jpg"
-    ]
+    ],
+    "variante": 0
   },
   {
     "id": "az-batiment",
     "titre": "AZ Entreprise Générale du Bâtiment",
     "cat": "identite",
     "modele": "identite",
-    "annee": "",
+    "annee": "2023",
     "images": [
       "images/projets/g/community-management-08.jpg",
       "images/projets/g/community-management-05.jpg",
       "images/projets/g/community-management-07.jpg",
       "images/projets/g/community-management-06.jpg"
-    ]
+    ],
+    "variante": 1
   },
   {
     "id": "nelson-cishugi",
     "titre": "Nelson Cishugi",
     "cat": "identite",
     "modele": "identite",
-    "annee": "",
+    "annee": "2019",
     "images": [
       "images/projets/g/x-nelson-cishugi-04.jpg",
       "images/projets/g/x-nelson-cishugi-02.jpg",
@@ -1029,26 +1035,28 @@ const PROJETS = [
       "images/projets/g/x-nelson-cishugi-06.jpg",
       "images/projets/g/x-nelson-cishugi-09.jpg",
       "images/projets/g/x-nelson-cishugi-12.jpg"
-    ]
+    ],
+    "variante": 2
   },
   {
     "id": "hadar-familia",
     "titre": "Hadar Familia — Malkosh",
     "cat": "affiches",
     "modele": "affiches",
-    "annee": "",
+    "annee": "2023",
     "images": [
       "images/projets/g/x-hadar-familia-05.jpg",
       "images/projets/g/x-hadar-familia-01.jpg",
       "images/projets/g/x-hadar-familia-04.jpg"
-    ]
+    ],
+    "variante": 0
   },
   {
     "id": "concours-innov-action-global-gateway",
     "titre": "Concours Innov'ACTION Global Gateway",
     "cat": "affiches",
     "modele": "affiches",
-    "annee": "",
+    "annee": "2021",
     "images": [
       "images/projets/g/x-concours-innov-action-global-gateway-04.jpg",
       "images/projets/g/x-concours-innov-action-global-gateway-01.jpg",
@@ -1058,28 +1066,30 @@ const PROJETS = [
       "images/projets/g/x-concours-innov-action-global-gateway-09.jpg",
       "images/projets/g/x-concours-innov-action-global-gateway-11.jpg",
       "images/projets/g/x-concours-innov-action-global-gateway-12.jpg"
-    ]
+    ],
+    "variante": 1
   },
   {
     "id": "huuma",
     "titre": "FédArM",
     "cat": "identite",
     "modele": "identite",
-    "annee": "",
+    "annee": "2023",
     "images": [
       "images/projets/g/x-huuma-02.jpg",
       "images/projets/g/x-huuma-01.jpg",
       "images/projets/g/x-huuma-03.jpg",
       "images/projets/g/x-huuma-04.jpg",
       "images/projets/g/x-huuma-05.jpg"
-    ]
+    ],
+    "variante": 0
   },
   {
     "id": "ilbc",
     "titre": "ILBC",
     "cat": "affiches",
     "modele": "affiches",
-    "annee": "",
+    "annee": "2021",
     "images": [
       "images/projets/g/x-chelsea-02.jpg",
       "images/projets/g/x-chelsea-01.jpg",
@@ -1089,32 +1099,35 @@ const PROJETS = [
       "images/projets/g/x-chelsea-07.jpg",
       "images/projets/g/x-chelsea-08.jpg",
       "images/projets/g/x-chelsea-09.jpg"
-    ]
+    ],
+    "variante": 2
   },
   {
     "id": "joyce-rosmel",
     "titre": "Joyce & Rosmel",
     "cat": "affiches",
     "modele": "affiches",
-    "annee": "",
+    "annee": "2020",
     "images": [
       "images/projets/g/community-management-27.jpg",
       "images/projets/g/community-management-26.jpg",
       "images/projets/g/community-management-28.jpg",
       "images/projets/g/community-management-25.jpg"
-    ]
+    ],
+    "variante": 0
   },
   {
     "id": "laboratoire-luiz",
     "titre": "Laboratoire Luiz",
     "cat": "affiches",
     "modele": "affiches",
-    "annee": "",
+    "annee": "2019",
     "images": [
       "images/projets/g/community-management-30.jpg",
       "images/projets/g/community-management-31.jpg",
       "images/projets/g/community-management-32.jpg"
-    ]
+    ],
+    "variante": 1
   }
 ];
 
@@ -1156,7 +1169,12 @@ const MODELES = {
     contexte: "{nom} souhaitait une identité visuelle professionnelle, cohérente et facile à reconnaître sur tous ses supports.",
     objectifs: ["Créer un logo unique, lisible et facile à mémoriser", "Définir une charte graphique : couleurs, typographies et règles d'usage", "Garantir une image cohérente sur tous les supports, imprimés et numériques"],
     solution: "<p>Chaque identité commence par l'écoute : comprendre l'activité, les valeurs et le public de la marque. Plusieurs pistes sont ensuite explorées, puis la plus juste est affinée jusqu'au logo final.</p><p>La charte graphique fixe les couleurs, les typographies et les règles d'utilisation, pour que la marque reste reconnaissable sur chaque support.</p>",
-    livrables: ['Logo et ses déclinaisons', 'Charte graphique', 'Mises en situation sur les supports'] },
+    livrables: ['Logo et ses déclinaisons', 'Charte graphique', 'Mises en situation sur les supports'],
+    variantes: [null,
+      { contexte: "{nom} avait besoin d'une image claire et durable, capable de la distinguer de ses concurrents dès le premier regard.",
+        solution: "<p>Le travail a commencé par un échange sur le métier, les clients visés et l'image que la marque voulait donner. Le logo a ensuite été dessiné pour rester lisible en petit comme en grand, en couleur comme en noir et blanc.</p><p>Les couleurs et les typographies retenues ont été réunies dans une charte simple, pour que chaque nouveau support reste fidèle à la marque.</p>" },
+      { contexte: "{nom} voulait une identité qui inspire confiance et qui fonctionne aussi bien sur un document officiel que sur les réseaux sociaux.",
+        solution: "<p>Après l'analyse de l'activité et du public, plusieurs pistes graphiques ont été proposées puis affinées avec le client jusqu'à la version finale.</p><p>L'identité a été testée sur des mises en situation concrètes — cartes, documents, publications — afin de vérifier qu'elle reste reconnaissable partout.</p>" }] },
   cm: { sousTitre: 'Création de contenus et animation des réseaux sociaux', categorie: 'Communication digitale · Réseaux sociaux',
     resume: 'Visuels et publications réalisés pour les réseaux sociaux de {nom}.',
     role: 'Création des visuels et animation des réseaux sociaux', outils: ['Stratégie de contenu', 'Création de visuels', 'Animation de communauté'],
@@ -1170,7 +1188,12 @@ const MODELES = {
     contexte: "{nom} avait besoin d'affiches et de visuels percutants pour annoncer ses activités et ses événements, à l'impression comme sur les réseaux sociaux.",
     objectifs: ["Annoncer clairement chaque événement", "Attirer l'attention en un coup d'œil", "Décliner les visuels pour l'impression et les réseaux sociaux"],
     solution: "<p>Chaque affiche est construite autour d'un message principal, d'une image forte et d'informations pratiques faciles à lire : date, lieu, contact. Les visuels sont ensuite déclinés aux formats imprimés et numériques.</p>",
-    livrables: ['Affiches', 'Déclinaisons pour les réseaux sociaux'] },
+    livrables: ['Affiches', 'Déclinaisons pour les réseaux sociaux'],
+    variantes: [null,
+      { contexte: "{nom} souhaitait des visuels qui se remarquent dans la rue comme dans un fil d'actualité, et qui donnent envie de participer.",
+        solution: "<p>Pour chaque visuel, l'information essentielle est placée en premier, puis mise en valeur par des couleurs et une image qui attirent l'œil. Les formats ont été adaptés à l'affichage, au partage sur WhatsApp et aux réseaux sociaux.</p>" },
+      { contexte: "{nom} avait besoin d'une communication visuelle régulière et cohérente pour annoncer ses rendez-vous.",
+        solution: "<p>Une ligne graphique commune relie les différents visuels, pour que le public reconnaisse immédiatement les annonces. Chaque affiche reste lisible en un coup d'œil : le titre, la date, le lieu et le contact.</p>" }] },
   edition: { sousTitre: 'Supports imprimés et édition', categorie: 'Édition · Print',
     resume: 'Supports imprimés et documents réalisés pour {nom}.',
     role: 'Conception graphique des supports imprimés', outils: ['Mise en page', 'Typographie', 'Print'],
@@ -1201,5 +1224,7 @@ const MODELES = {
     if (p.resume == null) p.resume = T(m.resume).replace('{nom}', p.titre);
     if (p.contexte == null) p.contexte = T(m.contexte).replace('{nom}', p.titre);
     if (p.client == null) p.client = p.titre;
+    const v = m.variantes && m.variantes[p.variante];
+    if (v) { if (v.solution && p.solution === m.solution) p.solution = v.solution; if (v.contexte && p.contexte === T(m.contexte).replace('{nom}', p.titre)) p.contexte = T(v.contexte).replace('{nom}', p.titre); }
   });
 })();

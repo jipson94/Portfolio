@@ -1,9 +1,11 @@
 /* Catalogue des formations — utilisé par index.html (aperçu) et formations.html (page complète).
    Pour ajouter une formation : copie un bloc { ... } et modifie-le.
-   « duree » (de 2 semaines à 3 mois) et « public » sont des propositions : ajuste-les à ton offre réelle. */
+   « duree » (de 2 semaines à 3 mois) et « public » sont des propositions : ajuste-les à ton offre réelle.
+   « prix » (par personne, session ouverte) et « prixEntreprise » (groupe dans votre structure, à partir de) sont en FCFA :
+   estimations basées sur les tarifs moyens à Brazzaville, à ajuster. */
 const FORMATIONS = [
   {
-    id: 'communication-institutionnelle',
+    id: 'communication-institutionnelle', prix: 150000, prixEntreprise: 1200000,
     image: 'images/photos/formation-communication-institutionnelle.jpg',
     titre: "Communication institutionnelle : construire des messages clairs",
     theme: 'Communication',
@@ -19,7 +21,7 @@ const FORMATIONS = [
     ]
   },
   {
-    id: 'relations-publiques',
+    id: 'relations-publiques', prix: 120000, prixEntreprise: 900000,
     image: 'images/photos/formation-relations-publiques.jpg',
     titre: "Relations publiques et relations presse",
     theme: 'Communication',
@@ -35,7 +37,7 @@ const FORMATIONS = [
     ]
   },
   {
-    id: 'prise-de-parole',
+    id: 'prise-de-parole', prix: 100000, prixEntreprise: 800000,
     image: 'images/photos/formation-prise-de-parole.jpg',
     titre: "Prise de parole en public : convaincre avec aisance",
     theme: 'Communication',
@@ -51,7 +53,7 @@ const FORMATIONS = [
     ]
   },
   {
-    id: 'ia-productivite',
+    id: 'ia-productivite', prix: 150000, prixEntreprise: 1200000,
     image: 'images/photos/formation-ia-productivite.jpg',
     titre: "L'intelligence artificielle au service de la communication",
     theme: 'Intelligence artificielle',
@@ -67,7 +69,7 @@ const FORMATIONS = [
     ]
   },
   {
-    id: 'design-graphique',
+    id: 'design-graphique', prix: 200000, prixEntreprise: 1500000,
     image: 'images/photos/formation-design-graphique.jpg',
     titre: "Design graphique : créer des visuels professionnels",
     theme: 'Création visuelle',
@@ -83,7 +85,7 @@ const FORMATIONS = [
     ]
   },
   {
-    id: 'motion-design',
+    id: 'motion-design', prix: 300000, prixEntreprise: 2000000,
     image: 'images/photos/formation-motion-design.jpg',
     titre: "Initiation au motion design",
     theme: 'Création visuelle',
@@ -99,7 +101,7 @@ const FORMATIONS = [
     ]
   },
   {
-    id: 'analyse-donnees',
+    id: 'analyse-donnees', prix: 200000, prixEntreprise: 1500000,
     image: 'images/photos/formation-analyse-donnees.jpg',
     titre: "Analyser et présenter ses données",
     theme: 'Données & numérique',
@@ -115,7 +117,7 @@ const FORMATIONS = [
     ]
   },
   {
-    id: 'site-web',
+    id: 'site-web', prix: 200000, prixEntreprise: 1500000,
     image: 'images/photos/formation-site-web.jpg',
     titre: "Créer et gérer un site web professionnel",
     theme: 'Données & numérique',
@@ -165,12 +167,15 @@ const FORMATION_ARTS = {
   'analyse-donnees': `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="#132c86"/><rect x="40" y="40" width="200" height="220" rx="14" fill="#1d44c2"/><rect x="62" y="200" width="26" height="40" rx="4" fill="#2f5ae0"/><rect x="98" y="160" width="26" height="80" rx="4" fill="#2f5ae0"/><rect x="134" y="120" width="26" height="120" rx="4" fill="#fff799"/><rect x="170" y="150" width="26" height="90" rx="4" fill="#2f5ae0"/><polyline points="62,120 98,100 134,74 170,92 206,60" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="206" cy="60" r="6" fill="#fff"/><circle cx="310" cy="110" r="60" fill="#0f2167"/><path d="M310 110V50a60 60 0 0 1 52 90z" fill="#fff799"/><path d="M310 110l52 30a60 60 0 0 1-82 22z" fill="#2f5ae0"/><rect x="262" y="196" width="100" height="14" rx="7" fill="#fff799"/><rect x="262" y="220" width="72" height="14" rx="7" fill="#fff" opacity=".6"/></svg>`,
   'site-web': `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="#1d44c2"/><circle cx="60" cy="40" r="110" fill="#2f5ae0"/><rect x="40" y="50" width="250" height="180" rx="12" fill="#fff"/><rect x="40" y="50" width="250" height="24" rx="12" fill="#e3e8f8"/><circle cx="58" cy="62" r="4" fill="#ff6b6b"/><circle cx="72" cy="62" r="4" fill="#ffc94d"/><circle cx="86" cy="62" r="4" fill="#4cd07d"/><rect x="60" y="92" width="130" height="14" rx="4" fill="#0f2167"/><rect x="60" y="114" width="100" height="8" rx="4" fill="#0f2167" opacity=".4"/><rect x="60" y="130" width="84" height="8" rx="4" fill="#0f2167" opacity=".4"/><rect x="60" y="150" width="56" height="18" rx="9" fill="#1d44c2"/><rect x="200" y="90" width="72" height="72" rx="10" fill="#fff799"/><rect x="60" y="184" width="64" height="30" rx="6" fill="#e3e8f8"/><rect x="134" y="184" width="64" height="30" rx="6" fill="#e3e8f8"/><rect x="208" y="184" width="64" height="30" rx="6" fill="#e3e8f8"/><rect x="290" y="110" width="76" height="140" rx="14" fill="#0f2167"/><rect x="298" y="124" width="60" height="112" rx="6" fill="#fff"/><rect x="306" y="134" width="44" height="10" rx="3" fill="#0f2167"/><rect x="306" y="152" width="44" height="34" rx="5" fill="#fff799"/><rect x="306" y="194" width="30" height="8" rx="3" fill="#0f2167" opacity=".4"/></svg>`
 };
-const formationArt = f => f.image ? `<img src="${f.image}" alt="" loading="lazy">` : (FORMATION_ARTS[f.id] || '');
+const formationArt = f => f.image ? `<img src="${f.image}" alt="" loading="lazy"><span class="f-illu">Image d'illustration</span>` : (FORMATION_ARTS[f.id] || '');
+// Prix affichés sur l'image de la formation
+const fcfa = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u202f') + '\u00a0FCFA';
+const formationPrix = f => f.prix ? `<span class="f-price"><span class="fp-row"><small>Par personne</small><b>${fcfa(f.prix)}</b></span>${f.prixEntreprise ? `<span class="fp-row"><small>Entreprise, dès</small><b>${fcfa(f.prixEntreprise)}</b></span>` : ''}</span>` : '';
 
 // Carte avec illustration (aperçu sur l'accueil)
 const formationCardArt = f => `
   <a class="card f-card" href="formations.html#${f.id}">
-    <span class="f-card-art">${formationArt(f)}</span>
+    <span class="f-card-art">${formationArt(f)}${formationPrix(f)}</span>
     <span class="f-theme">${f.theme} · ${f.duree}</span>
     <h3>${f.titre}</h3>
     <p>${f.resume}</p>

@@ -165,7 +165,7 @@
   const cat = document.querySelector('.catalog');
   cat.innerHTML = FORMATIONS.map(f => `
     <article class="f-card-full" id="${f.id}" data-theme="${f.theme}" data-id="${f.id}">
-      <span class="f-art">${formationArt(f)}</span>
+      <span class="f-art">${formationArt(f)}${formationPrix(f)}</span>
       <div class="fc-body">
         <span class="f-theme">${f.theme} · ${f.duree}</span>
         <h3>${f.titre}</h3>

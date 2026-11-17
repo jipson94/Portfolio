@@ -170,7 +170,8 @@ const FORMATION_ARTS = {
 const formationArt = f => f.image ? `<img src="${f.image}" alt="" loading="lazy"><span class="f-illu">Image d'illustration</span>` : (FORMATION_ARTS[f.id] || '');
 // Prix affichés sur l'image de la formation
 const fcfa = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u202f') + '\u00a0FCFA';
-const formationPrix = f => f.prix ? `<span class="f-price"><span class="fp-row"><small>Par personne</small><b>${fcfa(f.prix)}</b></span>${f.prixEntreprise ? `<span class="fp-row"><small>Entreprise, dès</small><b>${fcfa(f.prixEntreprise)}</b></span>` : ''}</span>` : '';
+const fcfaB = n => `<b>${fcfa(n).replace(/ FCFA$/, '')}<i>FCFA</i></b>`;   // chiffres en gros, « FCFA » en petit
+const formationPrix = f => f.prix ? `<span class="f-price"><span class="fp-row"><small>Par personne</small>${fcfaB(f.prix)}</span>${f.prixEntreprise ? `<span class="fp-row fp-pro"><small>Entreprise, dès</small>${fcfaB(f.prixEntreprise)}</span>` : ''}</span>` : '';
 
 // Carte avec illustration (aperçu sur l'accueil)
 const formationCardArt = f => `

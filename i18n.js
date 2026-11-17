@@ -126,9 +126,28 @@
   }
   I18N.collect = collect;
 
+  // Liens internes : la langue choisie suit le visiteur de page en page (?lang=en), même sans mémoire du navigateur
+  function keepLang(a) {
+    const h = a.getAttribute('href');
+    if (!h || /^(#|[a-z][a-z0-9+.-]*:|\/\/)/i.test(h) || a.hasAttribute('download')) return;   // ancres, liens externes, mailto, tel…
+    const u = new URL(h, location.href);
+    if (u.origin !== location.origin || !/(\.html|\/)$/.test(u.pathname)) return;               // seulement les pages du site
+    if (u.searchParams.get('lang') === lang) return;
+    u.searchParams.set('lang', lang);
+    a.setAttribute('href', (u.pathname.split('/').pop() || './') + u.search + u.hash);
+  }
+  function linksKeepLang() {
+    if (lang === 'fr') return;
+    document.querySelectorAll('a[href]').forEach(keepLang);
+    ['click', 'auxclick', 'contextmenu', 'focusin'].forEach(ev => document.addEventListener(ev, e => {
+      const a = e.target.closest && e.target.closest('a[href]'); if (a) keepLang(a);
+    }, true));
+  }
+
   function apply() {
     try { if (sessionStorage.getItem('jmCollect')) window.__units = collect(); } catch (e) {}
     switcher();
+    linksKeepLang();
     if (lang === 'fr' || !dict.size) return;
     walk(document.body);
     document.title = I18N.t(document.title);

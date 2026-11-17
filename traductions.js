@@ -6,6 +6,20 @@
    sinon il restera affiché en français dans les autres langues.
    ============================================================ */
 I18N.load([
+  ["Bonjour Jipson, je vous contacte depuis votre site.","Hello Jipson, I'm contacting you through your website.","您好 Jipson，我是通过您的网站联系您的。"],
+  ["Demande de formation","Training request","培训申请"],
+  ["Message depuis le site","Message from the website","来自网站的留言"],
+  ["Demande","Request","申请类型"],
+  ["Inscription","Registration","报名"],
+  ["Demande de devis","Quote request","询价"],
+  ["Bonjour, voici ma demande de devis","Hello, here is my quote request","您好，这是我的询价申请"],
+  ["Formation :","Course:","课程："],
+  ["Montant estimé :","Estimated amount:","预估金额："],
+  ["Nom :","Name:","姓名："],
+  ["Structure :","Organisation:","机构："],
+  ["E-mail :","Email:","电子邮件："],
+  ["Téléphone :","Phone:","电话："],
+  ["Message :","Message:","留言："],
   ["Votre devis est prêt","Your quote is ready","您的报价已生成"],
   ["Télécharger le devis (PDF)","Download the quote (PDF)","下载报价单（PDF）"],
   ["Envoyer à Jipson par WhatsApp","Send to Jipson on WhatsApp","通过 WhatsApp 发送给 Jipson"],

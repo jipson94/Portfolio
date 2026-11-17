@@ -263,9 +263,10 @@
     document.body.classList.add('print-devis'); window.print();
   });
   document.getElementById('dv-wa').addEventListener('click', () => {
-    const x = dernier, l = [`Bonjour, voici ma demande de devis (${x.num}).`, `Formation : ${x.f.titre}`, `Format : ${x.format}`, `Participants : ${x.c.nb}`, `Montant estimé : ${money(x.c.total)}`, `Nom : ${x.nom}`];
-    if (x.structure) l.push(`Structure : ${x.structure}`);
-    l.push(`E-mail : ${x.email}`, `Téléphone : ${x.tel}`); if (x.msg) l.push(`Message : ${x.msg}`);
+    const T = s => window.I18N ? I18N.t(s) : s, x = dernier;   // message dans la langue active
+    const l = [`${T('Bonjour, voici ma demande de devis')} (${x.num}).`, `${T('Formation :')} ${T(x.f.titre)}`, `${T('Format :')} ${T(x.format)}`, `${T('Participants :')} ${x.c.nb}`, `${T('Montant estimé :')} ${money(x.c.total)}`, `${T('Nom :')} ${x.nom}`];
+    if (x.structure) l.push(`${T('Structure :')} ${x.structure}`);
+    l.push(`${T('E-mail :')} ${x.email}`, `${T('Téléphone :')} ${x.tel}`); if (x.msg) l.push(`${T('Message :')} ${x.msg}`);
     open('https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(l.join('\n')), '_blank', 'noopener');
   });
   modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });   // clic en dehors du formulaire

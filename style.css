@@ -1468,14 +1468,6 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 /* Formations : prix et mention « image d'illustration » posés sur l'image */
 .f-art,.f-card-art{position:relative}
 .f-illu{position:absolute;top:8px;right:8px;padding:3px 8px;border-radius:999px;background:rgba(9,20,69,.6);color:#fff;font-size:10px;font-weight:500;letter-spacing:.02em;backdrop-filter:blur(4px)}
-.f-price{position:absolute;left:10px;bottom:10px;display:flex;flex-direction:column;gap:6px;padding:10px 12px;border-radius:12px;background:var(--jaune,#fff799);color:#0f2167;box-shadow:0 8px 20px rgba(0,0,0,.25);max-width:calc(100% - 20px)}
-.fp-row{display:flex;flex-direction:column;line-height:1.15}
-.fp-row small{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;opacity:.7}
-.fp-row b{font-size:15px;font-weight:800;white-space:nowrap}
-.fp-row+.fp-row{padding-top:6px;border-top:1px solid rgba(15,33,103,.18)}
-.fp-row+.fp-row b{font-size:13px}
-@media (min-width:761px){.f-art .f-price{flex-direction:column}}
-@media (max-width:760px){.f-price{flex-direction:row;gap:12px}.fp-row+.fp-row{padding-top:0;border-top:0;padding-left:12px;border-left:1px solid rgba(15,33,103,.18)}.fp-row b{font-size:14px}}
 
 /* Téléphone : cartes Services en 2 par ligne, icône, titre et court texte (sans les étiquettes) */
 @media (max-width:760px){
@@ -1492,31 +1484,9 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
   .pill,.btn,.f-filters button,.filters button{min-height:44px}
   .crumbs a{display:inline-block;padding:10px 0}
 }
-.f-card-art .f-price{flex-direction:row;gap:10px;padding:7px 10px;border-radius:10px;left:8px;bottom:8px}
-.f-card-art .fp-row+.fp-row{padding-top:0;border-top:0;padding-left:10px;border-left:1px solid rgba(15,33,103,.18)}
-.f-card-art .fp-row b,.f-card-art .fp-row+.fp-row b{font-size:12.5px}
-.f-card-art .fp-row small{font-size:9px}
 @media (max-width:760px){
   .f-teaser .f-card-art{aspect-ratio:4/3}
-  .f-teaser .f-card:not(:last-child:nth-child(odd)) .f-price{flex-direction:column;gap:3px;padding:6px 8px}
-  .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row+.fp-row{padding-left:0;border-left:0;padding-top:3px;border-top:1px solid rgba(15,33,103,.18)}
-  .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row b{font-size:11.5px}
   .f-teaser .f-card:not(:last-child:nth-child(odd)) .f-illu{display:none}
-}
-
-/* Formations : montants plus grands et bien gras */
-.fp-row b{font-size:22px!important;font-weight:800!important;letter-spacing:-.01em}
-.fp-row+.fp-row b{font-size:18px!important}
-.fp-row small{font-size:10.5px}
-.f-card-art .fp-row b{font-size:17px!important}
-.f-card-art .fp-row+.fp-row b{font-size:15px!important}
-@media (max-width:760px){
-  .fp-row b{font-size:18px!important}
-  .fp-row+.fp-row b{font-size:16px!important}
-  .f-card-art .fp-row b{font-size:16px!important}
-  .f-card-art .fp-row+.fp-row b{font-size:14px!important}
-  .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row b{font-size:14px!important}
-  .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row+.fp-row b{font-size:13px!important}
 }
 
 /* Devis produit en fin de demande (page Formations) */
@@ -1578,3 +1548,31 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 .formats .format .card-ico{background:#0f2167!important;color:var(--orange,#fff799)!important}
 .formats .format .card-ico svg{stroke:var(--orange,#fff799)!important}
 .motion .formats .format:hover{border-color:#0f2167!important}
+
+/* Formations : badge de prix — bandeau en deux moitiés égales posé en bas de l'image
+   (jaune = par personne, bleu marine = entreprise), montants de même taille, très gras */
+.f-art,.f-card-art{position:relative}
+.f-price{position:absolute;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:1fr 1fr;border-radius:14px;overflow:hidden;box-shadow:0 10px 26px rgba(5,12,40,.35);z-index:2}
+.fp-row{display:flex;flex-direction:column;justify-content:center;gap:3px;padding:10px 14px;background:var(--orange,#fff799);color:#0f2167;min-width:0}
+.fp-row.fp-pro{background:#0f2167;color:var(--orange,#fff799)}
+.f-price:not(:has(.fp-pro)){grid-template-columns:1fr;right:auto}
+.fp-row small{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;opacity:.75;white-space:nowrap}
+.fp-row b{display:flex;align-items:baseline;gap:4px;font-size:22px;font-weight:800;line-height:1;letter-spacing:-.02em;white-space:nowrap;-webkit-text-stroke:.5px currentColor}
+.fp-row b i{font-style:normal;font-size:11px;font-weight:800;letter-spacing:.04em;-webkit-text-stroke:0;opacity:.85}
+/* Cartes de l'accueil (plus petites) */
+.f-card-art .f-price{left:10px;right:10px;bottom:10px;border-radius:12px}
+.f-card-art .fp-row{padding:8px 11px}
+.f-card-art .fp-row b{font-size:18px}
+.f-card-art .fp-row small{font-size:9px}
+@media (max-width:760px){
+  .fp-row{padding:9px 11px}
+  .fp-row b{font-size:19px}
+  .f-card-art .fp-row b{font-size:17px}
+  /* cartes étroites de l'accueil (2 par ligne) : les deux montants l'un sous l'autre */
+  .f-teaser .f-card:not(:last-child:nth-child(odd)) .f-price{grid-template-columns:1fr;left:8px;right:8px;bottom:8px;border-radius:10px}
+  .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row{padding:6px 9px;gap:2px}
+  .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row b{font-size:15px}
+  .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row small{font-size:8px;letter-spacing:.05em}
+  .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row b i{font-size:9px}
+}
+@media (max-width:760px){.f-teaser .f-card:not(:last-child:nth-child(odd)) .f-card-art{aspect-ratio:4/5!important}}

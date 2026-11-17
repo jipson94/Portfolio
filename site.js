@@ -28,7 +28,7 @@ const SITE = {
 (function () {
   const here = location.pathname.split('/').pop() || 'index.html';
   const home = here === 'index.html' || here === '' ? '' : 'index.html';
-  const waLink = SITE.whatsapp ? 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(SITE.whatsappMessage) : '';
+  const waLink = SITE.whatsapp ? 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(window.I18N ? I18N.t(SITE.whatsappMessage) : SITE.whatsappMessage) : '';   // message dans la langue active
   const socials = Object.entries(SITE.reseaux).filter(([, url]) => url);
   // Icônes des réseaux sociaux
   const ICONES = {
@@ -179,14 +179,17 @@ const SITE = {
     const form = e.target;
     if (!form.matches('form[data-netlify]')) return;
     e.preventDefault();
-    const titre = form.getAttribute('name') === 'formation' ? 'Demande de formation' : 'Message depuis le site';
+    const T = s => window.I18N ? I18N.t(s) : s, lg = (window.I18N && I18N.lang) || 'fr';
+    const sep = lg === 'fr' ? ' : ' : lg === 'zh' ? '：' : ': ';   // ponctuation propre à chaque langue
+    const titre = T(form.getAttribute('name') === 'formation' ? 'Demande de formation' : 'Message depuis le site');
     const lignes = [titre];
     form.querySelectorAll('input[name], select[name], textarea[name]').forEach(el => {
       if (['form-name', 'bot-field'].includes(el.name) || !el.value.trim()) return;
       if ((el.type === 'radio' || el.type === 'checkbox') && !el.checked) return;
       if (el.closest('[hidden]') || el.offsetParent === null && el.type !== 'radio') return;
-      const lab = el.type === 'radio' ? 'Demande' : ((form.querySelector('label[for="' + el.id + '"]') || {}).firstChild || {}).textContent;
-      lignes.push((lab ? lab.trim() + ' : ' : '') + el.value.trim());
+      const lab = el.type === 'radio' ? T('Demande') : ((form.querySelector('label[for="' + el.id + '"]') || {}).firstChild || {}).textContent;
+      const val = el.tagName === 'SELECT' ? el.options[el.selectedIndex].text : el.type === 'radio' ? T(el.value) : el.value;   // valeurs affichées (traduites)
+      lignes.push((lab ? lab.trim() + sep : '') + val.trim());
     });
     location.href = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(lignes.join('\n'));
   });

@@ -6,6 +6,8 @@
    sinon il restera affiché en français dans les autres langues.
    ============================================================ */
 I18N.load([
+  ["NIU :","NIU:","NIU："],
+  ["RCCM :","RCCM:","RCCM："],
   ["Bonjour Jipson, je vous contacte depuis votre site.","Hello Jipson, I'm contacting you through your website.","您好 Jipson，我是通过您的网站联系您的。"],
   ["Demande de formation","Training request","培训申请"],
   ["Message depuis le site","Message from the website","来自网站的留言"],

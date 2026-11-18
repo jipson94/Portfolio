@@ -236,7 +236,7 @@
     const tel = SITE.whatsapp.replace(/^242(\d{2})(\d{3})(\d{2})(\d{2})$/, '+242 $1 $2 $3 $4');
     doc.innerHTML = `
       <div class="dv-top">
-        <img src="images/logo-signature.png" alt="Jipson Mathas">
+        <div class="dv-brand"><img src="images/logo-signature.png" alt="Jipson Mathas"><span class="dv-legal"><span><span>NIU :</span> P23000000256495N</span><span><span>RCCM :</span> CG-BZV-01-2024-A10-00567</span></span></div>
         <div class="dv-id"><b class="dv-title">DEVIS</b><span><span>N°</span> ${num}</span><span><span>Date :</span> ${d(now)}</span><span><span>Valable jusqu'au :</span> ${d(fin)}</span></div>
       </div>
       <div class="dv-parties">

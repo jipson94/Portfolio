@@ -1576,3 +1576,6 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
   .f-teaser .f-card:not(:last-child:nth-child(odd)) .fp-row b i{font-size:9px}
 }
 @media (max-width:760px){.f-teaser .f-card:not(:last-child:nth-child(odd)) .f-card-art{aspect-ratio:4/5!important}}
+.dv-brand{display:flex;flex-direction:column;gap:8px}
+.dv-legal{display:flex;flex-direction:column;gap:1px;font-size:11.5px;color:#4a557f;letter-spacing:.01em}
+.dv-legal>span>span{font-weight:700;color:#0f2167}

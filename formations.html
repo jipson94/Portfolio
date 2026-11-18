@@ -250,7 +250,12 @@
         <tfoot><tr><td colspan="2">Total</td><td></td><td>${money(c.total)}</td></tr></tfoot>
       </table>
       ${dernier.msg ? `<div class="dv-msg"><small>Votre message</small><p>${html(dernier.msg)}</p></div>` : ''}
-      <p class="dv-note">Devis estimatif établi à partir de votre demande. Le montant sera confirmé par Jipson Mathas après un échange sur vos besoins (dates, lieu, contenu).</p>`;
+      <p class="dv-note">Devis estimatif établi à partir de votre demande. Le montant sera confirmé par Jipson Mathas après un échange sur vos besoins (dates, lieu, contenu).</p>
+      <div class="dv-signs">
+        <div><small>Signature et cachet de l'émetteur</small><span class="dv-box"></span></div>
+        <div><small>Bon pour accord du client</small><span class="dv-hint">Date, signature et mention « Bon pour accord »</span><span class="dv-box"></span></div>
+      </div>
+      <p class="dv-auto">Document généré automatiquement, non signé.</p>`;
     form.hidden = true; view.hidden = false; view.scrollTop = 0;
     setTimeout(() => { document.getElementById('devis-print').innerHTML = doc.innerHTML; }, 50);   // copie (déjà traduite) pour l'impression
     // Sur Netlify, la demande est aussi enregistrée en arrière-plan

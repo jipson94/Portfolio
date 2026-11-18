@@ -1579,3 +1579,13 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 .dv-brand{display:flex;flex-direction:column;gap:8px}
 .dv-legal{display:flex;flex-direction:column;gap:1px;font-size:11.5px;color:#4a557f;letter-spacing:.01em}
 .dv-legal>span>span{font-weight:700;color:#0f2167}
+
+/* Devis : cadres de signature et mention « généré automatiquement » */
+.dv-signs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
+.dv-signs>div{display:flex;flex-direction:column;gap:4px}
+.dv-hint{font-size:11px;color:#4a557f}
+.dv-box{display:block;height:90px;border:1.5px dashed rgba(15,33,103,.35);border-radius:10px;margin-top:2px}
+.dv-auto{margin-top:14px;padding-top:10px;border-top:1px solid rgba(15,33,103,.12);font-size:11px;font-weight:600;color:#4a557f;text-align:center;text-transform:uppercase;letter-spacing:.06em}
+@media (max-width:560px){.dv-signs{grid-template-columns:1fr;gap:12px}.dv-box{height:70px}}
+@media print{.dv-signs{break-inside:avoid}}
+.dv-signs .dv-box{flex:1;height:auto;min-height:90px}@media (max-width:560px){.dv-signs .dv-box{min-height:70px}}

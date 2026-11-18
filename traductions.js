@@ -6,6 +6,10 @@
    sinon il restera affiché en français dans les autres langues.
    ============================================================ */
 I18N.load([
+  ["Signature et cachet de l'émetteur","Issuer's signature and stamp","报价方签名及盖章"],
+  ["Bon pour accord du client","Client approval","客户确认"],
+  ["Date, signature et mention « Bon pour accord »","Date, signature and the words “Approved”","日期、签名并注明“同意”"],
+  ["Document généré automatiquement, non signé.","Automatically generated document, not signed.","本文件为自动生成，未经签署。"],
   ["NIU :","NIU:","NIU："],
   ["RCCM :","RCCM:","RCCM："],
   ["Bonjour Jipson, je vous contacte depuis votre site.","Hello Jipson, I'm contacting you through your website.","您好 Jipson，我是通过您的网站联系您的。"],

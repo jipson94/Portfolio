@@ -45,7 +45,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "2022",
+    "annee": "2023",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -154,7 +154,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "2021",
+    "annee": "2022",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -194,7 +194,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "2018",
+    "annee": "2024",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -232,7 +232,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "2019",
+    "annee": "2023",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -311,7 +311,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "2018",
+    "annee": "2022",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -350,7 +350,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "2020",
+    "annee": "2023",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -579,7 +579,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "2019",
+    "annee": "2024",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -632,7 +632,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "2023",
+    "annee": "2022",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -678,7 +678,7 @@ const PROJETS = [
     "cat": "identite"
   },
   {
-    "annee": "2021",
+    "annee": "2026",
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
     "role": "Création du logo et de la charte graphique",
@@ -723,7 +723,7 @@ const PROJETS = [
     "cat": "identite"
   },
   {
-    "annee": "2023",
+    "annee": "2025",
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
     "role": "Refonte du logo et création de la charte graphique",
@@ -766,7 +766,7 @@ const PROJETS = [
     "cat": "identite"
   },
   {
-    "annee": "2021",
+    "annee": "2023",
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
     "role": "Création du logo et de la charte graphique",
@@ -814,7 +814,7 @@ const PROJETS = [
     "cat": "identite"
   },
   {
-    "annee": "2020",
+    "annee": "2025",
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
     "role": "Création du logo et de la charte graphique",
@@ -852,7 +852,7 @@ const PROJETS = [
   {
     "categorie": "Identité visuelle · Design graphique",
     "domaine": "Identité visuelle",
-    "annee": "2021",
+    "annee": "2022",
     "lieu": "",
     "role": "Création du logo et de la charte graphique",
     "outils": [
@@ -950,7 +950,7 @@ const PROJETS = [
     "titre": "Le Boudoir de Kriss",
     "cat": "identite",
     "modele": "identite",
-    "annee": "2018",
+    "annee": "2023",
     "images": [
       "images/projets/g/x-le-boudoire-de-kriss-01.jpg",
       "images/projets/g/x-le-boudoire-de-kriss-02.jpg",
@@ -965,7 +965,7 @@ const PROJETS = [
     "titre": "Serj Taigba Coaching",
     "cat": "edition",
     "modele": "edition",
-    "annee": "2023",
+    "annee": "2020",
     "images": [
       "images/projets/g/x-serj-taigba-01.jpg",
       "images/projets/g/x-serj-taigba-02.jpg",
@@ -982,7 +982,7 @@ const PROJETS = [
     "titre": "GadDigital",
     "cat": "identite",
     "modele": "identite",
-    "annee": "2021",
+    "annee": "2023",
     "images": [
       "images/projets/g/x-gaddigital-04.jpg",
       "images/projets/g/x-gaddigital-01.jpg",
@@ -996,7 +996,7 @@ const PROJETS = [
     "titre": "La Vallée",
     "cat": "identite",
     "modele": "identite",
-    "annee": "2019",
+    "annee": "2023",
     "images": [
       "images/projets/g/x-lavallee-02.jpg",
       "images/projets/g/x-lavallee-04.jpg",
@@ -1011,7 +1011,7 @@ const PROJETS = [
     "titre": "AZ Entreprise Générale du Bâtiment",
     "cat": "identite",
     "modele": "identite",
-    "annee": "2023",
+    "annee": "2025",
     "images": [
       "images/projets/g/community-management-08.jpg",
       "images/projets/g/community-management-05.jpg",
@@ -1025,7 +1025,7 @@ const PROJETS = [
     "titre": "Nelson Cishugi",
     "cat": "identite",
     "modele": "identite",
-    "annee": "2019",
+    "annee": "2025",
     "images": [
       "images/projets/g/x-nelson-cishugi-04.jpg",
       "images/projets/g/x-nelson-cishugi-02.jpg",
@@ -1043,7 +1043,7 @@ const PROJETS = [
     "titre": "Hadar Familia — Malkosh",
     "cat": "affiches",
     "modele": "affiches",
-    "annee": "2023",
+    "annee": "2025",
     "images": [
       "images/projets/g/x-hadar-familia-05.jpg",
       "images/projets/g/x-hadar-familia-01.jpg",
@@ -1056,7 +1056,7 @@ const PROJETS = [
     "titre": "Concours Innov'ACTION Global Gateway",
     "cat": "affiches",
     "modele": "affiches",
-    "annee": "2021",
+    "annee": "2022",
     "images": [
       "images/projets/g/x-concours-innov-action-global-gateway-04.jpg",
       "images/projets/g/x-concours-innov-action-global-gateway-01.jpg",
@@ -1074,7 +1074,7 @@ const PROJETS = [
     "titre": "FédArM",
     "cat": "identite",
     "modele": "identite",
-    "annee": "2023",
+    "annee": "2025",
     "images": [
       "images/projets/g/x-huuma-02.jpg",
       "images/projets/g/x-huuma-01.jpg",
@@ -1089,7 +1089,7 @@ const PROJETS = [
     "titre": "ILBC",
     "cat": "affiches",
     "modele": "affiches",
-    "annee": "2021",
+    "annee": "2024",
     "images": [
       "images/projets/g/x-chelsea-02.jpg",
       "images/projets/g/x-chelsea-01.jpg",
@@ -1107,7 +1107,7 @@ const PROJETS = [
     "titre": "Joyce & Rosmel",
     "cat": "affiches",
     "modele": "affiches",
-    "annee": "2020",
+    "annee": "2025",
     "images": [
       "images/projets/g/community-management-27.jpg",
       "images/projets/g/community-management-26.jpg",
@@ -1121,7 +1121,7 @@ const PROJETS = [
     "titre": "Laboratoire Luiz",
     "cat": "affiches",
     "modele": "affiches",
-    "annee": "2019",
+    "annee": "2024",
     "images": [
       "images/projets/g/community-management-30.jpg",
       "images/projets/g/community-management-31.jpg",

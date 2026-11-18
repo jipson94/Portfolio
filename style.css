@@ -1589,3 +1589,6 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 @media (max-width:560px){.dv-signs{grid-template-columns:1fr;gap:12px}.dv-box{height:70px}}
 @media print{.dv-signs{break-inside:avoid}}
 .dv-signs .dv-box{flex:1;height:auto;min-height:90px}@media (max-width:560px){.dv-signs .dv-box{min-height:70px}}
+
+/* Netlify (offre gratuite) : le badge « Powered by Netlify » occupe le coin bas droit ; le bouton WhatsApp passe au-dessus */
+body:has(#nl-badge-frame) .wa-float{bottom:72px!important}

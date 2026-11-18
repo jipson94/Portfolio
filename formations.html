@@ -131,7 +131,7 @@
     </div>
     <div class="fm-grid">
       <div class="field full"><label for="fm-formation">Formation</label><select id="fm-formation" name="formation" required></select></div>
-      <div class="field"><label for="fm-nom">Nom et prénom</label><input id="fm-nom" name="nom" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="fm-nom">Nom et prénom</label><input id="fm-nom" name="name" type="text" autocomplete="name" required></div>
       <div class="field"><label for="fm-mail">E-mail</label><input id="fm-mail" name="email" type="email" autocomplete="email" required></div>
       <div class="field"><label for="fm-tel">Téléphone / WhatsApp</label><input id="fm-tel" name="telephone" type="tel" autocomplete="tel" required></div>
       <div class="field"><label for="fm-format">Format souhaité</label>
@@ -227,12 +227,12 @@
   form.addEventListener('submit', e => {
     if (form.demande.value !== 'Demande de devis') return;          // inscription : envoi habituel
     e.preventDefault(); e.stopPropagation();
-    const f = FORMATIONS.find(x => x.titre === sel.value), v = n => (form[n].value || '').trim();
+    const f = FORMATIONS.find(x => x.titre === sel.value), v = n => (form.elements[n].value || '').trim();
     const c = calculDevis(f, v('format'), v('participants'));
     const now = new Date(), fin = new Date(now.getTime() + DEVIS.validiteJours * 864e5);
     const loc = (window.I18N && I18N.locale) || 'fr-FR', d = x => x.toLocaleDateString(loc, {day: 'numeric', month: 'long', year: 'numeric'});
     const num = 'DV-' + now.toISOString().slice(0, 10).replace(/-/g, '') + '-' + String(Math.floor(Math.random() * 900) + 100);
-    dernier = {num, f, c, nom: v('nom'), structure: v('structure'), email: v('email'), tel: v('telephone'), format: v('format'), msg: v('message')};
+    dernier = {num, f, c, nom: v('name'), structure: v('structure'), email: v('email'), tel: v('telephone'), format: v('format'), msg: v('message')};
     const tel = SITE.whatsapp.replace(/^242(\d{2})(\d{3})(\d{2})(\d{2})$/, '+242 $1 $2 $3 $4');
     doc.innerHTML = `
       <div class="dv-top">

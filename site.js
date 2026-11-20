@@ -88,7 +88,6 @@ const SITE = {
       </div>
       <div class="wrap foot-bottom">
         <span>© ${new Date().getFullYear()} ${SITE.nom}. <span>Tous droits réservés.</span></span>
-        <a href="#top">Retour en haut ↑</a>
       </div>`;
   }
 
@@ -128,13 +127,13 @@ const SITE = {
     if ('ResizeObserver' in window) new ResizeObserver(place).observe(hero); else addEventListener('resize', place);
   });
 
-  // Accueil : bouton rond « retour en haut », qui apparaît en arrivant en bas de la page
-  if (document.querySelector('.hero')) {
+  // Bouton rond « retour en haut », sur toutes les pages, qui apparaît dès qu'on a fait défiler la page
+  if (document.querySelector('main')) {
     const up = document.createElement('a');
     up.className = 'to-top'; up.href = '#top'; up.setAttribute('aria-label', 'Retour en haut'); up.textContent = '↑';
     document.body.append(up);
     up.addEventListener('click', e => { e.preventDefault(); scrollTo({top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); });
-    const check = () => up.classList.toggle('show', scrollY + innerHeight > document.documentElement.scrollHeight - 900);
+    const check = () => up.classList.toggle('show', scrollY > innerHeight * 0.8);
     addEventListener('scroll', check, {passive: true}); addEventListener('resize', check); check();
   }
 

@@ -1592,3 +1592,9 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 
 /* Netlify (offre gratuite) : le badge « Powered by Netlify » occupe le coin bas droit ; le bouton WhatsApp passe au-dessus */
 body:has(#nl-badge-frame) .wa-float{bottom:72px!important}
+
+/* Téléphone : bouton « Me contacter » en bas du menu déroulant (absent de l'en-tête faute de place) */
+.nav-cta{display:none!important}
+@media (max-width:720px){
+  nav.open .nav-cta{display:flex!important;justify-content:center;margin:8px 8px 6px;padding:14px 16px!important;border-radius:999px;background:var(--orange,#fff799);color:#0f2167!important;font-weight:700}
+}

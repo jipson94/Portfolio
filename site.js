@@ -194,3 +194,16 @@ const SITE = {
     location.href = 'https://wa.me/' + SITE.whatsapp + '?text=' + encodeURIComponent(lignes.join('\n'));
   });
 })();
+
+/* Téléphone : le bouton « Me contacter » de l'en-tête manque de place ; on le reprend en bas du menu */
+(function () {
+  const pill = document.querySelector('header .pill:not(.pill-dl)'), nav = document.querySelector('header nav');
+  if (!pill || !nav || nav.querySelector('.nav-cta')) return;
+  const a = document.createElement('a');
+  a.className = 'nav-cta'; a.href = pill.getAttribute('href'); a.textContent = pill.textContent.trim();
+  a.addEventListener('click', () => {   // referme le menu après le clic
+    nav.classList.remove('open');
+    const b = document.querySelector('.burger'); if (b) b.setAttribute('aria-expanded', 'false');
+  });
+  nav.appendChild(a);
+})();

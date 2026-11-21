@@ -1627,3 +1627,13 @@ body:has(#nl-badge-frame){--fab-bottom:72px}   /* au-dessus du badge Netlify */
   .page-list .post:not(:first-child) .excerpt,.more-posts .post .excerpt{font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
   .page-list .post:not(:first-child) .more,.more-posts .post .more{font-size:12px}
 }
+
+/* Cartes Articles et Formations : même arrondi que les cartes Projets (16 px, petite marge intérieure),
+   photos aux coins arrondis (10 px) ; marges du texte ajustées pour qu'il reste au même endroit */
+.post,.f-card,.f-card-full{border-radius:16px!important;padding:10px!important}
+.post .post-cover,.f-card-art,.f-card-full .f-art{border-radius:10px!important;overflow:hidden!important}
+.post .post-body{padding:14px 12px 14px!important}
+.f-card-full .fc-body{padding:14px 14px 14px!important}
+@media (max-width:760px){
+  .blog-sec .posts.teaser .post-body,.page-list .post .post-body,.more-posts .post .post-body{padding:10px 4px 6px!important}
+}

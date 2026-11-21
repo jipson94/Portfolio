@@ -8,7 +8,7 @@ const SITE = {
   "email": "contact@jipsonmathas.com",
   "ville": "Brazzaville, Congo",
   "telephone": "",
-  "whatsapp": "242061800888",
+  "whatsapp": "242068050665",
   "whatsappMessage": "Bonjour Jipson, je vous contacte depuis votre site.",
   "reseaux": {
     "LinkedIn": "https://www.linkedin.com/in/jipsonmathas",

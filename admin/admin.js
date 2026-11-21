@@ -468,13 +468,13 @@
       editor({
         title: 'Réglages', backHash: '#tableau', item: { ...S, ...Object.fromEntries(Object.entries(S.reseaux || {}).map(([k, v]) => ['r_' + k, v])) },
         groups: [
-          { title: 'Coordonnées', fields: [{ k: 'whatsapp', label: 'Numéro WhatsApp (chiffres, avec 242)', ph: '242061800888' }, { k: 'email', label: 'E-mail affiché' }, { k: 'ville', label: 'Ville' }, { k: 'telephone', label: 'Téléphone affiché (facultatif)' },
+          { title: 'Coordonnées', fields: [{ k: 'whatsapp', label: 'Numéro WhatsApp (chiffres, avec 242)', ph: '242068050665' }, { k: 'email', label: 'E-mail affiché' }, { k: 'ville', label: 'Ville' }, { k: 'telephone', label: 'Téléphone affiché (facultatif)' },
             { k: 'whatsappMessage', label: 'Message pré-rempli WhatsApp', full: true }] },
           { title: 'Réseaux sociaux (laisser vide pour masquer)', fields: Object.keys(S.reseaux || {}).map(k => ({ k: 'r_' + k, label: k, type: 'url', ph: 'https://…' })) }
         ],
         note: 'Après un changement de numéro ou d\'e-mail, demandez à Claude de régénérer les fiches PDF des programmes.',
         onSave: out => {
-          if (out.whatsapp && !/^\d{8,15}$/.test(out.whatsapp)) return 'Le numéro WhatsApp doit contenir uniquement des chiffres (ex. 242061800888).';
+          if (out.whatsapp && !/^\d{8,15}$/.test(out.whatsapp)) return 'Le numéro WhatsApp doit contenir uniquement des chiffres (ex. 242068050665).';
           Object.keys(out).forEach(k => { if (k.startsWith('r_')) { S.reseaux[k.slice(2)] = out[k]; delete out[k]; } });
           Object.assign(S, out); markDirty('site');
         }

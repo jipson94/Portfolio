@@ -6,6 +6,10 @@
    sinon il restera affiché en français dans les autres langues.
    ============================================================ */
 I18N.load([
+  ["Créatif<br>depuis","Creative<br>since","从事创意<br>始于"],
+  ["Clients<br>accompagnés","Clients<br>supported","服务过的<br>客户"],
+  ["Identités<br>créées","Identities<br>created","已打造的<br>视觉识别"],
+  ["Personnes<br>formées","People<br>trained","培训<br>学员"],
   ["Signature et cachet de l'émetteur","Issuer's signature and stamp","报价方签名及盖章"],
   ["Bon pour accord du client","Client approval","客户确认"],
   ["Date, signature et mention « Bon pour accord »","Date, signature and the words “Approved”","日期、签名并注明“同意”"],

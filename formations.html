@@ -166,6 +166,7 @@
   </div>
 </footer>
 
+<script src="data/formations.js"></script>
 <script src="formations.js"></script>
 <script>
   document.getElementById('y').textContent = new Date().getFullYear();
@@ -298,6 +299,7 @@
   const steps = document.querySelector('.steps');
   new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { steps.classList.add('in'); o.disconnect(); } }), {threshold:.3}).observe(steps);
 </script>
+<script src="data/site.js"></script>
 <script src="site.js"></script>
 <script>I18N.apply()</script>
 <script src="typo.js"></script>

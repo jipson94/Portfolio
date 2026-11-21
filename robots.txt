@@ -2,4 +2,5 @@ User-agent: *
 Allow: /
 Disallow: /merci.html
 Disallow: /programme.html
+Disallow: /admin/
 Sitemap: https://jipsonmathas.com/sitemap.xml

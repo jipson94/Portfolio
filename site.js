@@ -3,24 +3,7 @@
    Remplis ces informations : le bouton WhatsApp et les liens
    des réseaux apparaissent automatiquement dès qu'ils sont remplis.
    ============================================================ */
-const SITE = {
-  nom: 'Jipson Mathas',
-  email: 'contact@jipsonmathas.com',
-  ville: 'Brazzaville, Congo',
-  // Téléphone affiché (laisser vide pour masquer)
-  telephone: '',
-  // Numéro WhatsApp au format international, chiffres uniquement (ex. '242061234567')
-  whatsapp: '242061800888',   // +242 06 180 08 88
-  whatsappMessage: "Bonjour Jipson, je vous contacte depuis votre site.",
-  // Liens complets (laisser vide pour masquer)
-  reseaux: {
-    LinkedIn: 'https://www.linkedin.com/in/jipsonmathas',
-    Instagram: '',
-    Facebook: 'https://www.facebook.com/jipsonmathas',
-    YouTube: '',
-    TikTok: ''
-  }
-};
+/* SITE : voir data/site.js (modifiable depuis l'espace /admin) */
 
 /* ============================================================
    Éléments communs à toutes les pages (ne pas modifier)

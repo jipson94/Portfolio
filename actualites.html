@@ -69,7 +69,9 @@
   </div>
 </footer>
 
+<script src="data/articles.js"></script>
 <script src="articles.js"></script>
+<script src="data/pubs.js"></script>
 <script src="pubs.js"></script>
 <script>
   document.getElementById('y').textContent = new Date().getFullYear();
@@ -103,6 +105,7 @@
   const start = new URLSearchParams(location.search).get('cat');
   filter(cats.includes(start) ? start : 'Tous');
 </script>
+<script src="data/site.js"></script>
 <script src="site.js"></script>
 <script>I18N.apply()</script>
 <script src="typo.js"></script>

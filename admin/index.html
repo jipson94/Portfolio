@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Administration — Jipson Mathas</title>
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<!-- Connexion -->
+<section id="login" class="login" hidden>
+  <form class="login-card" id="login-form">
+    <img src="../images/logo-signature.png" alt="Jipson Mathas">
+    <h1>Espace d'administration</h1>
+    <label for="pw">Mot de passe</label>
+    <input id="pw" type="password" autocomplete="current-password" required>
+    <button class="btn" type="submit">Se connecter</button>
+    <p class="login-err" id="login-err" role="alert"></p>
+  </form>
+</section>
+
+<!-- Application -->
+<div id="app" class="app" hidden>
+  <aside class="side">
+    <a class="side-logo" href="#tableau"><img src="../images/logo-signature.png" alt="Jipson Mathas"></a>
+    <nav class="side-nav" id="side-nav">
+      <a href="#tableau" data-v="tableau">Tableau de bord</a>
+      <a href="#demandes" data-v="demandes">Demandes reçues <span class="badge" id="nav-new" hidden></span></a>
+      <a href="#articles" data-v="articles">Articles</a>
+      <a href="#projets" data-v="projets">Projets</a>
+      <a href="#formations" data-v="formations">Formations</a>
+      <a href="#annonces" data-v="annonces">Annonces</a>
+      <a href="#reglages" data-v="reglages">Réglages</a>
+    </nav>
+    <div class="side-links">
+      <a href="/" target="_blank" rel="noopener">Voir le site ↗</a>
+      <a href="https://mail.hostinger.com" target="_blank" rel="noopener">Boîte mail ↗</a>
+      <button type="button" class="linklike" id="logout">Se déconnecter</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button type="button" class="menu-btn" id="menu-btn" aria-label="Menu">☰</button>
+      <h1 id="view-title">Tableau de bord</h1>
+      <div class="pub-box">
+        <span class="pending" id="pending" hidden></span>
+        <button type="button" class="btn" id="publish" disabled>Publier</button>
+      </div>
+    </header>
+    <div class="status" id="status" role="status" hidden></div>
+    <div id="view" class="view"></div>
+  </main>
+</div>
+
+<!-- Fenêtre de réponse / confirmation -->
+<dialog id="dlg" class="dlg"><form method="dialog" id="dlg-form"></form></dialog>
+
+<script src="admin.js"></script>
+</body>
+</html>

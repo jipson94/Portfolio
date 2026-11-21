@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Press-book — Jipson Mathas</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Press-book A4 paysage, généré à partir des données du site (data/projets.js, data/site.js).
+     PDF : documents/press-book-jipson-mathas.pdf (impression de cette page par Edge). -->
+<style>
+  @page{size:297mm 210mm;margin:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--nuit:#0b1850;--roi:#0f2167;--vif:#1d44c2;--jaune:#fff799;--jaune-vif:#ffd84a;--creme:#f6f4ee;--gris:#4a557f;--dim:#c9d3fb}
+  html,body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:var(--roi);-webkit-print-color-adjust:exact;print-color-adjust:exact;background:#fff}
+  .pg{width:297mm;height:210mm;position:relative;overflow:hidden;page-break-after:always;break-after:page;background:var(--creme)}
+  .pg.dark{background:var(--nuit);color:#fff}
+  .pg.roi{background:linear-gradient(135deg,var(--vif),var(--nuit));color:#fff}
+  .ast{position:absolute;fill:var(--jaune);opacity:.95}
+  .foot{position:absolute;left:14mm;right:14mm;bottom:8mm;display:flex;justify-content:space-between;align-items:center;font-size:7.5pt;font-weight:600;opacity:.75}
+  .foot img{height:7mm}
+  .pg:not(.dark):not(.roi) .foot img{filter:brightness(0) saturate(100%) invert(11%) sepia(54%) saturate(3470%) hue-rotate(222deg) brightness(88%)}
+  .kicker{display:inline-block;font-size:8.5pt;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--vif)}
+  .dark .kicker,.roi .kicker{color:var(--jaune)}
+  h1,h2,h3{letter-spacing:-.02em;line-height:1.08}
+  .tag{display:inline-block;background:var(--jaune);color:var(--roi);font-weight:800;padding:1.6mm 3.2mm;border-radius:2mm;margin:0 0 1.6mm;font-size:13pt;line-height:1.15}
+  p{font-size:10pt;line-height:1.55}
+  ul.l{list-style:none;margin-top:2mm}
+  ul.l li{position:relative;padding-left:4.5mm;font-size:9pt;line-height:1.5;margin-bottom:1mm}
+  ul.l li::before{content:"";position:absolute;left:0;top:1.9mm;width:1.8mm;height:1.8mm;border-radius:50%;background:var(--vif)}
+  .dark ul.l li::before{background:var(--jaune)}
+
+  /* Couverture */
+  /* Photo + astérisque et cercles centrés derrière la tête (centre de la tête : 52,3 % / 33,7 % de la photo) */
+  .cover .who{position:absolute;right:6mm;bottom:0;height:186mm;aspect-ratio:937/890}
+  .cover .who .ph{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+  .cover .who .ring,.cover .who .ast{position:absolute;left:52.3%;top:33.7%;transform:translate(-50%,-50%);z-index:1}
+  .cover .logo{display:block;height:38mm;margin:0 0 5mm -2mm}
+  .cover .t{position:absolute;left:18mm;bottom:30mm;z-index:3;max-width:150mm}
+  .cover .t h1{font-size:64pt;font-weight:800;color:#fff;line-height:.95}
+  .cover .t h1 span{color:var(--jaune)}
+  .cover .t p{font-size:13pt;color:var(--dim);margin-top:5mm}
+  .ring{position:absolute;border:.35mm solid rgba(255,255,255,.14);border-radius:50%}
+
+  /* Citation */
+  .quote{display:flex;align-items:center;padding:0 30mm}
+  .quote blockquote{font-size:30pt;font-weight:800;line-height:1.18;letter-spacing:-.02em;max-width:220mm}
+  .quote blockquote::before{content:"“";display:block;font-size:80pt;line-height:.6;color:var(--jaune-vif);margin-bottom:4mm}
+  .quote cite{display:block;margin-top:8mm;font-style:normal;font-size:12pt;font-weight:700;color:var(--vif)}
+  .dark.quote cite{color:var(--jaune)}
+
+  /* Sommaire */
+  .toc{display:grid;grid-template-columns:110mm 1fr;height:100%}
+  .toc .l{padding:26mm 0 0 20mm}
+  .toc .l h2{font-size:44pt;font-weight:800;margin-top:4mm}
+  .toc ol{list-style:none;padding:24mm 22mm 0 0;counter-reset:t}
+  .toc li{counter-increment:t;display:flex;align-items:baseline;gap:6mm;padding:4.2mm 0;border-bottom:.3mm solid rgba(15,33,103,.15);font-size:15pt;font-weight:700}
+  .toc li::before{content:counter(t,decimal-leading-zero);font-size:10pt;font-weight:800;color:var(--vif);width:9mm}
+  .toc li span{margin-left:auto;font-size:9pt;font-weight:600;color:var(--gris)}
+
+  /* Présentation */
+  .about{display:grid;grid-template-columns:1fr 112mm;height:100%}
+  .about .txt{padding:20mm 10mm 0 20mm}
+  .about h2{font-size:30pt;font-weight:800;margin:2mm 0 1mm}
+  .about h3{font-size:13pt;color:var(--vif);margin-bottom:6mm;font-weight:700}
+  .about p+p{margin-top:3mm}
+  .about .side{position:relative;background:var(--nuit)}
+  .about .side img{position:absolute;left:50%;bottom:0;transform:translateX(-50%);height:178mm}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;margin-top:7mm}
+  .stats div{background:#fff;border:.3mm solid rgba(15,33,103,.12);border-radius:3mm;padding:3mm 3.5mm}
+  .stats small{display:block;font-size:7.5pt;font-weight:700;color:var(--gris);line-height:1.2}
+  .stats b{display:block;font-size:20pt;font-weight:800;color:var(--vif);margin-top:1.5mm}
+
+  /* Services */
+  .svc{padding:18mm 20mm 0}
+  .svc h2{font-size:28pt;font-weight:800;margin:2mm 0 8mm}
+  .svc .g{display:grid;grid-template-columns:repeat(5,1fr);gap:4mm}
+  .svc .c{background:rgba(255,255,255,.06);border:.3mm solid rgba(255,255,255,.14);border-radius:4mm;padding:5mm 4mm;min-height:110mm;display:flex;flex-direction:column}
+  .svc .c i{font-style:normal;font-size:9pt;font-weight:800;color:var(--jaune)}
+  .svc .c h3{font-size:12.5pt;margin:3mm 0 3mm}
+  .svc .c p{font-size:8.6pt;color:var(--dim);line-height:1.5}
+  .svc .c .tg{margin-top:auto;display:flex;flex-wrap:wrap;gap:1.5mm}
+  .svc .c .tg span{font-size:7pt;font-weight:700;border:.3mm solid rgba(255,247,153,.4);color:var(--jaune);border-radius:9mm;padding:.8mm 2.2mm}
+
+  /* Pages d'expertise */
+  .exp{display:grid;grid-template-columns:118mm 1fr;height:100%}
+  .exp .hd{position:relative;padding:18mm 10mm 0 18mm;background:var(--nuit);color:#fff;overflow:hidden}
+  .exp .hd .num{font-size:11pt;font-weight:800;color:var(--jaune)}
+  .exp .hd h2{font-size:30pt;font-weight:800;margin:2mm 0 6mm}
+  .exp .hd p{color:var(--dim);font-size:10.5pt;margin-top:5mm}
+  .exp .hd .photo{position:absolute;left:0;right:0;bottom:0;height:62mm;object-fit:cover;width:100%;border-top:1.2mm solid var(--jaune)}
+  .exp .bd{padding:16mm 16mm 14mm 12mm;columns:2;column-gap:9mm}
+  .exp .bd section{break-inside:avoid;margin-bottom:5mm}
+  .exp .bd h3{font-size:12pt;font-weight:800;text-transform:uppercase;letter-spacing:.03em;padding-bottom:1.8mm;border-bottom:.5mm solid var(--jaune-vif);margin-bottom:2mm}
+  .exp .bd p{font-size:9.8pt;line-height:1.5;color:var(--gris)}
+  .exp .bd ul.l li{font-size:9.4pt;line-height:1.45;color:var(--roi)}
+
+  /* Séparateur de chapitre */
+  .div{display:flex;flex-direction:column;justify-content:center;padding:0 24mm}
+  .div .n{font-size:14pt;font-weight:800;color:var(--jaune)}
+  .div h2{font-size:52pt;font-weight:800;margin-top:3mm;max-width:200mm}
+  .div p{font-size:12pt;color:var(--dim);margin-top:6mm;max-width:150mm}
+
+  /* Fiche projet */
+  .prj{display:grid;grid-template-columns:96mm 1fr;grid-template-rows:210mm;height:210mm}
+  .prj .info{padding:16mm 8mm 22mm 16mm;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .prj .info p{display:-webkit-box;-webkit-line-clamp:10;-webkit-box-orient:vertical;overflow:hidden}
+  .prj .facts dd{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .mos{min-height:0;height:210mm}
+  .prj .info h2{font-size:24pt;font-weight:800;margin:3mm 0 2mm}
+  .prj .info .st{font-size:10pt;font-weight:600;color:var(--dim);margin-bottom:5mm}
+  .prj .facts{display:grid;grid-template-columns:auto 1fr;gap:1.2mm 4mm;font-size:8.3pt;margin-bottom:5mm}
+  .prj .facts dt{color:var(--jaune);font-weight:700}
+  .prj .facts dd{color:#fff}
+  .prj .info p{font-size:9pt;color:var(--dim);line-height:1.55}
+  .prj .chips{display:flex;flex-wrap:wrap;gap:1.5mm;margin-top:auto}
+  .prj .chips span{font-size:7.2pt;font-weight:700;background:rgba(255,247,153,.12);color:var(--jaune);border-radius:9mm;padding:1mm 2.6mm}
+  .pg > .num{position:absolute;z-index:2;right:12mm;top:9mm;font-size:8pt;font-weight:800;color:rgba(255,255,255,.4)}
+  .mos{padding:12mm 12mm 18mm 0;display:grid;gap:3mm;height:100%}
+  .mos img{width:100%;height:100%;object-fit:cover;border-radius:3mm;display:block;background:#132c86;min-height:0}
+  .mos.n1{grid-template:1fr/1fr}
+  .mos.n2{grid-template:1fr/1.4fr 1fr}
+  .mos.n3{grid-template:1fr 1fr/1.5fr 1fr}.mos.n3 img:first-child{grid-row:1/3}
+  .mos.n4{grid-template:1fr 1fr 1fr/1.7fr 1fr}.mos.n4 img:first-child{grid-row:1/4}
+
+  /* Clients */
+  .cl{padding:16mm 18mm 0}
+  .cl h2{font-size:30pt;font-weight:800;margin:2mm 0 2mm}
+  .cl .sub{font-size:10pt;color:var(--dim);margin-bottom:7mm}
+  .cl .g{display:grid;grid-template-columns:repeat(8,1fr);gap:3mm}
+  .cl .t{background:#fff;border-radius:3mm;height:28mm;display:grid;place-items:center;padding:2.5mm;overflow:hidden}
+  .cl .t img{display:block;max-width:29mm;max-height:22mm;width:auto;height:auto;object-fit:contain}
+  .cl .t img.zoom{transform:scale(1.55)}   /* logos carrés avec beaucoup de blanc autour */
+  .cl .t .crop{max-width:29mm;max-height:22mm;width:29mm;background-image:url(images/pressbook/clients-ancien.jpg);background-repeat:no-repeat}
+
+  /* Merci */
+  .bye{display:grid;grid-template-columns:1fr 120mm;height:100%}
+  .bye .t{padding:26mm 10mm 0 22mm}
+  .bye .t h2{font-size:58pt;font-weight:800;color:var(--jaune)}
+  .bye .t p.lead{font-size:13pt;color:var(--dim);margin:4mm 0 10mm;max-width:130mm}
+  .ct{display:flex;flex-direction:column;gap:3.5mm}
+  .ct div{display:flex;align-items:center;gap:4mm;font-size:12pt;font-weight:700}
+  .ct svg{width:6.5mm;height:6.5mm;flex:none;fill:none;stroke:var(--jaune);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .ct svg.f{fill:var(--jaune);stroke:none}
+  .legal{margin-top:10mm;font-size:8pt;color:var(--dim)}
+  .legal b{color:var(--jaune)}
+  .bye .ph{position:relative}
+  .bye .ph img{position:absolute;right:4mm;bottom:0;height:190mm}
+
+  /* Écran : pages les unes sous les autres */
+  @media screen{body{background:#dfe4f3}.pg{margin:8mm auto;box-shadow:0 4mm 16mm rgba(0,0,0,.18)}}
+  .wa-float,.skip,.to-top,footer{display:none!important}
+</style>
+</head>
+<body>
+<div id="book"></div>
+
+<script src="data/projets.js"></script>
+<script src="projets.js"></script>
+<script src="data/site.js"></script>
+<script>
+(function () {
+  const S = SITE;
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const tel = '+' + S.whatsapp.replace(/^(\d{3})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5');
+  const AST = '<path d="M84 0h32v61.4l43.4-43.4 22.6 22.6L138.6 84H200v32h-61.4l43.4 43.4-22.6 22.6L116 138.6V200H84v-61.4L40.6 182 18 159.4 61.4 116H0V84h61.4L18 40.6 40.6 18 84 61.4z"/>';
+  const ast = (style) => `<svg class="ast" viewBox="0 0 200 200" style="${style}">${AST}</svg>`;
+  let n = 0;
+  const foot = () => `<div class="foot"><img src="images/logo-signature.png" alt=""><span>jipsonmathas.com · ${String(++n).padStart(2, '0')}</span></div>`;
+  const pages = [];
+  const page = (cls, html, withFoot = true) => pages.push(`<section class="pg ${cls}">${html}${withFoot ? foot() : (n++, '')}</section>`);
+
+  /* 1. Couverture */
+  page('roi cover', `
+    <div class="who"><div class="ring" style="width:250mm;height:250mm"></div><div class="ring" style="width:170mm;height:170mm"></div>
+      ${ast('width:118mm')}<img class="ph" src="images/jipson-detoure-2.webp" alt=""></div>
+    <div class="t"><img class="logo" src="images/logo-signature.png" alt="Jipson Mathas"><h1>Press<span>-</span>book</h1><p>Communication, design et technologies numériques<br>Brazzaville, Congo · ${new Date().getFullYear()}</p></div>`, false);
+
+  /* 2. Citation */
+  page('quote', `${ast('width:46mm;right:20mm;bottom:22mm;fill:var(--jaune-vif)')}
+    <div><blockquote>Dans la quête de la perfection, ce qui compte n'est pas d'atteindre l'impossible, mais de viser aussi haut que possible.</blockquote><cite>— Jipson Mathas</cite></div>`);
+
+  /* 3. Sommaire */
+  page('', `<div class="toc"><div class="l"><span class="kicker">Press-book</span><h2>Sommaire</h2></div>
+    <ol><li>Présentation</li><li>Mes domaines d'expertise</li><li>Création graphique</li><li>Digital</li><li>Conseil et marketing</li><li>Communication 360°</li><li>Réalisations <span>${PROJETS.length} projets</span></li><li>Ils me font confiance</li><li>Contact</li></ol></div>`);
+
+  /* 4. Citation d'ouverture + présentation */
+  page('dark quote', `${ast('width:40mm;left:24mm;top:20mm')}
+    <div style="padding-top:12mm"><span class="kicker">Présentation</span><blockquote style="font-size:27pt;margin-top:4mm">Nous sommes ce que nous faisons à répétition. L'excellence n'est donc pas un acte, mais une habitude.</blockquote><cite>— Will Durant, d'après Aristote</cite></div>`);
+
+  page('', `<div class="about"><div class="txt"><span class="kicker">Présentation</span><h2>Jipson Mathas</h2><h3>Expert en communication, design et technologies numériques</h3>
+    <p>Formé en Réseaux &amp; Télécommunications, j'ai choisi de mettre la rigueur de l'ingénierie au service du design et de la communication. Depuis 2016, je conçois et pilote des projets créatifs à fort impact : identités visuelles, interfaces web, contenus digitaux et stratégies de communication sur mesure, aussi bien en freelance qu'au sein de structures comme Rhema Communication, l'agence créative que j'ai cofondée.</p>
+    <p>Chaque projet repose sur une approche structurée : comprendre les objectifs de mon client, créer des solutions visuelles cohérentes, puis mesurer les résultats. Cette méthode m'a permis d'accompagner mes clients dans le développement de leur clientèle, le renforcement de leur image de marque et l'optimisation de leur présence digitale.</p>
+    <p><b>Ce que j'apporte :</b> une vision à la croisée de la technique, du design et du marketing, au service de projets qui marquent les esprits.</p>
+    <div class="stats"><div><small>Créatif<br>depuis</small><b>2016</b></div><div><small>Clients<br>accompagnés</small><b>300+</b></div><div><small>Identités<br>créées</small><b>150+</b></div><div><small>Personnes<br>formées</small><b>650+</b></div></div></div>
+    <div class="side">${ast('width:70mm;right:-12mm;top:12mm')}<img src="images/jipson-detoure-2.webp" alt=""></div></div>`);
+
+  /* 5. Services (repris du site) */
+  const SVC = [
+    ['Communication & relations publiques', 'Stratégie éditoriale, rédaction, réseaux sociaux, relations avec la presse et les parties prenantes : je valorise votre organisation et porte vos messages.', ['Communication institutionnelle', 'Réseaux sociaux', 'Relations presse']],
+    ['Identité visuelle & design graphique', 'Logos, chartes graphiques et supports imprimés ou numériques qui rendent votre marque reconnaissable au premier regard.', ['Logo & charte', 'Print & packaging', 'Visuels pour les réseaux']],
+    ['Photo, vidéo & couverture médiatique', 'Captation photo et vidéo de vos événements, reportages, montage et motion design : vos temps forts racontés et prêts à être diffusés.', ['Couverture d\'événements', 'Captation photo & vidéo', 'Montage & motion design']],
+    ['IA & données', 'Des outils d\'IA pour soutenir la création et la productivité, et des données organisées et présentées pour faciliter la décision.', ['Contenus assistés par IA', 'Tableaux de bord', 'Formation des équipes']],
+    ['Développement web', 'Conception et réalisation de sites et d\'expériences numériques, rapides, adaptés au téléphone et faciles à trouver.', ['Design web & UI', 'Sites vitrines', 'SEO & publicité en ligne']]
+  ];
+  page('dark', `<div class="svc"><span class="kicker">Services</span><h2>Mes domaines d'expertise</h2><div class="g">${SVC.map(([t, d, tg], i) => `<div class="c"><i>0${i + 1}</i><h3>${esc(t)}</h3><p>${esc(d)}</p><div class="tg">${tg.map(x => `<span>${esc(x)}</span>`).join('')}</div></div>`).join('')}</div></div>`);
+
+  /* 6 à 9. Pages d'expertise (textes du press-book, corrigés) */
+  const exp = (num, title, tags, intro, photo, blocks) => page('', `<div class="exp"><div class="hd"><span class="num">${num}</span><h2>${title}</h2>${tags.map(t => `<span class="tag">${t}</span><br>`).join('')}<p>${intro}</p><img class="photo" src="${photo}" alt=""></div>
+    <div class="bd">${blocks.map(([h, p, li]) => `<section><h3>${h}</h3>${p ? `<p>${p}</p>` : ''}${li ? `<ul class="l">${li.map(x => `<li>${x}</li>`).join('')}</ul>` : ''}</section>`).join('')}</div></div>`);
+
+  exp('01', 'Création graphique', ['Où vos visions', 'deviennent ma mission !'],
+    'L\'essence de la communication d\'une entreprise se forge à travers son identité visuelle. Pour y parvenir, je mobilise une large gamme de compétences : dessin, photographie et design. Je mets mon expertise et ma sensibilité artistique au service du caractère de votre marque, en tenant compte de l\'histoire et des valeurs qui vous sont chères, pour concevoir une présence visuelle qui vous distingue, durable et mémorable.',
+    'images/photos/formation-design-graphique.jpg', [
+      ['Identité visuelle', '', ['Création de logo : étude de votre marché et de vos valeurs pour créer un logo unique et percutant, déclinable sur tous vos supports.', 'Charte graphique : définition des couleurs, typographies, styles d\'illustration et autres éléments graphiques pour une cohérence visuelle optimale.', 'Déclinaison sur supports : application de la charte à vos supports de communication (site web, brochures, flyers, réseaux sociaux…).']],
+      ['Motion design', '', ['Animations graphiques : intros, transitions, infographies animées et autres éléments pour dynamiser vos vidéos.', 'Effets visuels : enrichir vos vidéos et les rendre plus percutantes.']],
+      ['Illustration', '', ['Illustrations originales : personnages, mascottes, pictogrammes et autres illustrations pour vos supports de communication.']],
+      ['Packaging', '', ['Design d\'emballage : des emballages esthétiques et fonctionnels pour vos produits.']],
+      ['Vidéo', '', ['Vidéos institutionnelles : films d\'entreprise, interviews, témoignages clients, films publicitaires et autres formats vidéo.']]
+    ]);
+
+  exp('02', 'Digital', ['Votre imagination est', 'la seule limite.', 'Heureusement, je suis là.'],
+    'Dans un monde numérique en constante évolution, se démarquer et capter l\'attention de votre audience est un défi de chaque instant. Mes prestations de communication digitale sont conçues pour vous propulser vers le succès en exploitant pleinement le potentiel du digital. Je transforme votre vision en réalité tangible, en vous guidant à chaque étape clé de votre parcours digital.',
+    'images/photos/article-social.jpg', [
+      ['Stratégie digitale', 'Au cœur de mon approche : une stratégie digitale sur mesure, alignée sur vos objectifs, et un plan d\'action marketing taillé pour transformer vos ambitions en succès concrets.', ['Définition de vos objectifs et de votre stratégie de communication digitale ;', 'Analyse de votre marché et de vos concurrents ;', 'Identification de vos cibles et personas ;', 'Mise en place d\'un plan d\'action marketing digital.']],
+      ['Création de contenu', 'Le contenu est roi dans l\'univers digital, et mon expertise en la matière est votre meilleur atout.', ['Rédaction de contenus web optimisés pour le référencement naturel (SEO) ;', 'Rédaction de newsletters et de livres blancs ;', 'Production de vidéos, d\'infographies et d\'autres contenus visuels.']],
+      ['Référencement naturel (SEO)', 'Votre visibilité est ma priorité : j\'améliore le référencement de votre site pour qu\'il gagne des places sur les moteurs de recherche.', ['Optimisation de votre site pour les moteurs de recherche ;', 'Acquisition de liens de qualité (backlinks) ;', 'Suivi et analyse de vos performances SEO.']],
+      ['Social media et community management', 'Je transforme vos pages en véritables lieux d\'échange, où chaque publication renforce votre lien avec vos communautés.', ['Création et gestion de vos pages de réseaux sociaux ;', 'Animation de vos communautés et engagement de vos audiences ;', 'Diffusion de campagnes publicitaires ciblées ;', 'Suivi et analyse de vos performances sur les réseaux sociaux ;', 'Écoute active et réponse aux commentaires et messages.']],
+      ['Publicité en ligne', 'Des campagnes ciblées sur les plateformes les plus pertinentes, pour un meilleur retour sur investissement.', ['Création et gestion de campagnes sur Google Ads, Facebook Ads, LinkedIn Ads et autres plateformes ;', 'Ciblage précis de vos audiences ;', 'Suivi et analyse de vos performances publicitaires.']],
+      ['Marketing automation et analyse', 'Des scénarios automatisés et une analyse rigoureuse de vos données pour ajuster vos stratégies en continu.', ['Scénarios automatisés pour vos e-mails et SMS ;', 'Segmentation de vos audiences ;', 'Tableaux de bord de suivi et suivi de vos objectifs.']]
+    ]);
+
+  exp('03', 'Conseil et marketing', ['Vous souhaitez développer votre activité,', 'mais vous manquez de temps', 'ou d\'expertise en marketing ?'],
+    'Je vous accompagne dans la définition et la mise en place d\'une stratégie marketing efficace et personnalisée.',
+    'images/photos/projet-campagne.jpg', [
+      ['Analyse et diagnostic', 'Cette étape clé me permet d\'identifier vos forces à capitaliser et vos faiblesses à corriger, pour poser les bases d\'une stratégie éclairée et ciblée.', ['Audit complet de votre situation marketing actuelle ;', 'Analyse de votre marché, de vos concurrents et de vos cibles ;', 'Identification de vos forces et faiblesses.']],
+      ['Stratégie marketing', 'Une fois votre contexte bien compris, je définis votre stratégie : un plan marketing global, harmonisé avec vos objectifs commerciaux, pour un succès mesurable.', ['Élaboration de votre plan marketing global, en cohérence avec vos objectifs commerciaux ;', 'Définition de vos cibles et personas ;', 'Détermination de votre positionnement et de votre valeur ajoutée.']],
+      ['Mise en place d\'actions marketing', 'La stratégie donne le ton, mais c\'est dans la mise en œuvre que les idées prennent vie.', ['Création de contenus web et print ;', 'Campagnes publicitaires sur les différents canaux digitaux ;', 'Animation de vos réseaux sociaux ;', 'Optimisation de votre référencement naturel (SEO).']],
+      ['Accompagnement et suivi', 'Mon engagement ne s\'arrête pas à la mise en place : je fais aussi monter vos équipes en compétence grâce à des formations dédiées.', ['Formation de vos équipes aux outils et techniques marketing ;', 'Assistance à la mise en place de votre stratégie ;', 'Suivi régulier de vos résultats et recommandations d\'optimisation.']]
+    ]);
+
+  exp('04', 'Communication 360°', ['La communication 360°,', 'bien plus qu\'un simple slogan.'],
+    'C\'est une symphonie soigneusement orchestrée, où tous les éléments jouent ensemble pour créer une expérience de marque cohérente et marquante.',
+    'images/photos/formation-relations-publiques.jpg', [
+      ['Stratégie et conseil', 'Tout commence par un diagnostic approfondi de votre communication actuelle, pour repérer les pistes d\'amélioration et de croissance.', ['Diagnostic complet de votre communication actuelle ;', 'Définition de vos objectifs et de votre cible ;', 'Stratégie de communication globale et cohérente ;', 'Conseil sur les canaux et les leviers les plus adaptés.']],
+      ['Création de contenus', 'Des contenus textuels, visuels et audiovisuels originaux et percutants, conçus pour engager vos audiences.', ['Rédaction de contenus web optimisés pour le SEO ;', 'Création de stories captivantes pour les réseaux sociaux ;', 'Réalisation de vidéos, podcasts et autres formats.']],
+      ['Relations publiques et influenceurs', 'J\'étends votre portée et renforce votre crédibilité en vous connectant aux médias et aux influenceurs de votre secteur.', ['Organisation d\'événements et de conférences de presse ;', 'Mise en relation avec les médias et les influenceurs pertinents ;', 'Contenus éditoriaux et placement de produits.']],
+      ['Gestion de votre image de marque', 'Votre identité visuelle et votre réputation en ligne sont au cœur de mes préoccupations.', ['Définition de votre identité visuelle et rédaction de la charte graphique ;', 'Déclinaison sur tous vos supports ;', 'Gestion de votre réputation en ligne et réponse aux avis clients.']],
+      ['Activation digitale', '', ['Campagnes payantes sur les différents canaux digitaux ;', 'Stratégie d\'e-mailing et d\'automatisation ;', 'Animation de vos communautés ;', 'Optimisation de votre site pour le référencement et l\'expérience utilisateur.']],
+      ['Mesure et reporting', '', ['Suivi des performances de vos campagnes sur tous les canaux ;', 'Analyse des données pour identifier les points d\'amélioration ;', 'Reporting régulier pour vous tenir informé des résultats.']]
+    ]);
+
+  /* 10. Réalisations : par catégorie, une page par projet */
+  const thumb = s => s.includes('images/projets/g/') ? s.replace('images/projets/g/', 'images/projets/g/t/') : s;
+  const groups = [{ id: 'video', label: 'Vidéo & motion design' }, ...CATEGORIES];
+  let pn = 0;
+  groups.forEach((g, gi) => {
+    const list = PROJETS.filter(p => p.cat === g.id); if (!list.length) return;
+    page('roi div', `${ast('width:90mm;right:16mm;bottom:20mm')}<span class="n">Réalisations · ${String(gi + 1).padStart(2, '0')}</span><h2>${esc(g.label)}</h2><p>${list.length} projet${list.length > 1 ? 's' : ''}</p>`);
+    list.forEach(p => {
+      pn++;
+      const imgs = (p.images || []).slice(0, 4);
+      if (!imgs.length && p.poster) imgs.push(p.poster);
+      const facts = [['Année', p.annee], ['Client', p.client], ['Rôle', p.role], ['Domaine', p.categorie]].filter(f => f[1]);
+      const tags = (p.outils || []).slice(0, 6);
+      page('dark', `<span class="num">${String(pn).padStart(2, '0')} / ${PROJETS.length}</span><div class="prj"><div class="info"><span class="kicker">${esc(g.label)}</span><h2>${esc(p.titre)}</h2>${p.sousTitre ? `<div class="st">${esc(p.sousTitre)}</div>` : ''}
+        <dl class="facts">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
+        <p>${esc(p.contexte || p.resume || '')}</p>
+        <div class="chips">${tags.map(t => `<span>${esc(t)}</span>`).join('')}</div></div>
+        <div class="mos n${imgs.length}">${imgs.map((s, i) => `<img src="${i ? thumb(s) : s}" alt="">`).join('')}</div></div>`);
+    });
+  });
+
+  /* 11. Clients */
+  const C = 595;   // repère de la page 47 de l'ancien press-book (image de 900 px pour 595 points)
+  // Cadre aux proportions exactes de la zone découpée : l'image entière est agrandie puis décalée pour n'en montrer que le logo
+  const crop = (x, y, w, h) => `<div class="crop" style="aspect-ratio:${w}/${h};width:min(29mm, calc(22mm * ${(w / h).toFixed(3)}));background-size:${(C / w * 100).toFixed(1)}% auto;background-position:${(x / (C - w) * 100).toFixed(1)}% ${(y / (C - h) * 100).toFixed(1)}%"></div>`;
+  const CLIENTS = [
+    ['AFD', crop(82, 152, 150, 72)], ['Ro Gourmets', crop(258, 150, 104, 70)], ['Orientas', crop(386, 160, 124, 62)],
+    ['AZ Entreprise Générale du Bâtiment', crop(84, 228, 142, 64)], ['Doxa Group', crop(274, 230, 72, 62)], ['Compliss', crop(384, 236, 126, 52)],
+    ['Dream\'s Coffee', crop(84, 302, 140, 70)], ['Emi AI', crop(266, 304, 88, 64)], ['Étudiants Congolais', crop(256, 470, 104, 60)],
+    ['Christ Tabernacle Church', '<img class="zoom" src="images/pressbook/client-christ-tabernacle.png" alt="">'], ['Hadar Familia', '<img src="images/pressbook/client-hadar.png" alt="">'],
+    ['Laboratoire Luiz', '<img src="images/pressbook/client-luiz.png" alt="">'], ['Nelson Cishugi', '<img class="zoom" src="images/pressbook/client-nelson.png" alt="">']
+  ].concat(['amore', 'bioteen', 'clc', 'diabo', 'digifacpay', 'digiresto', 'effitiedilgreen', 'enattendantlefutur', 'jalooreji', 'jovial', 'kbpublishing', 'kemonie', 'kitokonature', 'lokoiffeur', 'mamadigitale', 'ndule', 'nzela', 'ucsed'].map(k => [k, `<img src="images/logos/logo-${k}.png" alt="">`]));
+  page('dark', `<div class="cl"><span class="kicker">Références</span><h2>Ils me font confiance</h2><p class="sub">Entreprises, institutions, marques et porteurs de projets accompagnés à Brazzaville et au-delà.</p>
+    <div class="g">${CLIENTS.map(([name, html]) => `<div class="t" title="${esc(name)}">${html}</div>`).join('')}</div></div>`);
+
+  /* 12. Merci et contact */
+  page('roi', `<div class="bye"><div class="t"><span class="kicker">Contact</span><h2>Merci</h2><p class="lead">pour le temps accordé à la lecture de ce document. Discutons de la façon dont je peux contribuer à vos projets !</p>
+    <div class="ct"><div><svg class="f" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>${tel}</div>
+      <div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>${esc(S.email)}</div>
+      <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>jipsonmathas.com</div></div>
+    <p class="legal"><b>NIU :</b> P23000000256495N &nbsp;·&nbsp; <b>RCCM :</b> CG-BZV-01-2024-A10-00567 &nbsp;·&nbsp; ${esc(S.ville)}</p></div>
+    <div class="ph">${ast('width:90mm;right:-10mm;top:8mm')}<img src="images/jipson-detoure-2.webp" alt=""></div></div>`, false);
+
+  document.getElementById('book').innerHTML = pages.join('');
+  document.title = 'Press-book — Jipson Mathas';
+})();
+</script>
+</body>
+</html>

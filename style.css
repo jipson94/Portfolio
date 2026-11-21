@@ -1605,3 +1605,6 @@ body:has(#nl-badge-frame){--fab-bottom:72px}   /* au-dessus du badge Netlify */
 .wa-float{height:var(--fab)!important;min-width:var(--fab);right:var(--fab-right)!important;bottom:var(--fab-bottom)!important;box-sizing:border-box;padding-top:0!important;padding-bottom:0!important;justify-content:center}
 @media (max-width:720px){.wa-float{width:var(--fab)!important;padding:0!important}}
 .to-top{width:var(--fab)!important;height:var(--fab)!important;right:var(--fab-right)!important;bottom:calc(var(--fab-bottom) + var(--fab) + var(--fab-gap))!important;font-size:20px!important}
+
+/* Chiffres clés : les nombres alignés en bas de chaque carte, même si un libellé passe sur deux lignes */
+.about-stats li{justify-content:space-between}

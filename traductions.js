@@ -594,6 +594,7 @@ I18N.load([
   ["Créatif depuis","Creative since","从事创意工作始于"],
   ["Clients accompagnés","Clients supported","服务过的客户"],
   ["Identités créées","Identities created","已打造的视觉识别"],
+  ["Personnes formées","People trained","培训学员"],
   ["Ils m'ont fait confiance","They trusted me","合作客户"],
   ["Annonce","Ad","广告"],
   ["Sponsorisé","Sponsored","赞助内容"],

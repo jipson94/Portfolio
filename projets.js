@@ -123,7 +123,6 @@ const PROJETS = [
       "images/projets/g/kemonie-02.jpg",
       "images/projets/g/kemonie-03.jpg",
       "images/projets/g/kemonie-04.jpg",
-      "images/projets/g/kemonie-05.jpg",
       "images/projets/g/kemonie-07.jpg",
       "images/projets/g/kemonie-09.jpg",
       "images/projets/g/kemonie-10.jpg",
@@ -143,7 +142,6 @@ const PROJETS = [
       "images/projets/g/kemonie-24.jpg",
       "images/projets/g/kemonie-25.jpg",
       "images/projets/g/kemonie-26.jpg",
-      "images/projets/g/kemonie-28.jpg",
       "images/projets/g/kemonie-29.jpg",
       "images/projets/g/kemonie-30.jpg"
     ],
@@ -221,7 +219,6 @@ const PROJETS = [
       "images/projets/kbp-cover.jpg",
       "images/projets/g/kriss-brochec-publishing-02.jpg",
       "images/projets/g/kriss-brochec-publishing-04.jpg",
-      "images/projets/g/kriss-brochec-publishing-06.jpg",
       "images/projets/g/kriss-brochec-publishing-08.jpg",
       "images/projets/g/kriss-brochec-publishing-10.jpg"
     ],
@@ -287,7 +284,6 @@ const PROJETS = [
     "resume": "Création de la couverture du roman « Le Crime du Soir » de Jean Rodrigue Ngakosso : une ambiance de scène de crime qui accroche le regard dès le premier coup d'œil.",
     "images": [
       "images/projet-lecrimedusoir.jpg",
-      "images/projets/g/le-crime-du-soir-01.jpg",
       "images/projets/g/le-crime-du-soir-02.jpg",
       "images/projets/g/le-crime-du-soir-03.jpg",
       "images/projets/g/le-crime-du-soir-04.jpg",
@@ -433,14 +429,12 @@ const PROJETS = [
     "images": [
       "images/projets/diabo-cover.jpg",
       "images/projets/g/diabo-esport-02.jpg",
-      "images/projets/g/diabo-esport-03.jpg",
       "images/projets/g/diabo-esport-04.jpg",
       "images/projets/g/diabo-esport-05.jpg",
       "images/projets/g/diabo-esport-06.jpg",
       "images/projets/g/diabo-esport-07.jpg",
       "images/projets/g/diabo-esport-08.jpg",
       "images/projets/g/diabo-esport-09.jpg",
-      "images/projets/g/diabo-esport-10.jpg",
       "images/projets/g/diabo-esport-11.jpg",
       "images/projets/g/diabo-esport-12.jpg",
       "images/projets/g/diabo-esport-13.jpg",
@@ -885,7 +879,6 @@ const PROJETS = [
       "images/projets/g/lo-koiffeur-07.jpg",
       "images/projets/g/lo-koiffeur-09.jpg",
       "images/projets/g/lo-koiffeur-10.jpg",
-      "images/projets/g/lo-koiffeur-11.jpg",
       "images/projets/g/lo-koiffeur-12.jpg",
       "images/projets/g/lo-koiffeur-01.jpg"
     ],
@@ -912,7 +905,6 @@ const PROJETS = [
     "resume": "Un flyer recto verso coloré et appétissant pour présenter Mass Food, ses valeurs « Made in Congo » et sa gamme de produits.",
     "images": [
       "images/projet-massfood.jpg",
-      "images/projets/g/mass-food-01.jpg",
       "images/projets/g/mass-food-06.jpg",
       "images/projets/g/mass-food-07.jpg"
     ],

@@ -24,11 +24,12 @@ const PROJETS = [
     "video": "videos/anic-showreel.mp4",
     "poster": "videos/anic-showreel.jpg",
     "images": [
-      "images/anic-usine.jpg",
-      "images/anic-objectifs.jpg",
-      "images/anic-partenaires.jpg"
+      "images/anic-banniere.jpg",
+      "images/anic-rendez-vous.jpg",
+      "images/anic-industrialiser.jpg",
+      "images/anic-batir.jpg"
     ],
-    "contexte": "Du 7 au 9 décembre 2026, Brazzaville accueille les Assises Nationales de l'Industrie du Congo. L'événement réunit pouvoirs publics, secteur privé, investisseurs, partenaires techniques et financiers, universitaires et société civile autour d'un enjeu majeur : l'industrialisation du pays. Il fallait un film capable de présenter l'événement de façon claire, rythmée et crédible.",
+    "contexte": "Du 14 au 16 décembre 2026, Brazzaville accueille les Assises Nationales de l'Industrie du Congo. L'événement réunit pouvoirs publics, secteur privé, investisseurs, partenaires techniques et financiers, universitaires et société civile autour d'un enjeu majeur : l'industrialisation du pays. Il fallait un film capable de présenter l'événement de façon claire, rythmée et crédible.",
     "objectifs": [
       "Présenter les Assises, leurs dates et leur ambition",
       "Montrer la réalité industrielle du pays à travers des images de terrain",

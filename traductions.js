@@ -1053,5 +1053,18 @@ I18N.load([
   ["Badges","Badges","胸牌"],
   ["Kakémono","Roll-up banner","易拉宝"],
   ["Ebalé — Projet de Jipson Mathas","Ebalé — Project by Jipson Mathas","Ebalé — Jipson Mathas 的项目"],
-  ["Visuel du projet Ebalé","Visual from the Ebalé project","Ebalé 项目图片"]
+  ["Visuel du projet Ebalé","Visual from the Ebalé project","Ebalé 项目图片"],
+  ["Illustration","Illustration","插画"],
+  ["Créer un emblème fort et immédiatement reconnaissable pour un club d'e-sport","Create a strong, instantly recognisable emblem for an e-sports club","为电竞俱乐部打造一个有力且一眼可辨的徽标"],
+  ["Affirmer l'origine congolaise du club","Assert the club's Congolese roots","彰显俱乐部的刚果出身"],
+  ["Obtenir un logo qui fonctionne sur les maillots, le matériel et les écrans","Get a logo that works on jerseys, gear and screens","让标志适用于球衣、装备和屏幕"],
+  ["Diable Rouge — Ligue Club Pro","Diable Rouge — Ligue Club Pro","Diable Rouge — Ligue Club Pro"],
+  ["Logo d'un club d'e-sport de la Ligue Club Pro","Logo for an e-sports club in the Ligue Club Pro","Ligue Club Pro 电竞俱乐部标志"],
+  ["Un diable rouge, une manette et un écusson aux couleurs du Congo : un emblème taillé pour la compétition.","A red devil, a game controller and a crest in the colours of Congo: an emblem built for competition.","红色恶魔、游戏手柄和刚果国旗配色的盾徽：为竞技而生的标志。"],
+  ["Diable Rouge est un club d'e-sport engagé dans la Ligue Club Pro. Il lui fallait un emblème capable de fédérer ses joueurs et ses supporters.","Diable Rouge is an e-sports club competing in the Ligue Club Pro. It needed an emblem able to unite its players and supporters.","Diable Rouge 是一家参加 Ligue Club Pro 的电竞俱乐部。它需要一个能凝聚队员和支持者的标志。"],
+  ["Le logo prend la forme d'un écusson, comme dans le sport. Il réunit une tête de diable rouge, une manette de jeu et un fond vert, jaune et rouge qui rappelle le drapeau du Congo.","The logo takes the shape of a crest, as in sport. It brings together a red devil's head, a game controller and a green, yellow and red background that echoes the flag of Congo.","标志采用体育运动中常见的盾徽造型，融合了红色恶魔头像、游戏手柄，以及呼应刚果国旗的绿、黄、红背景。"],
+  ["Des mises en situation montrent le logo sur un maillot, un casque, une chaise gaming, une manette et un écran de scène.","Mock-ups show the logo on a jersey, a headset, a gaming chair, a controller and a stage screen.","效果图展示了标志在球衣、耳机、电竞椅、手柄和舞台屏幕上的应用。"],
+  ["Mises en situation","Mock-ups","效果图"],
+  ["Diable Rouge — Projet de Jipson Mathas","Diable Rouge — Project by Jipson Mathas","Diable Rouge — Jipson Mathas 的项目"],
+  ["Visuel du projet Diable Rouge","Visual from the Diable Rouge project","Diable Rouge 项目图片"]
 ]);

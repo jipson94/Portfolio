@@ -994,6 +994,42 @@ const PROJETS = [
     "cat": "identite"
   },
   {
+    "annee": "2023",
+    "categorie": "Identité visuelle · Design graphique",
+    "domaine": "Identité visuelle",
+    "role": "Création du logo",
+    "outils": [
+      "Logo",
+      "Illustration",
+      "Couleurs"
+    ],
+    "objectifs": [
+      "Créer un emblème fort et immédiatement reconnaissable pour un club d'e-sport",
+      "Affirmer l'origine congolaise du club",
+      "Obtenir un logo qui fonctionne sur les maillots, le matériel et les écrans"
+    ],
+    "id": "diable-rouge",
+    "titre": "Diable Rouge",
+    "client": "Diable Rouge — Ligue Club Pro",
+    "images": [
+      "images/projets/g/diable-rouge-01.jpg",
+      "images/projets/g/diable-rouge-02.jpg",
+      "images/projets/g/diable-rouge-03.jpg",
+      "images/projets/g/diable-rouge-04.jpg",
+      "images/projets/g/diable-rouge-05.jpg",
+      "images/projets/g/diable-rouge-06.jpg"
+    ],
+    "sousTitre": "Logo d'un club d'e-sport de la Ligue Club Pro",
+    "resume": "Un diable rouge, une manette et un écusson aux couleurs du Congo : un emblème taillé pour la compétition.",
+    "contexte": "Diable Rouge est un club d'e-sport engagé dans la Ligue Club Pro. Il lui fallait un emblème capable de fédérer ses joueurs et ses supporters.",
+    "solution": "<p>Chaque identité commence par l'écoute : comprendre l'activité, les valeurs et le public de la marque. Plusieurs pistes sont ensuite explorées, puis la plus juste est affinée jusqu'au logo final.</p><p>Le logo prend la forme d'un écusson, comme dans le sport. Il réunit une tête de diable rouge, une manette de jeu et un fond vert, jaune et rouge qui rappelle le drapeau du Congo.</p><p>Des mises en situation montrent le logo sur un maillot, un casque, une chaise gaming, une manette et un écran de scène.</p>",
+    "livrables": [
+      "Logo",
+      "Mises en situation"
+    ],
+    "cat": "identite"
+  },
+  {
     "id": "mass-food",
     "titre": "Mass Food",
     "sousTitre": "Flyer promotionnel pour une entreprise agricole congolaise",
@@ -1164,7 +1200,8 @@ const PROJETS = [
       "images/projets/g/x-concours-innov-action-global-gateway-06.jpg",
       "images/projets/g/x-concours-innov-action-global-gateway-09.jpg",
       "images/projets/g/x-concours-innov-action-global-gateway-11.jpg",
-      "images/projets/g/x-concours-innov-action-global-gateway-12.jpg"
+      "images/projets/g/x-concours-innov-action-global-gateway-12.jpg",
+      "images/projets/g/x-concours-innov-action-global-gateway-13.jpg"
     ],
     "variante": 1
   },

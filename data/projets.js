@@ -890,6 +890,36 @@ const PROJETS = [
     "cat": "identite"
   },
   {
+    "annee": "2020",
+    "categorie": "Identité visuelle · Design graphique",
+    "domaine": "Identité visuelle",
+    "role": "Refonte du logo",
+    "outils": [
+      "Logo",
+      "Typographie",
+      "Couleurs"
+    ],
+    "objectifs": [
+      "Moderniser le logo tout en gardant l'identité du réseau",
+      "Exprimer la dimension internationale et africaine du réseau",
+      "Obtenir un logo lisible sur tous les supports, imprimés et numériques"
+    ],
+    "id": "caerd",
+    "titre": "CAERD Réseau International",
+    "client": "CAERD Réseau International",
+    "images": [
+      "images/projets/g/caerd-01.jpg"
+    ],
+    "sousTitre": "Refonte du logo d'un réseau international",
+    "resume": "Un logo repensé autour d'un globe centré sur l'Afrique et d'une flèche qui fait le tour du monde — « L'expertise dans son essence ».",
+    "contexte": "CAERD Réseau International souhaitait faire évoluer son logo pour lui donner une image plus claire et plus moderne.",
+    "solution": "<p>Chaque identité commence par l'écoute : comprendre l'activité, les valeurs et le public de la marque. Plusieurs pistes sont ensuite explorées, puis la plus juste est affinée jusqu'au logo final.</p><p>Le nouveau logo place l'Afrique au centre d'un globe bleu en dégradé. Une flèche rouge en fait le tour, pour exprimer le réseau et son ouverture sur le monde. Les mots « Réseau » et « International » suivent la courbe du globe, et la signature « L'expertise dans son essence » vient compléter l'ensemble.</p>",
+    "livrables": [
+      "Nouveau logo"
+    ],
+    "cat": "identite"
+  },
+  {
     "id": "mass-food",
     "titre": "Mass Food",
     "sousTitre": "Flyer promotionnel pour une entreprise agricole congolaise",
@@ -1125,4 +1155,3 @@ const PROJETS = [
     "variante": 1
   }
 ];
-

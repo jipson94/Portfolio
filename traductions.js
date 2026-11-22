@@ -1012,5 +1012,17 @@ I18N.load([
   ["Images adaptées aux réseaux sociaux","Images formatted for social media","适配社交媒体的图片"],
   ["Laboratoire Luiz","Luiz Laboratory","Luiz 实验室"],
   ["Quelques réalisations","Selected work","精选作品"],
-  ["Voir tous les projets →","See all projects →","查看全部项目 →"]
+  ["Voir tous les projets →","See all projects →","查看全部项目 →"],
+  ["CAERD Réseau International","CAERD International Network","CAERD 国际网络"],
+  ["Refonte du logo d'un réseau international","Logo redesign for an international network","国际网络的标志重设计"],
+  ["Un logo repensé autour d'un globe centré sur l'Afrique et d'une flèche qui fait le tour du monde — « L'expertise dans son essence ».","A logo rethought around a globe centred on Africa and an arrow circling the world — “L'expertise dans son essence” (Expertise in its essence).","以非洲为中心的地球和环绕世界的箭头重新设计的标志——「L'expertise dans son essence」（专业的本质）。"],
+  ["CAERD Réseau International souhaitait faire évoluer son logo pour lui donner une image plus claire et plus moderne.","CAERD International Network wanted to update its logo to give it a clearer, more modern image.","CAERD 国际网络希望更新其标志，使形象更清晰、更现代。"],
+  ["Refonte du logo","Logo redesign","标志重设计"],
+  ["Moderniser le logo tout en gardant l'identité du réseau","Modernise the logo while keeping the network's identity","在保留网络识别度的同时让标志更现代"],
+  ["Exprimer la dimension internationale et africaine du réseau","Express the network's international and African dimension","体现网络的国际与非洲属性"],
+  ["Obtenir un logo lisible sur tous les supports, imprimés et numériques","Get a logo that reads well on every medium, print and digital","让标志在所有印刷和数字载体上都清晰易读"],
+  ["Le nouveau logo place l'Afrique au centre d'un globe bleu en dégradé. Une flèche rouge en fait le tour, pour exprimer le réseau et son ouverture sur le monde. Les mots « Réseau » et « International » suivent la courbe du globe, et la signature « L'expertise dans son essence » vient compléter l'ensemble.","The new logo puts Africa at the centre of a blue gradient globe. A red arrow circles it, expressing the network and its openness to the world. The words “Réseau” and “International” follow the curve of the globe, and the tagline “L'expertise dans son essence” completes the whole.","新标志将非洲置于蓝色渐变地球的中心。一支红色箭头环绕地球，表达网络及其对世界的开放。「Réseau」和「International」沿地球弧线排列，标语「L'expertise dans son essence」使整体更加完整。"],
+  ["Nouveau logo","New logo","新标志"],
+  ["CAERD Réseau International — Projet de Jipson Mathas","CAERD International Network — Project by Jipson Mathas","CAERD 国际网络 — Jipson Mathas 的项目"],
+  ["Visuel du projet CAERD Réseau International","Visual from the CAERD International Network project","CAERD 国际网络项目图片"]
 ]);

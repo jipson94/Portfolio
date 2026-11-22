@@ -10,6 +10,7 @@ const SITE = {
   "telephone": "",
   "whatsapp": "242068050665",
   "whatsappMessage": "Bonjour Jipson, je vous contacte depuis votre site.",
+  "web3forms": "",
   "reseaux": {
     "LinkedIn": "https://www.linkedin.com/in/jipsonmathas",
     "Instagram": "",
@@ -18,4 +19,3 @@ const SITE = {
     "TikTok": ""
   }
 };
-

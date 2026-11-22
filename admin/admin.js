@@ -1,27 +1,89 @@
 /* ============================================================
    Espace d'administration — Jipson Mathas
-   Les modifications sont gardées en brouillon (dans ce navigateur) jusqu'au bouton « Publier »,
-   qui envoie tout en une seule fois (une seule mise en ligne Netlify).
+   Le site est hébergé sur GitHub Pages : l'admin enregistre directement dans le dépôt GitHub,
+   avec la clé GitHub (jeton) saisie à la connexion et gardée dans ce navigateur.
+   Les modifications restent en brouillon jusqu'au bouton « Publier », qui envoie tout en une fois.
+   Les demandes des formulaires arrivent par e-mail dans contact@ (Web3Forms), pas dans l'admin.
    ============================================================ */
 (function () {
-  const API = '/api/admin';
+  const REPO = 'jipson94/Portfolio', BRANCH = 'main', GH = 'https://api.github.com/repos/' + REPO;
+  const TOKEN_KEY = 'jm-admin-gh';
   const FILES = { projets: 'data/projets.js', articles: 'data/articles.js', formations: 'data/formations.js', pubs: 'data/pubs.js', site: 'data/site.js' };
-  const DRAFT_KEY = 'jm-admin-draft', SEEN_KEY = 'jm-admin-seen', REPLIED_KEY = 'jm-admin-replied';
+  const DRAFT_KEY = 'jm-admin-draft';
   const $ = s => document.querySelector(s);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const store = {};          // fichiers de données : { header, data, sha, dirty }
   let images = [];           // images envoyées mais pas encore publiées : { path, blob, preview }
-  let token = sessionStorage.getItem('jm-admin-token') || '';
+  let token = (() => { try { return localStorage.getItem(TOKEN_KEY) || ''; } catch { return ''; } })();
   let CATS = [], MODELES = {};
   const ls = { get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
 
-  /* ---------- Appels au serveur ---------- */
+  /* ---------- GitHub (appelé directement depuis le navigateur) ---------- */
+  // Fichiers que l'admin a le droit de modifier
+  const WRITABLE = p => typeof p === 'string' && !p.includes('..') && !p.startsWith('/') &&
+    (/^data\/[a-z0-9-]+\.js$/.test(p) || p === 'traductions.js' || /^images\/[a-z0-9/_-]+\.(jpe?g|png|webp|svg)$/i.test(p));
+  async function gh(method, url, body) {
+    const r = await fetch(GH + url, {
+      method, cache: 'no-store',
+      headers: { authorization: 'Bearer ' + token, accept: 'application/vnd.github+json', ...(body ? { 'content-type': 'application/json' } : {}) },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    const data = r.status === 204 ? {} : await r.json().catch(() => ({}));
+    if (r.status === 401) { logout('Clé GitHub refusée (expirée ou supprimée). Collez une nouvelle clé.'); throw new Error('Clé GitHub refusée.'); }
+    if (!r.ok) { const e = new Error(r.status === 403 || r.status === 404 ? 'Accès refusé par GitHub : la clé doit avoir le droit « Contents : Read and write » sur le dépôt Portfolio.' : 'GitHub ' + r.status + ' : ' + (data.message || '')); e.status = r.status; throw e; }
+    return data;
+  }
+  const b64ToText = b => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\s/g, '')), c => c.charCodeAt(0)));
+  async function readFiles(paths) {
+    const out = {};
+    for (const p of paths) {
+      if (!WRITABLE(p)) throw new Error('Fichier non autorisé : ' + p);
+      try {
+        const d = await gh('GET', '/contents/' + encodeURI(p) + '?ref=' + BRANCH);
+        let text = d.content ? b64ToText(d.content) : '';
+        if (!d.content && d.sha) text = b64ToText((await gh('GET', '/git/blobs/' + d.sha)).content);   // fichiers > 1 Mo
+        out[p] = { text, sha: d.sha };
+      } catch (e) { if (e.status === 404) out[p] = null; else throw e; }
+    }
+    return out;
+  }
+  async function uploadBlob(base64) {
+    if (base64.length * 0.75 > 4.5e6) throw new Error('Image trop lourde (4,5 Mo maximum).');
+    return (await gh('POST', '/git/blobs', { content: base64, encoding: 'base64' })).sha;
+  }
+  // Publie plusieurs fichiers en un seul envoi (une seule mise à jour du site)
+  async function publishFiles({ files = [], expected = {}, message }) {
+    for (const f of files) if (!WRITABLE(f.path)) throw new Error('Fichier non autorisé : ' + f.path);
+    // Le fichier a-t-il changé depuis son ouverture dans l'admin ? (évite d'écraser une autre modification)
+    const current = await readFiles(Object.keys(expected));
+    for (const [p, sha] of Object.entries(expected)) if ((current[p] ? current[p].sha : null) !== sha) return { conflict: p };
+    const ref = await gh('GET', '/git/ref/heads/' + BRANCH);
+    const base = await gh('GET', '/git/commits/' + ref.object.sha);
+    const tree = files.map(f => f.blob ? { path: f.path, mode: '100644', type: 'blob', sha: f.blob } : { path: f.path, mode: '100644', type: 'blob', content: f.text });
+    const newTree = await gh('POST', '/git/trees', { base_tree: base.tree.sha, tree });
+    const commit = await gh('POST', '/git/commits', { message: (message || 'Mise à jour depuis l\'espace admin').slice(0, 200), tree: newTree.sha, parents: [ref.object.sha] });
+    await gh('PATCH', '/git/refs/heads/' + BRANCH, { sha: commit.sha });
+    return { ok: true, commit: commit.sha };
+  }
+  // Dernières mises à jour du site (GitHub Pages) : liste publique, sans clé
+  async function deploys() {
+    const r = await fetch(GH + '/actions/runs?per_page=5', { cache: 'no-store', headers: { accept: 'application/vnd.github+json' } });
+    if (!r.ok) throw new Error('État de la mise en ligne indisponible (' + r.status + ')');
+    const runs = ((await r.json()).workflow_runs || []).filter(w => /pages/i.test(w.name));
+    return runs.map(w => ({ state: w.status !== 'completed' ? 'building' : w.conclusion === 'success' ? 'ready' : 'error', created_at: w.created_at, published_at: w.updated_at, title: (w.head_commit && w.head_commit.message || '').split('\n')[0], sha: w.head_sha }));
+  }
+  // Même interface qu'avant : api('read' | 'upload' | 'publish' | 'deploys' | 'login', …)
   async function api(action, payload = {}) {
-    const r = await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json', authorization: 'Bearer ' + token }, body: JSON.stringify({ action, ...payload }) });
-    const d = await r.json().catch(() => ({ error: 'Réponse illisible du serveur (' + r.status + ')' }));
-    if (r.status === 401 && action !== 'login') { logout(d.error); throw new Error(d.error); }
-    if (!r.ok || d.error) throw new Error(d.error || 'Erreur ' + r.status);
-    return d;
+    if (action === 'read') return { files: await readFiles(payload.paths || []) };
+    if (action === 'upload') return { blob: await uploadBlob(payload.base64 || '') };
+    if (action === 'publish') return publishFiles(payload);
+    if (action === 'deploys') return { list: await deploys() };
+    if (action === 'login') {
+      const repo = await gh('GET', '');
+      if (!repo.permissions || !repo.permissions.push) throw new Error('Cette clé peut lire le dépôt mais pas le modifier : donnez-lui « Contents : Read and write ».');
+      return { ok: true };
+    }
+    throw new Error('Action inconnue');
   }
   function status(msg, kind = '', ms = 0) {
     const el = $('#status'); el.textContent = msg; el.className = 'status ' + kind; el.hidden = !msg;
@@ -45,7 +107,7 @@
     }
     // Catégories et modèles de textes des projets (définis dans projets.js)
     try {
-      const src = await (await fetch('/projets.js', { cache: 'no-store' })).text();
+      const src = await (await fetch('../projets.js', { cache: 'no-store' })).text();
       const grab = name => { const m = src.match(new RegExp('const ' + name + ' = ([\\s\\S]*?\\n[\\]}]);')); return m ? new Function('return (' + m[1] + ')')() : null; };
       CATS = grab('CATEGORIES') || []; MODELES = grab('MODELES') || {};
     } catch { CATS = []; }
@@ -82,7 +144,7 @@
     const dirty = Object.entries(store).filter(([, f]) => f.dirty);
     if (!dirty.length && !images.length) return;
     const what = dirty.map(([k]) => ({ projets: 'projets', articles: 'articles', formations: 'formations', pubs: 'annonces', site: 'réglages' }[k]));
-    const ok = await ask('Publier sur le site ?', `Mise en ligne de : <b>${esc(what.join(', ') || 'images')}</b>${images.length ? ` et ${images.length} image(s)` : ''}.<br><br>Le site sera à jour dans environ une minute. Chaque publication consomme des crédits Netlify (une vingtaine de publications par mois) : regroupez vos modifications.`, 'Publier', 'Annuler');
+    const ok = await ask('Publier sur le site ?', `Mise en ligne de : <b>${esc(what.join(', ') || 'images')}</b>${images.length ? ` et ${images.length} image(s)` : ''}.<br><br>Le site sera à jour dans une à deux minutes.`, 'Publier', 'Annuler');
     if (!ok) return;
     $('#publish').disabled = true; status('Publication en cours…');
     try {
@@ -99,18 +161,18 @@
       for (const [k] of dirty) { store[k].sha = fresh[FILES[k]].sha; store[k].dirty = false; }
       images.forEach(i => { i.published = true; }); images = [];
       ls.set(DRAFT_KEY, null); refreshPending();
-      status('Publié ✓ — le site se met à jour (environ une minute).', 'ok');
-      watchDeploy();
+      status('Publié ✓ — le site se met à jour (une à deux minutes).', 'ok');
+      watchDeploy(r.commit);
     } catch (e) { status('Échec de la publication : ' + e.message, 'err'); refreshPending(); }
   }
-  async function watchDeploy() {
-    for (let i = 0; i < 18; i++) {
+  async function watchDeploy(sha) {
+    for (let i = 0; i < 24; i++) {
       await new Promise(r => setTimeout(r, 10000));
       try {
-        const { list } = await api('deploys'); const d = list[0]; if (!d) return;
-        if (d.state === 'ready') { status('En ligne ✓ — la nouvelle version du site est publiée.', 'ok', 15000); return; }
-        if (d.state === 'error') { status('La mise en ligne a échoué sur Netlify : ' + (d.error || 'voir le tableau de bord Netlify'), 'err'); return; }
-        status('Mise en ligne en cours sur Netlify… (' + d.state + ')');
+        const { list } = await api('deploys'); const d = list.find(x => x.sha === sha); if (!d) continue;
+        if (d.state === 'ready') { status('En ligne ✓ — la nouvelle version du site est publiée. Si vous ne la voyez pas, rechargez la page du site.', 'ok', 15000); return; }
+        if (d.state === 'error') { status('La mise en ligne a échoué sur GitHub. Vos modifications sont bien enregistrées : demandez à Claude de regarder.', 'err'); return; }
+        status('Mise en ligne en cours…');
       } catch { return; }
     }
   }
@@ -135,7 +197,7 @@
     images = images.filter(i => i.path !== path).concat({ path, blob, preview: dataUrl });
     saveDraft(); return dataUrl;
   }
-  const previewOf = p => (images.find(i => i.path === p) || {}).preview || (p ? '/' + p : '');
+  const previewOf = p => (images.find(i => i.path === p) || {}).preview || (p ? '../' + p : '');
   const slug = s => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'element';
   const uniqueId = (base, list) => { let id = slug(base), n = 2; while (list.some(x => x.id === id)) id = slug(base) + '-' + n++; return id; };
   const stamp = () => Date.now().toString(36);
@@ -258,60 +320,17 @@
       $('#view-title').textContent = 'Tableau de bord';
       const P = store.projets.data.PROJETS, A = store.articles.data.ARTICLES, F = store.formations.data.FORMATIONS;
       $('#view').innerHTML = `<div class="grid">
-        <div class="card"><h3>Demandes reçues</h3><div class="stat" id="d-total">…</div><p class="muted" id="d-month"></p><p style="margin-top:10px"><a href="#demandes">Voir les demandes →</a></p></div>
+        <div class="card"><h3>Demandes reçues</h3><p>Les inscriptions, devis et messages du site arrivent par e-mail dans <b>contact@jipsonmathas.com</b>. Répondez-y depuis votre boîte mail.</p><p style="margin-top:10px"><a href="https://mail.hostinger.com" target="_blank" rel="noopener">Ouvrir la boîte mail ↗</a></p></div>
         <div class="card"><h3>Contenu du site</h3><p><b>${P.length}</b> projets · <b>${A.length}</b> articles · <b>${F.length}</b> formations</p><p class="muted" style="margin-top:6px">${A.filter(a => a.exemple).length} article(s) d'exemple à remplacer</p></div>
         <div class="card"><h3>Dernière mise en ligne</h3><p id="d-deploy" class="muted">…</p></div>
-        <div class="card"><h3>Raccourcis</h3><div class="links"><a href="#article/nouveau">+ Écrire un article</a><a href="#projet/nouveau">+ Ajouter un projet</a><a href="https://mail.hostinger.com" target="_blank" rel="noopener">Boîte mail contact@ ↗</a><a href="https://app.netlify.com/projects/jipsonmathas" target="_blank" rel="noopener">Netlify ↗</a></div></div>
+        <div class="card"><h3>Raccourcis</h3><div class="links"><a href="#article/nouveau">+ Écrire un article</a><a href="#projet/nouveau">+ Ajouter un projet</a><a href="https://mail.hostinger.com" target="_blank" rel="noopener">Boîte mail contact@ ↗</a><a href="https://github.com/jipson94/Portfolio" target="_blank" rel="noopener">GitHub ↗</a></div></div>
       </div>`;
       try {
-        const { list } = await api('submissions');
-        const now = new Date(), month = list.filter(s => { const d = new Date(s.created_at); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); });
-        $('#d-total').textContent = list.length; $('#d-month').textContent = month.length + ' ce mois-ci';
-      } catch (e) { $('#d-total').textContent = '—'; $('#d-month').textContent = e.message; }
-      try {
         const { list } = await api('deploys'); const d = list[0];
-        const lab = { ready: '<span class="tag g">En ligne</span>', building: '<span class="tag y">En cours</span>', enqueued: '<span class="tag y">En attente</span>', error: '<span class="tag r">Échec</span>' }[d.state] || esc(d.state);
+        if (!d) { $('#d-deploy').textContent = 'Aucune information pour le moment.'; return; }
+        const lab ={ ready: '<span class="tag g">En ligne</span>', building: '<span class="tag y">En cours</span>', enqueued: '<span class="tag y">En attente</span>', error: '<span class="tag r">Échec</span>' }[d.state] || esc(d.state);
         $('#d-deploy').innerHTML = `${lab} ${new Date(d.published_at || d.created_at).toLocaleString('fr-FR')}<br>${esc(d.title)}`;
       } catch (e) { $('#d-deploy').textContent = e.message; }
-    },
-
-    async demandes() {
-      $('#view-title').textContent = 'Demandes reçues';
-      $('#view').innerHTML = '<p class="muted">Chargement…</p>';
-      let list;
-      try { list = (await api('submissions')).list; } catch (e) { $('#view').innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
-      list.sort((a, b) => b.created_at.localeCompare(a.created_at));
-      const seen = ls.get(SEEN_KEY, 0), replied = ls.get(REPLIED_KEY, {});
-      ls.set(SEEN_KEY, Date.now()); $('#nav-new').hidden = true;
-      const forms = ['Toutes', ...new Set(list.map(s => s.form_name))];
-      const LABEL = { name: 'Nom', email: 'E-mail', telephone: 'Téléphone', demande: 'Type', formation: 'Formation', format: 'Format', structure: 'Structure', participants: 'Participants', message: 'Message' };
-      const FORM = { formation: 'Formation', contact: 'Contact' };
-      let filter = 'Toutes';
-      const render = () => {
-        const shown = list.filter(s => filter === 'Toutes' || s.form_name === filter);
-        $('#subs').innerHTML = shown.length ? shown.map(s => {
-          const d = s.data, isNew = new Date(s.created_at).getTime() > seen;
-          const rows = Object.entries(d).filter(([k, v]) => v && !['ip', 'user_agent', 'referrer', 'form-name', 'bot-field'].includes(k));
-          return `<article class="sub ${isNew ? 'new' : ''}" data-id="${esc(s.id)}">
-            <div class="sub-head"><div><b>${esc(d.name || d.email || 'Sans nom')}</b> <span class="tag b">${esc(FORM[s.form_name] || s.form_name)}</span> ${d.demande ? `<span class="tag y">${esc(d.demande)}</span>` : ''} ${isNew ? '<span class="tag y">Nouveau</span>' : ''} ${replied[s.id] ? '<span class="tag g">Répondu</span>' : ''}</div>
-            <span class="muted">${new Date(s.created_at).toLocaleString('fr-FR', { dateStyle: 'long', timeStyle: 'short' })}</span></div>
-            <dl>${rows.map(([k, v]) => `<dt>${esc(LABEL[k] || k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
-            <div class="row">${d.email ? '<button class="btn small" data-reply>Répondre par e-mail</button>' : ''}${d.telephone ? `<a class="btn light small" target="_blank" rel="noopener" href="https://wa.me/${esc(waNumber(d.telephone))}">WhatsApp</a>` : ''}<button class="btn danger small" data-remove>Supprimer</button></div>
-          </article>`;
-        }).join('') : '<p class="muted">Aucune demande pour le moment.</p>';
-      };
-      $('#view').innerHTML = `<div class="toolbar"><div class="chips" id="chips">${forms.map(f => `<button class="chip ${f === filter ? 'on' : ''}" data-f="${esc(f)}">${esc(FORM[f] || f)}</button>`).join('')}</div><span class="muted">${list.length} demande(s)</span></div><div class="items" id="subs"></div>`;
-      render();
-      $('#chips').addEventListener('click', e => { const c = e.target.closest('[data-f]'); if (!c) return; filter = c.dataset.f; $('#chips').querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x === c)); render(); });
-      $('#subs').addEventListener('click', async e => {
-        const card = e.target.closest('.sub'); if (!card) return;
-        const s = list.find(x => x.id === card.dataset.id), d = s.data;
-        if (e.target.closest('[data-remove]')) {
-          if (!await ask('Supprimer cette demande ?', 'Elle sera effacée définitivement de Netlify.', 'Supprimer', 'Annuler', true)) return;
-          try { await api('deleteSubmission', { id: s.id }); list = list.filter(x => x !== s); render(); status('Demande supprimée.', 'ok', 4000); } catch (err) { status(err.message, 'err'); }
-        }
-        if (e.target.closest('[data-reply]')) replyTo(s, () => { replied[s.id] = Date.now(); ls.set(REPLIED_KEY, replied); render(); });
-      });
     },
 
     articles() { listView('Articles', store.articles.data.ARTICLES.slice().sort((a, b) => (b.date || '').localeCompare(a.date || '')), a => ({ img: previewOf(a.image), t: a.titre, sub: `${a.categorie || ''} · ${a.date ? new Date(a.date + 'T12:00').toLocaleDateString('fr-FR') : ''}`, tags: a.exemple ? '<span class="tag y">Exemple</span>' : '', href: '#article/' + a.id }), '#article/nouveau', '+ Écrire un article'); },
@@ -470,6 +489,7 @@
         groups: [
           { title: 'Coordonnées', fields: [{ k: 'whatsapp', label: 'Numéro WhatsApp (chiffres, avec 242)', ph: '242068050665' }, { k: 'email', label: 'E-mail affiché' }, { k: 'ville', label: 'Ville' }, { k: 'telephone', label: 'Téléphone affiché (facultatif)' },
             { k: 'whatsappMessage', label: 'Message pré-rempli WhatsApp', full: true }] },
+          { title: 'Formulaires du site', fields: [{ k: 'web3forms', label: 'Clé Web3Forms (Access Key)', full: true, help: 'Les demandes du site arrivent par e-mail dans contact@ grâce à cette clé (web3forms.com). Laissée vide, les demandes partent par WhatsApp.' }] },
           { title: 'Réseaux sociaux (laisser vide pour masquer)', fields: Object.keys(S.reseaux || {}).map(k => ({ k: 'r_' + k, label: k, type: 'url', ph: 'https://…' })) }
         ],
         note: 'Après un changement de numéro ou d\'e-mail, demandez à Claude de régénérer les fiches PDF des programmes.',
@@ -493,25 +513,6 @@
   }
   function notFound(back) { $('#view').innerHTML = `<p class="note">Élément introuvable. <a href="${back}">Retour</a></p>`; }
 
-  async function replyTo(s, done) {
-    const d = s.data, first = (d.name || '').split(' ')[0];
-    const subj = s.form_name === 'formation' ? `Votre ${d.demande === 'Demande de devis' ? 'demande de devis' : 'inscription'} — ${d.formation || 'formation'}` : 'Votre message — Jipson Mathas';
-    const dlg = $('#dlg'), f = $('#dlg-form');
-    f.innerHTML = `<h2>Répondre à ${esc(d.name || d.email)}</h2>
-      <div class="f"><label>À</label><input type="text" id="r-to" value="${esc(d.email)}"></div>
-      <div class="f"><label>Objet</label><input type="text" id="r-subj" value="${esc(subj)}"></div>
-      <div class="f"><label>Message</label><textarea id="r-text">Bonjour ${esc(first)},\n\nMerci pour votre message.\n\n\n\nCordialement,\nJipson Mathas\nWhatsApp : +${esc((store.site.data.SITE.whatsapp || '').replace(/^(\d{3})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5'))}\njipsonmathas.com</textarea></div>
-      <p class="muted">Envoyé depuis contact@jipsonmathas.com. Une copie arrive aussi dans votre boîte.</p>
-      <div class="row" style="justify-content:flex-end"><button class="btn light" value="no">Annuler</button><button class="btn" value="send" id="r-send">Envoyer</button></div>`;
-    dlg.showModal();
-    const ta = $('#r-text'); ta.focus(); ta.setSelectionRange(ta.value.indexOf('\n\n\n') + 2, ta.value.indexOf('\n\n\n') + 2);
-    $('#r-send').addEventListener('click', async e => {
-      e.preventDefault(); const b = e.target; b.disabled = true; b.textContent = 'Envoi…';
-      try { await api('reply', { to: $('#r-to').value, subject: $('#r-subj').value, text: ta.value }); dlg.close(); status('Réponse envoyée ✓', 'ok', 5000); done(); }
-      catch (err) { b.disabled = false; b.textContent = 'Envoyer'; alert(err.message); }
-    });
-  }
-
   /* ---------- Navigation ---------- */
   function route() {
     if (!store.site) return;
@@ -527,11 +528,9 @@
     status('Chargement des données…');
     try { await loadAll(); status(''); } catch (e) { status('Impossible de charger les données : ' + e.message, 'err'); return; }
     route();
-    // Pastille « nouvelles demandes »
-    api('submissions').then(({ list }) => { const seen = ls.get(SEEN_KEY, 0), n = list.filter(s => new Date(s.created_at).getTime() > seen).length; if (n) { $('#nav-new').textContent = n; $('#nav-new').hidden = false; } }).catch(() => {});
   }
   function logout(msg) {
-    token = ''; sessionStorage.removeItem('jm-admin-token');
+    token = ''; try { localStorage.removeItem(TOKEN_KEY); } catch {}
     $('#app').hidden = true; $('#login').hidden = false; $('#login-err').textContent = msg || '';
   }
 
@@ -543,8 +542,9 @@
   $('#login-form').addEventListener('submit', async e => {
     e.preventDefault(); $('#login-err').textContent = '';
     const b = e.target.querySelector('button'); b.disabled = true;
-    try { const r = await api('login', { password: $('#pw').value }); token = r.token; sessionStorage.setItem('jm-admin-token', token); $('#pw').value = ''; start(); }
-    catch (err) { $('#login-err').textContent = err.message; }
+    token = $('#pw').value.trim();
+    try { await api('login'); try { localStorage.setItem(TOKEN_KEY, token); } catch {} $('#pw').value = ''; start(); }
+    catch (err) { token = ''; $('#login-err').textContent = err.message; }
     b.disabled = false;
   });
   if (token) start(); else logout();

@@ -151,16 +151,42 @@
 })();
 
 /* ============================================================
-   Formulaires hors Netlify (ex. GitHub Pages) : l'envoi Netlify
-   n'existe pas, le message part donc par WhatsApp, déjà rédigé.
-   Sur Netlify, rien ne change : les formulaires s'envoient normalement.
+   Formulaires (contact, inscription / devis) : envoi par e-mail vers contact@
+   grâce au service Web3Forms (clé SITE.web3forms, réglable dans l'admin).
+   Sans clé, ou si l'envoi échoue, le message part par WhatsApp, déjà rédigé.
    ============================================================ */
+const CHAMPS = { name: 'Nom', email: 'E-mail', telephone: 'Téléphone', demande: 'Type de demande', formation: 'Formation', format: 'Format', structure: 'Structure', participants: 'Participants', message: 'Message' };
+// Envoie le formulaire par e-mail ; renvoie true si c'est parti
+window.envoyerFormulaire = async function (form) {
+  if (!SITE.web3forms) return false;
+  const fd = new FormData(form);
+  if (fd.get('bot-field')) return true;                    // robot : on fait comme si c'était envoyé
+  const sujet = form.getAttribute('name') === 'formation'
+    ? (fd.get('demande') || 'Demande') + ' — ' + (fd.get('formation') || 'formation')
+    : 'Nouveau message depuis le site';
+  const corps = { access_key: SITE.web3forms, subject: sujet + ' (' + (fd.get('name') || '') + ')', from_name: 'Site jipsonmathas.com', replyto: fd.get('email') || '' };
+  for (const [k, v] of fd.entries()) {
+    if (['form-name', 'bot-field'].includes(k) || typeof v !== 'string' || !v.trim()) continue;
+    corps[CHAMPS[k] || k] = v.trim();
+  }
+  try {
+    const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(corps) });
+    const d = await r.json().catch(() => ({}));
+    return r.ok && d.success !== false;
+  } catch { return false; }
+};
+
 (function () {
-  if (!/\.github\.io$/.test(location.hostname) || !SITE.whatsapp) return;
-  document.addEventListener('submit', e => {
+  document.addEventListener('submit', async e => {
     const form = e.target;
-    if (!form.matches('form[data-netlify]')) return;
+    if (!form.matches('form[data-form]')) return;
     e.preventDefault();
+    const btn = form.querySelector('[type=submit]'), lab = btn && btn.textContent;
+    if (btn) { btn.disabled = true; btn.textContent = window.I18N ? I18N.t('Envoi…') : 'Envoi…'; }
+    const ok = await window.envoyerFormulaire(form);
+    if (btn) { btn.disabled = false; btn.textContent = lab; }
+    if (ok) { location.href = form.getAttribute('action') || 'merci.html'; return; }
+    if (!SITE.whatsapp) return;
     const T = s => window.I18N ? I18N.t(s) : s, lg = (window.I18N && I18N.lang) || 'fr';
     const sep = lg === 'fr' ? ' : ' : lg === 'zh' ? '：' : ': ';   // ponctuation propre à chaque langue
     const titre = T(form.getAttribute('name') === 'formation' ? 'Demande de formation' : 'Message depuis le site');

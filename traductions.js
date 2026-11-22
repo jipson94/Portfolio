@@ -1066,5 +1066,6 @@ I18N.load([
   ["Des mises en situation montrent le logo sur un maillot, un casque, une chaise gaming, une manette et un écran de scène.","Mock-ups show the logo on a jersey, a headset, a gaming chair, a controller and a stage screen.","效果图展示了标志在球衣、耳机、电竞椅、手柄和舞台屏幕上的应用。"],
   ["Mises en situation","Mock-ups","效果图"],
   ["Diable Rouge — Projet de Jipson Mathas","Diable Rouge — Project by Jipson Mathas","Diable Rouge — Jipson Mathas 的项目"],
-  ["Visuel du projet Diable Rouge","Visual from the Diable Rouge project","Diable Rouge 项目图片"]
+  ["Visuel du projet Diable Rouge","Visual from the Diable Rouge project","Diable Rouge 项目图片"],
+  ["Envoi…","Sending…","发送中…"]
 ]);

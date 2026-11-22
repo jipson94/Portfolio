@@ -141,3 +141,4 @@ button,input,select,textarea{font:inherit;color:inherit}
   .sub dt{margin-top:6px}
   .pending{display:none}
 }
+.login-help{font-size:12.5px;line-height:1.5;opacity:.7;margin-top:6px}

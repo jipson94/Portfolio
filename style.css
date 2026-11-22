@@ -1590,7 +1590,6 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 @media print{.dv-signs{break-inside:avoid}}
 .dv-signs .dv-box{flex:1;height:auto;min-height:90px}@media (max-width:560px){.dv-signs .dv-box{min-height:70px}}
 
-/* Netlify (offre gratuite) : le badge « Powered by Netlify » occupe le coin bas droit ; le bouton WhatsApp passe au-dessus */
 
 /* Téléphone : bouton « Me contacter » en bas du menu déroulant (absent de l'en-tête faute de place) */
 .nav-cta{display:none!important}
@@ -1601,7 +1600,6 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 /* Boutons flottants : « remonter » de la même taille que WhatsApp, posé juste au-dessus, avec 12 px d'écart */
 :root{--fab:50px;--fab-right:18px;--fab-bottom:18px;--fab-gap:12px}
 @media (max-width:720px){:root{--fab:46px;--fab-right:12px;--fab-bottom:12px}}
-body:has(#nl-badge-frame){--fab-bottom:72px}   /* au-dessus du badge Netlify */
 .wa-float{height:var(--fab)!important;min-width:var(--fab);right:var(--fab-right)!important;bottom:var(--fab-bottom)!important;box-sizing:border-box;padding-top:0!important;padding-bottom:0!important;justify-content:center}
 @media (max-width:720px){.wa-float{width:var(--fab)!important;padding:0!important}}
 .to-top{width:var(--fab)!important;height:var(--fab)!important;right:var(--fab-right)!important;bottom:calc(var(--fab-bottom) + var(--fab) + var(--fab-gap))!important;font-size:20px!important}

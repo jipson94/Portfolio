@@ -2,7 +2,7 @@
 
 Site vitrine de Jipson Mathas, créatif à Brazzaville : communication, design graphique, motion design, données et web.
 
-Site statique (HTML, CSS, JavaScript), sans étape de construction : il suffit d'ouvrir `index.html` ou de publier le dossier tel quel (Netlify).
+Site statique (HTML, CSS, JavaScript), sans étape de construction : il suffit d'ouvrir `index.html` ou de publier le dossier tel quel (GitHub Pages, à partir de la branche main). Les formulaires sont envoyés par e-mail via Web3Forms ; l'admin (/admin) enregistre directement dans le dépôt GitHub.
 
 - `projets.js` : les projets affichés sur la page Projets
 - `formations.js` : le catalogue des formations et leurs programmes

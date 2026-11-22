@@ -6,8 +6,8 @@
 const FORMATIONS = [
   {
     "id": "communication-institutionnelle",
-    "prix": 150000,
-    "prixEntreprise": 1200000,
+    "prix": 105000,
+    "prixEntreprise": 840000,
     "image": "images/photos/formation-communication-institutionnelle.jpg",
     "titre": "Communication institutionnelle : construire des messages clairs",
     "theme": "Communication",
@@ -24,8 +24,8 @@ const FORMATIONS = [
   },
   {
     "id": "relations-publiques",
-    "prix": 120000,
-    "prixEntreprise": 900000,
+    "prix": 85000,
+    "prixEntreprise": 630000,
     "image": "images/photos/formation-relations-publiques.jpg",
     "titre": "Relations publiques et relations presse",
     "theme": "Communication",
@@ -42,8 +42,8 @@ const FORMATIONS = [
   },
   {
     "id": "prise-de-parole",
-    "prix": 100000,
-    "prixEntreprise": 800000,
+    "prix": 70000,
+    "prixEntreprise": 560000,
     "image": "images/photos/formation-prise-de-parole.jpg",
     "titre": "Prise de parole en public : convaincre avec aisance",
     "theme": "Communication",
@@ -60,8 +60,8 @@ const FORMATIONS = [
   },
   {
     "id": "ia-productivite",
-    "prix": 150000,
-    "prixEntreprise": 1200000,
+    "prix": 105000,
+    "prixEntreprise": 840000,
     "image": "images/photos/formation-ia-productivite.jpg",
     "titre": "L'intelligence artificielle au service de la communication",
     "theme": "Intelligence artificielle",
@@ -78,8 +78,8 @@ const FORMATIONS = [
   },
   {
     "id": "design-graphique",
-    "prix": 200000,
-    "prixEntreprise": 1500000,
+    "prix": 140000,
+    "prixEntreprise": 1050000,
     "image": "images/photos/formation-design-graphique.jpg",
     "titre": "Design graphique : créer des visuels professionnels",
     "theme": "Création visuelle",
@@ -96,8 +96,8 @@ const FORMATIONS = [
   },
   {
     "id": "motion-design",
-    "prix": 300000,
-    "prixEntreprise": 2000000,
+    "prix": 210000,
+    "prixEntreprise": 1400000,
     "image": "images/photos/formation-motion-design.jpg",
     "titre": "Initiation au motion design",
     "theme": "Création visuelle",
@@ -114,8 +114,8 @@ const FORMATIONS = [
   },
   {
     "id": "analyse-donnees",
-    "prix": 200000,
-    "prixEntreprise": 1500000,
+    "prix": 140000,
+    "prixEntreprise": 1050000,
     "image": "images/photos/formation-analyse-donnees.jpg",
     "titre": "Analyser et présenter ses données",
     "theme": "Données & numérique",
@@ -132,8 +132,8 @@ const FORMATIONS = [
   },
   {
     "id": "site-web",
-    "prix": 200000,
-    "prixEntreprise": 1500000,
+    "prix": 140000,
+    "prixEntreprise": 1050000,
     "image": "images/photos/formation-site-web.jpg",
     "titre": "Créer et gérer un site web professionnel",
     "theme": "Données & numérique",

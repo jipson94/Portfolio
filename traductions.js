@@ -80,7 +80,7 @@ I18N.load([
   ["Ouvrir le menu","Open menu","打开菜单"],
   ["Portrait de Jipson Mathas","Portrait of Jipson Mathas","Jipson Mathas 肖像"],
   ["Descendre","Scroll down","向下滚动"],
-  ["Communication · Design · Numérique","Communication · Design · Digital","传播 · 设计 · 数字化"],
+  ["Communication · Design · Numérique · Données","Communication · Design · Digital · Data","传播 · 设计 · 数字化 · 数据"],
   ["Je donne à vos idées une identité qui marque les esprits.","I give your ideas an identity people remember.","我为您的想法打造令人难忘的形象。"],
   ["Un seul interlocuteur pour la stratégie, le design, la vidéo et le web : votre message est vu, compris et retenu. À Brazzaville comme à distance.","One partner for strategy, design, video and web: your message gets seen, understood and remembered. In Brazzaville or remotely.","战略、设计、视频与网站，一位合作伙伴全部搞定：让您的信息被看到、被理解、被记住。布拉柴维尔或远程皆可。"],
   ["Démarrer un projet","Start a project","启动项目"],

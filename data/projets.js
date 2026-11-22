@@ -954,6 +954,46 @@ const PROJETS = [
     "cat": "identite"
   },
   {
+    "annee": "2019",
+    "categorie": "Identité visuelle · Design graphique",
+    "domaine": "Identité visuelle",
+    "role": "Création du logo et des supports de communication",
+    "outils": [
+      "Logo",
+      "Charte graphique",
+      "Print",
+      "Signalétique"
+    ],
+    "objectifs": [
+      "Créer un logo qui parle de science de façon simple et accueillante",
+      "Rendre la structure reconnaissable lors de ses ateliers et événements",
+      "Décliner l'identité sur des supports imprimés cohérents"
+    ],
+    "id": "ebale",
+    "titre": "Ebalé",
+    "client": "Ebalé",
+    "images": [
+      "images/projets/g/ebale-01.jpg",
+      "images/projets/g/ebale-02.jpg",
+      "images/projets/g/ebale-03.jpg",
+      "images/projets/g/ebale-04.jpg",
+      "images/projets/g/ebale-05.jpg",
+      "images/projets/g/ebale-06.jpg"
+    ],
+    "sousTitre": "Identité visuelle d'un laboratoire scientifique pour les jeunes",
+    "resume": "Une double hélice d'ADN aux couleurs du Congo et une promesse : « Explorons la science ensemble ».",
+    "contexte": "Ebalé est une structure qui promeut l'épanouissement scientifique des jeunes Congolais. Son laboratoire propose des expériences de biologie et de physique-chimie pour accompagner l'enseignement reçu à l'école. Il lui fallait une identité visuelle et des supports pour se faire connaître.",
+    "solution": "<p>Chaque identité commence par l'écoute : comprendre l'activité, les valeurs et le public de la marque. Plusieurs pistes sont ensuite explorées, puis la plus juste est affinée jusqu'au logo final.</p><p>Le logo reprend la double hélice de l'ADN, symbole de la biologie et de la science. Le vert, le jaune et le rouge rappellent le drapeau du Congo, et la signature « Explorons la science ensemble » invite les jeunes à participer.</p><p>L'identité a ensuite été déclinée sur des t-shirts, des badges numérotés, un kakémono qui présente la mission de la structure, une affiche « Journée portes ouvertes » et une affiche pour la formation au microscope.</p>",
+    "livrables": [
+      "Logo",
+      "T-shirts",
+      "Badges",
+      "Kakémono",
+      "Affiches"
+    ],
+    "cat": "identite"
+  },
+  {
     "id": "mass-food",
     "titre": "Mass Food",
     "sousTitre": "Flyer promotionnel pour une entreprise agricole congolaise",

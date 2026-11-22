@@ -1038,5 +1038,20 @@ I18N.load([
   ["Pistes de recherche","Design explorations","设计探索方案"],
   ["Planche de présentation de la symbolique","Symbolism presentation board","象征意义说明图板"],
   ["Christ Tabernacle Church — Projet de Jipson Mathas","Christ Tabernacle Church — Project by Jipson Mathas","Christ Tabernacle Church — Jipson Mathas 的项目"],
-  ["Visuel du projet Christ Tabernacle Church","Visual from the Christ Tabernacle Church project","Christ Tabernacle Church 项目图片"]
+  ["Visuel du projet Christ Tabernacle Church","Visual from the Christ Tabernacle Church project","Christ Tabernacle Church 项目图片"],
+  ["Création du logo et des supports de communication","Logo and communication materials design","标志及宣传物料设计"],
+  ["Signalétique","Signage","标识系统"],
+  ["Créer un logo qui parle de science de façon simple et accueillante","Create a logo that speaks about science in a simple, welcoming way","打造一个以简洁、亲切方式表达科学的标志"],
+  ["Rendre la structure reconnaissable lors de ses ateliers et événements","Make the organisation recognisable at its workshops and events","让机构在工作坊和活动中易于识别"],
+  ["Décliner l'identité sur des supports imprimés cohérents","Roll out the identity across consistent printed materials","将视觉识别延展到统一的印刷物料上"],
+  ["Identité visuelle d'un laboratoire scientifique pour les jeunes","Visual identity for a science lab for young people","面向青少年的科学实验室视觉识别"],
+  ["Une double hélice d'ADN aux couleurs du Congo et une promesse : « Explorons la science ensemble ».","A DNA double helix in the colours of Congo and a promise: “Explorons la science ensemble” (Let's explore science together).","刚果国旗配色的 DNA 双螺旋，以及一句承诺：「Explorons la science ensemble」（一起探索科学）。"],
+  ["Ebalé est une structure qui promeut l'épanouissement scientifique des jeunes Congolais. Son laboratoire propose des expériences de biologie et de physique-chimie pour accompagner l'enseignement reçu à l'école. Il lui fallait une identité visuelle et des supports pour se faire connaître.","Ebalé is an organisation that promotes the scientific development of young Congolese people. Its lab offers biology and physics-chemistry experiments to support what is taught at school. It needed a visual identity and materials to make itself known.","Ebalé 是一家致力于促进刚果青少年科学发展的机构。其实验室提供生物和物理化学实验，配合学校的课堂教学。它需要一套视觉识别和宣传物料来扩大知名度。"],
+  ["Le logo reprend la double hélice de l'ADN, symbole de la biologie et de la science. Le vert, le jaune et le rouge rappellent le drapeau du Congo, et la signature « Explorons la science ensemble » invite les jeunes à participer.","The logo uses the DNA double helix, a symbol of biology and science. Green, yellow and red echo the flag of Congo, and the tagline “Explorons la science ensemble” invites young people to take part.","标志采用象征生物学与科学的 DNA 双螺旋。绿、黄、红三色呼应刚果国旗，标语「Explorons la science ensemble」邀请年轻人参与其中。"],
+  ["L'identité a ensuite été déclinée sur des t-shirts, des badges numérotés, un kakémono qui présente la mission de la structure, une affiche « Journée portes ouvertes » et une affiche pour la formation au microscope.","The identity was then rolled out on T-shirts, numbered badges, a roll-up banner presenting the organisation's mission, an “Open day” poster and a poster for the microscope training.","随后，这套视觉识别被延展到 T 恤、编号胸牌、介绍机构使命的易拉宝、「开放日」海报以及显微镜培训海报上。"],
+  ["T-shirts","T-shirts","T 恤"],
+  ["Badges","Badges","胸牌"],
+  ["Kakémono","Roll-up banner","易拉宝"],
+  ["Ebalé — Projet de Jipson Mathas","Ebalé — Project by Jipson Mathas","Ebalé — Jipson Mathas 的项目"],
+  ["Visuel du projet Ebalé","Visual from the Ebalé project","Ebalé 项目图片"]
 ]);

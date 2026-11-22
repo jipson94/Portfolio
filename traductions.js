@@ -1024,5 +1024,19 @@ I18N.load([
   ["Le nouveau logo place l'Afrique au centre d'un globe bleu en dégradé. Une flèche rouge en fait le tour, pour exprimer le réseau et son ouverture sur le monde. Les mots « Réseau » et « International » suivent la courbe du globe, et la signature « L'expertise dans son essence » vient compléter l'ensemble.","The new logo puts Africa at the centre of a blue gradient globe. A red arrow circles it, expressing the network and its openness to the world. The words “Réseau” and “International” follow the curve of the globe, and the tagline “L'expertise dans son essence” completes the whole.","新标志将非洲置于蓝色渐变地球的中心。一支红色箭头环绕地球，表达网络及其对世界的开放。「Réseau」和「International」沿地球弧线排列，标语「L'expertise dans son essence」使整体更加完整。"],
   ["Nouveau logo","New logo","新标志"],
   ["CAERD Réseau International — Projet de Jipson Mathas","CAERD International Network — Project by Jipson Mathas","CAERD 国际网络 — Jipson Mathas 的项目"],
-  ["Visuel du projet CAERD Réseau International","Visual from the CAERD International Network project","CAERD 国际网络项目图片"]
+  ["Visuel du projet CAERD Réseau International","Visual from the CAERD International Network project","CAERD 国际网络项目图片"],
+  ["Logo d'une église, construit sur une symbolique forte","A church logo built on strong symbolism","以深刻象征意义打造的教会标志"],
+  ["Une flamme, la silhouette d'un homme et deux « C » : un logo où chaque forme a un sens.","A flame, the silhouette of a man and two “C”s: a logo where every shape has a meaning.","火焰、人的剪影和两个「C」：每个形状都有意义的标志。"],
+  ["Christ Tabernacle Church avait besoin d'un logo qui exprime sa foi et le sens de son nom.","Christ Tabernacle Church needed a logo that expresses its faith and the meaning of its name.","Christ Tabernacle Church 需要一个能表达其信仰和名称含义的标志。"],
+  ["Création du logo","Logo design","标志设计"],
+  ["Symbolique","Symbolism","象征"],
+  ["Traduire la foi et le nom de l'église en un symbole simple","Turn the church's faith and name into a simple symbol","将教会的信仰和名称转化为简洁的符号"],
+  ["Donner du sens à chaque élément du logo","Give meaning to every element of the logo","让标志的每个元素都有意义"],
+  ["Deux pistes ont d'abord été construites autour de la Menorah, le chandelier à sept branches qui représente le tabernacle, avec ses sept flammes allumées et un éclat de lumière qui évoque la présence de Dieu.","Two first directions were built around the Menorah, the seven-branched candlestick that represents the tabernacle, with its seven lit flames and a burst of light evoking the presence of God.","最初的两个方案围绕代表会幕的七枝灯台（Menorah）展开，配以七支点燃的火焰和象征神同在的光芒。"],
+  ["Le logo final réunit trois symboles. La flamme représente la connexion avec le divin, l'éveil intérieur et la prière. La silhouette d'un homme figure le nouveau tabernacle. Les deux arcs bleus forment deux « C », pour « Christ » et « Church ». Le bleu, l'orange et le rouge donnent un ensemble chaleureux et lisible.","The final logo brings together three symbols. The flame represents the connection with the divine, inner awakening and prayer. The silhouette of a man stands for the new tabernacle. The two blue arcs form two “C”s, for “Christ” and “Church”. Blue, orange and red make the whole warm and easy to read.","最终标志融合了三个符号。火焰代表与神的连接、内在的觉醒和祷告。人的剪影象征新的会幕。两道蓝色弧线组成两个「C」，分别代表「Christ」和「Church」。蓝、橙、红三色让整体温暖而清晰。"],
+  ["Logo final","Final logo","最终标志"],
+  ["Pistes de recherche","Design explorations","设计探索方案"],
+  ["Planche de présentation de la symbolique","Symbolism presentation board","象征意义说明图板"],
+  ["Christ Tabernacle Church — Projet de Jipson Mathas","Christ Tabernacle Church — Project by Jipson Mathas","Christ Tabernacle Church — Jipson Mathas 的项目"],
+  ["Visuel du projet Christ Tabernacle Church","Visual from the Christ Tabernacle Church project","Christ Tabernacle Church 项目图片"]
 ]);

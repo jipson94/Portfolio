@@ -920,6 +920,40 @@ const PROJETS = [
     "cat": "identite"
   },
   {
+    "annee": "2024",
+    "categorie": "Identité visuelle · Design graphique",
+    "domaine": "Identité visuelle",
+    "role": "Création du logo",
+    "outils": [
+      "Logo",
+      "Symbolique",
+      "Typographie",
+      "Couleurs"
+    ],
+    "objectifs": [
+      "Traduire la foi et le nom de l'église en un symbole simple",
+      "Donner du sens à chaque élément du logo",
+      "Obtenir un logo lisible sur tous les supports, imprimés et numériques"
+    ],
+    "id": "christ-tabernacle-church",
+    "titre": "Christ Tabernacle Church",
+    "client": "Christ Tabernacle Church",
+    "images": [
+      "images/projets/g/christ-tabernacle-01.jpg",
+      "images/projets/g/christ-tabernacle-02.jpg"
+    ],
+    "sousTitre": "Logo d'une église, construit sur une symbolique forte",
+    "resume": "Une flamme, la silhouette d'un homme et deux « C » : un logo où chaque forme a un sens.",
+    "contexte": "Christ Tabernacle Church avait besoin d'un logo qui exprime sa foi et le sens de son nom.",
+    "solution": "<p>Chaque identité commence par l'écoute : comprendre l'activité, les valeurs et le public de la marque. Plusieurs pistes sont ensuite explorées, puis la plus juste est affinée jusqu'au logo final.</p><p>Deux pistes ont d'abord été construites autour de la Menorah, le chandelier à sept branches qui représente le tabernacle, avec ses sept flammes allumées et un éclat de lumière qui évoque la présence de Dieu.</p><p>Le logo final réunit trois symboles. La flamme représente la connexion avec le divin, l'éveil intérieur et la prière. La silhouette d'un homme figure le nouveau tabernacle. Les deux arcs bleus forment deux « C », pour « Christ » et « Church ». Le bleu, l'orange et le rouge donnent un ensemble chaleureux et lisible.</p>",
+    "livrables": [
+      "Logo final",
+      "Pistes de recherche",
+      "Planche de présentation de la symbolique"
+    ],
+    "cat": "identite"
+  },
+  {
     "id": "mass-food",
     "titre": "Mass Food",
     "sousTitre": "Flyer promotionnel pour une entreprise agricole congolaise",

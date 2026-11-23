@@ -10,11 +10,13 @@ const PROJET_ARTS = {
   site: `<svg viewBox="0 0 400 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="250" fill="#2f5ae0"/><rect x="50" y="34" width="300" height="190" rx="10" fill="#fff"/><rect x="50" y="34" width="300" height="22" rx="10" fill="#e3e8f8"/><circle cx="66" cy="45" r="4" fill="#ff6b6b"/><circle cx="80" cy="45" r="4" fill="#ffc94d"/><circle cx="94" cy="45" r="4" fill="#4cd07d"/><rect x="70" y="72" width="150" height="16" rx="4" fill="#0f2167"/><rect x="70" y="96" width="120" height="8" rx="3" fill="#0f2167" opacity=".45"/><rect x="70" y="112" width="100" height="8" rx="3" fill="#0f2167" opacity=".45"/><rect x="70" y="132" width="64" height="18" rx="9" fill="#1d44c2"/><rect x="238" y="70" width="94" height="84" rx="8" fill="#fff799"/><circle cx="285" cy="104" r="16" fill="#0f2167"/><rect x="70" y="170" width="80" height="38" rx="6" fill="#e3e8f8"/><rect x="160" y="170" width="80" height="38" rx="6" fill="#e3e8f8"/><rect x="250" y="170" width="82" height="38" rx="6" fill="#e3e8f8"/></svg>`
 };
 
+// Adresse de la page d'un projet (pages générées par scripts/build-pages.mjs)
+const lienProjet = id => 'projet-' + id + '.html';
 const projetVisuel = p => p.art ? PROJET_ARTS[p.art] : `<img src="${p.images ? p.images[0] : p.poster}" alt="" loading="lazy">`;
 
 // Carte d'un projet (accueil)
 const projetCard = p => `
-  <a href="projet.html?id=${encodeURIComponent(p.id)}" class="work" data-dom="${p.domaine || ''}">
+  <a href="${lienProjet(p.id)}" class="work" data-dom="${p.domaine || ''}">
     <div class="work-art">${projetVisuel(p)}${p.exemple ? '<span class="ex">Exemple</span>' : ''}</div>
     <div class="work-body">
       <div class="work-meta"><span>${p.categorie}</span>${p.annee ? `<span>${p.annee}</span>` : ''}</div>

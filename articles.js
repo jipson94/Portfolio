@@ -11,12 +11,14 @@ const COVERS = {
   social: `<svg viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="225" fill="#1d44c2"/><circle cx="70" cy="200" r="120" fill="#0f2167"/><rect x="90" y="50" width="170" height="80" rx="16" fill="#fff"/><path d="M120 130l-4 26 30-26z" fill="#fff"/><rect x="110" y="72" width="110" height="10" rx="4" fill="#0f2167"/><rect x="110" y="92" width="80" height="8" rx="4" fill="#0f2167" opacity=".45"/><rect x="200" y="118" width="130" height="62" rx="16" fill="#fff799"/><path d="M300 180l6 22-28-22z" fill="#fff799"/><rect x="218" y="136" width="84" height="9" rx="4" fill="#0f2167"/><rect x="218" y="153" width="56" height="8" rx="4" fill="#0f2167" opacity=".45"/></svg>`,
   data: `<svg viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="225" fill="#0b1850"/><rect x="50" y="30" width="300" height="165" rx="12" fill="#132c86"/><rect x="80" y="130" width="26" height="40" rx="4" fill="#1d44c2"/><rect x="118" y="105" width="26" height="65" rx="4" fill="#1d44c2"/><rect x="156" y="118" width="26" height="52" rx="4" fill="#1d44c2"/><rect x="194" y="80" width="26" height="90" rx="4" fill="#fff799"/><polyline points="240,150 268,128 292,136 322,92" fill="none" stroke="#fff799" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="322" cy="92" r="6" fill="#fff799"/><rect x="80" y="52" width="90" height="10" rx="4" fill="#bcc6ea"/></svg>`
 };
+// Adresse de la page d'un article (pages générées par scripts/build-pages.mjs)
+const lienArticle = id => 'article-' + id + '.html';
 const coverHTML = a => a.image ? `<img src="${a.image}" alt="" loading="lazy">` : COVERS[a.cover] || '';
 const fmtDate = d => new Date(d + 'T12:00:00').toLocaleDateString((window.I18N && I18N.locale) || 'fr-FR', {day:'numeric', month:'long', year:'numeric'});
 
 // Carte d'aperçu d'un article (lien vers sa page dédiée)
 const postCard = a => `
-  <a class="post" href="article.html?id=${encodeURIComponent(a.id)}" data-cat="${a.categorie}">
+  <a class="post" href="${lienArticle(a.id)}" data-cat="${a.categorie}">
     <div class="post-cover">${coverHTML(a)}${a.exemple ? '<span class="ex">Exemple</span>' : ''}</div>
     <div class="post-body">
       <div class="post-meta"><span class="cat">${a.categorie}</span><span>${fmtDate(a.date)}</span><span>· ${a.lecture}</span></div>
@@ -27,5 +29,5 @@ const postCard = a => `
   </a>`;
 
 // Les anciens liens « index.html#article-xxx » redirigent vers la page de l'article
-if (location.hash.startsWith('#article-')) location.replace('article.html?id=' + encodeURIComponent(location.hash.slice(9)));
+if (location.hash.startsWith('#article-')) location.replace(lienArticle(location.hash.slice(9)));
 

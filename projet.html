@@ -5,6 +5,7 @@
 <script src="i18n.js"></script>
 <script>try{if(!sessionStorage.jmIntro&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro")}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, follow">
 <title>Projet — Jipson Mathas</title>
 <meta name="description" content="Projet réalisé par Jipson Mathas : contexte, objectifs, rôle et solutions.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -116,7 +117,9 @@
   const burger = document.querySelector('.burger'), nav = document.querySelector('header nav');
   burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
 
-  const i = PROJETS.findIndex(x => x.id === new URLSearchParams(location.search).get('id'));
+  // Ancienne adresse « projet.html?id=… » : on va sur la vraie page du projet
+  if (!window.PAGE_ID && new URLSearchParams(location.search).get('id')) { location.replace(lienProjet(new URLSearchParams(location.search).get('id'))); throw new Error('Redirection'); }
+  const i = PROJETS.findIndex(x => x.id === (new URLSearchParams(location.search).get('id') || window.PAGE_ID));
   if (i < 0) { location.replace('projets.html'); throw new Error('Projet introuvable'); }
   const p = PROJETS[i];
   const $ = id => document.getElementById(id);
@@ -190,8 +193,8 @@
   // Projet précédent / suivant
   const prev = PROJETS[(i - 1 + PROJETS.length) % PROJETS.length], next = PROJETS[(i + 1) % PROJETS.length];
   $('p-nav').innerHTML = `
-    <a href="projet.html?id=${prev.id}"><small>← Projet précédent</small><b>${prev.titre}</b></a>
-    <a href="projet.html?id=${next.id}"><small>Projet suivant →</small><b>${next.titre}</b></a>`;
+    <a href="${lienProjet(prev.id)}"><small>← Projet précédent</small><b>${prev.titre}</b></a>
+    <a href="${lienProjet(next.id)}"><small>Projet suivant →</small><b>${next.titre}</b></a>`;
 </script>
 <script src="data/site.js"></script>
 <script src="site.js"></script>

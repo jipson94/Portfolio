@@ -10,8 +10,8 @@
   ];
 
   const CONSEILS = {
-    'Identité visuelle & design': ['Création d’identité visuelle', 'Je vous propose de construire une identité claire et mémorable : logo, charte graphique et premiers supports. C’est ce que j’ai fait pour plus de 150 marques.', 'projet.html?id=le-crime-du-soir', 'Voir un exemple de création'],
-    'Vidéo & motion design': ['Vidéo & motion design', 'Un film ou une animation courte pour expliquer, convaincre ou annoncer — comme le film des Assises Nationales de l’Industrie du Congo.', 'projet.html?id=anic-2026', 'Voir le projet ANIC 2026'],
+    'Identité visuelle & design': ['Création d’identité visuelle', 'Je vous propose de construire une identité claire et mémorable : logo, charte graphique et premiers supports. C’est ce que j’ai fait pour plus de 150 marques.', 'projet-le-crime-du-soir.html', 'Voir un exemple de création'],
+    'Vidéo & motion design': ['Vidéo & motion design', 'Un film ou une animation courte pour expliquer, convaincre ou annoncer — comme le film des Assises Nationales de l’Industrie du Congo.', 'projet-anic-2026.html', 'Voir le projet ANIC 2026'],
     'Communication & relations publiques': ['Stratégie de communication', 'On commence par un diagnostic de vos publics et de vos messages, puis un plan d’actions concret : contenus, relations presse, réseaux sociaux.', '#services', 'Voir les services'],
     'Site web': ['Site web professionnel', 'Un site rapide, clair et adapté au mobile, relié à votre nom de domaine — pensé pour transformer les visiteurs en contacts.', '#services', 'Voir les services'],
     'IA & données': ['IA & analyse de données', 'Des outils d’IA et des tableaux de bord adaptés à votre activité pour gagner du temps et décider sur des chiffres fiables.', '#services', 'Voir les services'],

@@ -68,7 +68,7 @@
           <p class="sub">Film officiel des Assises Nationales de l'Industrie du Congo</p>
           <p>Brazzaville, 14 au 16 décembre 2026. Montage des images terrain (drone, usines, chaînes de production), habillage animé, titres et cartons thématiques. Animations codées avec <strong>Remotion</strong>, export 1080p et 4K.</p>
           <ul class="chips"><li>Montage</li><li>Motion design</li><li>Habillage graphique</li><li>Remotion / React</li><li>Export 4K</li></ul>
-          <a href="projet.html?id=anic-2026" class="btn btn-ghost" style="margin-top:26px">Voir le projet en détail →</a>
+          <a href="projet-anic-2026.html" class="btn btn-ghost" style="margin-top:26px">Voir le projet en détail →</a>
         </div>
       </div>
 
@@ -111,7 +111,7 @@
   // 12 projets visibles, le bouton déroule les suivants
   const SHOW = 12, LIST = PROJETS.filter(p => p.id !== 'anic-2026' && p.images && p.images.length);
   document.querySelector('.all-projects').innerHTML = LIST.map((p, i) => `
-    <a class="mini${i >= SHOW ? ' is-more' : ''}" href="projet.html?id=${encodeURIComponent(p.id)}">
+    <a class="mini${i >= SHOW ? ' is-more' : ''}" href="${lienProjet(p.id)}">
       <span class="mini-img"><img src="${p.images[0]}" alt="" loading="lazy"></span>
       <b>${p.titre}</b>
     </a>`).join('');

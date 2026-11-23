@@ -5,6 +5,7 @@
 <script src="i18n.js"></script>
 <script>try{if(!sessionStorage.jmIntro&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("intro")}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, follow">
 <title>Article — Jipson Mathas</title>
 <meta name="description" content="Article de Jipson Mathas sur la communication, le design et les technologies numériques.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -99,7 +100,9 @@
   const burger = document.querySelector('.burger'), nav = document.querySelector('nav');
   burger.addEventListener('click', () => { const o = nav.classList.toggle('open'); burger.setAttribute('aria-expanded', o); });
 
-  const id = new URLSearchParams(location.search).get('id');
+  // Ancienne adresse « article.html?id=… » : on va sur la vraie page de l'article
+  if (!window.PAGE_ID && new URLSearchParams(location.search).get('id')) { location.replace(lienArticle(new URLSearchParams(location.search).get('id'))); throw new Error('Redirection'); }
+  const id = new URLSearchParams(location.search).get('id') || window.PAGE_ID;
   const a = ARTICLES.find(x => x.id === id);
   if (!a) {
     // Article introuvable : retour à la liste

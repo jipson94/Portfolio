@@ -259,3 +259,9 @@ a.card:hover,.kpi:hover,.item:hover,.counts a:hover,.st-card:hover{transform:tra
 /* Connexion */
 .anim-on .login-card:not([hidden]){animation:a-in .6s cubic-bezier(.2,.7,.2,1) both}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* Statistiques en mobile : les 5 périodes sur une seule ligne */
+@media (max-width:640px){
+  .toolbar > .seg{flex-wrap:nowrap;width:100%}
+  .toolbar > .seg a{flex:1 1 auto;text-align:center;padding:7px 2px;font-size:clamp(11px,3.2vw,13.5px);white-space:nowrap}
+}

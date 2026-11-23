@@ -35,7 +35,7 @@ jobs:
       - name: Enregistrer si quelque chose a changé
         id: commit
         run: |
-          git add -A -- 'projet-*.html' 'article-*.html' sitemap.xml
+          git add -A -- 'projet-*.html' 'article-*.html' sitemap.xml index.html formations.html
           if git diff --cached --quiet; then
             echo "change=non" >> "$GITHUB_OUTPUT"
           else

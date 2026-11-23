@@ -126,3 +126,59 @@ fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), '<?xml version="1.0" encoding="
   urls.map(u => `  <url><loc>${u.loc}</loc>${u.last ? `<lastmod>${u.last}</lastmod>` : ''}<changefreq>${u.f}</changefreq><priority>${u.p}</priority></url>`).join('\n') + '\n</urlset>\n');
 
 console.log(`${PROJETS.length} pages projet, ${ARTICLES.length} pages article, plan du site : ${urls.length} adresses` + (anciens.filter(f => !faits.includes(f)).length ? `, ${anciens.filter(f => !faits.includes(f)).length} ancienne(s) page(s) effacée(s)` : ''));
+
+/* ---------- Informations pour Google : accueil (activité locale) et formations (cours) ----------
+   Écrites entre les repères <!-- donnees-google --> … <!-- /donnees-google --> de index.html et formations.html */
+vm.runInContext(read('data/formations.js') + ';' + read('data/site.js'), ctx, { filename: 'data/formations.js' });
+const { FORMATIONS, SITE } = vm.runInContext('({ FORMATIONS, SITE })', ctx);
+const reseaux = Object.values(SITE.reseaux || {}).filter(Boolean);
+const tel = SITE.whatsapp ? '+' + SITE.whatsapp : undefined;
+const ENTREPRISE = {
+  '@context': 'https://schema.org', '@type': 'ProfessionalService', '@id': SITE_URL + '#activite',
+  name: 'Jipson Mathas', url: SITE_URL, image: SITE_URL + 'images/partage.jpg', logo: SITE_URL + 'favicon.png',
+  description: 'Communication, design graphique, identité visuelle, motion design, vidéo, sites web, données et intelligence artificielle, et formations, à Brazzaville et à distance.',
+  telephone: tel, email: SITE.email, priceRange: 'FCFA',
+  address: { '@type': 'PostalAddress', addressLocality: 'Brazzaville', addressCountry: 'CG' },
+  areaServed: [{ '@type': 'City', name: 'Brazzaville' }, { '@type': 'City', name: 'Pointe-Noire' }, { '@type': 'Country', name: 'République du Congo' }],
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '09:00', closes: '17:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '09:00', closes: '12:00' }],
+  founder: { '@id': SITE_URL + '#personne' }, sameAs: reseaux,
+  knowsAbout: ['Identité visuelle', 'Design graphique', 'Motion design', 'Montage vidéo', 'Communication institutionnelle', 'Relations publiques', 'Création de sites web', 'Applications mobiles', 'Analyse de données', 'Intelligence artificielle'],
+  hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Services', itemListElement: ['Identité visuelle et logo', 'Design graphique et supports imprimés', 'Motion design et vidéo', 'Couverture photo et vidéo d\'événements', 'Développement web et mobile', 'Gestion des réseaux sociaux', 'Analyse de données', 'Formations'].map(n => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: n } })) }
+};
+const PERSONNE = {
+  '@context': 'https://schema.org', '@type': 'Person', '@id': SITE_URL + '#personne', name: 'Jipson Mathas', url: SITE_URL, image: SITE_URL + 'images/partage.jpg',
+  jobTitle: 'Expert en communication, design et technologies numériques', email: 'mailto:' + SITE.email, telephone: tel, sameAs: reseaux,
+  address: { '@type': 'PostalAddress', addressLocality: 'Brazzaville', addressCountry: 'CG' }, worksFor: { '@id': SITE_URL + '#activite' },
+  knowsAbout: ENTREPRISE.knowsAbout
+};
+// « 2 semaines » -> P2W, « 1 mois » -> P1M
+const dureeISO = d => { const m = String(d || '').match(/(\d+)\s*(jour|semaine|mois|an)/i); return m ? 'P' + m[1] + { jour: 'D', semaine: 'W', mois: 'M', an: 'Y' }[m[2].toLowerCase()] : undefined; };
+const COURS = {
+  '@context': 'https://schema.org', '@type': 'ItemList', name: 'Formations Jipson Mathas',
+  itemListElement: FORMATIONS.map((f, i) => ({
+    '@type': 'ListItem', position: i + 1, url: SITE_URL + 'formations.html#' + f.id,
+    item: {
+      '@type': 'Course', '@id': SITE_URL + 'formations.html#' + f.id, name: f.titre, description: court(f.resume, 300), url: SITE_URL + 'formations.html#' + f.id,
+      image: abs(f.image), inLanguage: 'fr', educationalLevel: 'Débutant à intermédiaire', audience: { '@type': 'Audience', audienceType: f.public },
+      teaches: f.objectifs, about: f.theme,
+      provider: { '@type': 'Organization', name: 'Jipson Mathas', sameAs: SITE_URL },
+      ...(f.prix ? { offers: [{ '@type': 'Offer', category: 'Paid', price: f.prix, priceCurrency: 'XAF', description: 'Par personne, session ouverte', url: SITE_URL + 'formations.html#' + f.id, availability: 'https://schema.org/InStock' }] } : {}),
+      hasCourseInstance: [
+        { '@type': 'CourseInstance', courseMode: 'Onsite', location: { '@type': 'Place', name: 'Brazzaville', address: { '@type': 'PostalAddress', addressLocality: 'Brazzaville', addressCountry: 'CG' } }, ...(dureeISO(f.duree) ? { courseWorkload: dureeISO(f.duree) } : {}) },
+        { '@type': 'CourseInstance', courseMode: 'Online', ...(dureeISO(f.duree) ? { courseWorkload: dureeISO(f.duree) } : {}) }]
+    }
+  }))
+};
+function injecter(fichier, blocs) {
+  let h = read(fichier);
+  const bloc = '<!-- donnees-google (généré par scripts/build-pages.mjs, ne pas modifier) -->\n' + blocs.map(jsonld).join('\n') + '\n<!-- /donnees-google -->';
+  if (h.includes('<!-- donnees-google')) h = h.replace(/<!-- donnees-google[\s\S]*?<!-- \/donnees-google -->/, bloc);
+  else if (/<script type="application\/ld\+json">[\s\S]*?<\/script>/.test(h)) h = h.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/, bloc);
+  else h = h.replace('</head>', bloc + '\n</head>');
+  fs.writeFileSync(path.join(ROOT, fichier), h);
+}
+injecter('index.html', [PERSONNE, ENTREPRISE]);
+injecter('formations.html', [COURS, fil([['Accueil', SITE_URL], ['Formations', SITE_URL + 'formations.html']])]);
+console.log(`Informations Google : accueil (activité + personne), ${FORMATIONS.length} formations`);

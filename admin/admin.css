@@ -265,3 +265,12 @@ a.card:hover,.kpi:hover,.item:hover,.counts a:hover,.st-card:hover{transform:tra
   .toolbar > .seg{flex-wrap:nowrap;width:100%}
   .toolbar > .seg a{flex:1 1 auto;text-align:center;padding:7px 2px;font-size:clamp(11px,3.2vw,13.5px);white-space:nowrap}
 }
+
+/* Listes en grille sur mobile : 2 par ligne */
+@media (max-width:640px){
+  .items.as-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .items.as-grid .item img,.items.as-grid .item .ph{height:110px}
+  .items.as-grid .item .grow{padding:9px 10px 11px}
+  .items.as-grid .item .t{font-size:13.5px}
+  .items.as-grid .item .muted{font-size:12px}
+}

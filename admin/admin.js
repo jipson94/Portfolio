@@ -351,7 +351,7 @@
             <h3 style="margin-top:16px">Demandes reçues</h3><p class="muted">Inscriptions, devis et messages arrivent par e-mail dans <b>contact@jipsonmathas.com</b>.</p>
             <div class="links" style="margin-top:10px"><a href="https://mail.hostinger.com" target="_blank" rel="noopener">Ouvrir la boîte mail ↗</a><a href="https://github.com/jipson94/Portfolio" target="_blank" rel="noopener">GitHub ↗</a></div></section>
         </div>`;
-      statsFetch(30, false).then(d => {
+      statsFetch(30, 'autres').then(d => {
         const by = Object.fromEntries(d.parJour.map(x => [x.day, x])), key = i => new Date(Date.now() - i * 864e5).toISOString().slice(0, 10);
         const days = []; for (let i = 13; i >= 0; i--) { const k = key(i); days.push({ day: k, v: (by[k] || {}).visiteurs || 0, p: (by[k] || {}).vues || 0 }); }
         const sum = (n, f) => { let t = 0; for (let i = 0; i < n; i++) t += ((by[key(i)] || {})[f] || 0); return t; };
@@ -560,7 +560,7 @@
     const max = Math.max(...rows.map(r => r[val] || 0), 1);
     return `<div class="bars">${rows.map(r => `<div class="bar-row"><div class="bar-top"><span class="bar-lab">${esc(label(r))}</span><b>${nf(r[val])}${unit}</b></div><div class="bar-track"><i style="width:${Math.max(2, Math.round(100 * (r[val] || 0) / max))}%"></i></div></div>`).join('')}</div>`;
   };
-  const avecMoi = () => ls.get('jm-stats-moi', false);
+  const quiVoir = () => (ls.get('jm-stats-qui', 'autres') === 'moi' ? 'moi' : 'autres');   // « Autres visiteurs » ou « Mes visites »
   const agoTxt = ts => { const m = Math.round((Date.now() - ts) / 60e3); return m < 1 ? 'à l\'instant' : m < 60 ? 'il y a ' + m + ' min' : m < 1440 ? 'il y a ' + Math.round(m / 60) + ' h' : new Date(ts).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) + ' ' + new Date(ts).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); };
   const evtLabelTxt = p => { const m = p.match(/^evt:(formation|envoi):([a-z0-9-]+)(?::([a-z0-9-]+))?$/i); if (!m) return p;
     const F = store.formations.data.FORMATIONS, ft = id => (F.find(f => f.id === id) || {}).titre || id;
@@ -568,7 +568,7 @@
     return ({ vue: 'Formation regardée', programme: 'Programme PDF téléchargé', 'clic-inscription': 'Clic « S\'inscrire »', 'clic-devis': 'Clic « Demander un devis »' }[m[3]] || m[3]) + ' · ' + ft(m[2]); };
   const activite = r => r.path.startsWith('evt:') ? evtLabelTxt(r.path) : pageLabel(r.path);
   // Anneau (« camembert ») : 4 parts au plus + « Autres », couleurs dans un ordre fixe, légende avec valeurs
-  const COULEURS = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100'], AUTRES = '#a3a9bf';
+  const COULEURS = ['var(--s1)', 'var(--s2)', 'var(--s3)', 'var(--s4)'], AUTRES = 'var(--s0)';   // couleurs définies dans admin.css (claires / sombres)
   function donut(rows, label, centre = 'visiteurs') {
     const tot = rows.reduce((a, x) => a + (x.n || 0), 0);
     if (!tot) return '<p class="muted">Pas encore de données.</p>';
@@ -576,12 +576,12 @@
     const reste = rows.slice(4).reduce((a, x) => a + x.n, 0); if (reste) parts.push({ l: 'Autres', n: reste, c: AUTRES });
     const R = 52, C = 2 * Math.PI * R; let off = 0;
     const arcs = parts.map(p => { const len = C * p.n / tot, gap = parts.length > 1 ? Math.min(2, len / 2) : 0;
-      const a = `<circle r="${R}" cx="70" cy="70" fill="none" stroke="${p.c}" stroke-width="22" stroke-dasharray="${Math.max(0, len - gap)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"><title>${esc(p.l)} : ${nf(p.n)} (${Math.round(100 * p.n / tot)} %)</title></circle>`; off += len; return a; }).join('');
+      const a = `<circle r="${R}" cx="70" cy="70" fill="none" style="stroke:${p.c}" stroke-width="22" stroke-dasharray="${Math.max(0, len - gap)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"><title>${esc(p.l)} : ${nf(p.n)} (${Math.round(100 * p.n / tot)} %)</title></circle>`; off += len; return a; }).join('');
     return `<div class="donut"><svg viewBox="0 0 140 140" role="img" aria-label="Répartition">${arcs}<text x="70" y="68" text-anchor="middle" class="d-tot">${nf(tot)}</text><text x="70" y="86" text-anchor="middle" class="d-lab">${centre}</text></svg>
       <ul class="legend">${parts.map(p => `<li><i style="background:${p.c}"></i><span>${esc(p.l)}</span><b>${Math.round(100 * p.n / tot)} %</b><em>${nf(p.n)}</em></li>`).join('')}</ul></div>`;
   }
-  async function statsFetch(jours, moi = avecMoi()) {
-    const r = await fetch(API + '/stats?jours=' + jours + (moi ? '&moi=1' : ''), { cache: 'no-store', headers: { authorization: 'Bearer ' + token } });
+  async function statsFetch(jours, qui = quiVoir()) {
+    const r = await fetch(API + '/stats?jours=' + jours + '&qui=' + qui, { cache: 'no-store', headers: { authorization: 'Bearer ' + token } });
     const d = await r.json().catch(() => ({}));
     if (r.status === 401) { logout('Votre session a expiré. Reconnectez-vous avec votre mot de passe.'); throw new Error('Session expirée.'); }
     if (!r.ok) throw new Error(d.erreur || ('Compteur indisponible (' + r.status + ')'));
@@ -592,8 +592,8 @@
     const jours = [1, 7, 30, 90, 365].includes(+arg) ? +arg : 30;
     const periodes = [[1, 'Aujourd\'hui'], [7, '7 jours'], [30, '30 jours'], [90, '3 mois'], [365, '12 mois']];
     $('#view').innerHTML = `<div class="toolbar"><div class="seg">${periodes.map(([j, l]) => `<a href="#stats/${j}" class="${j === jours ? 'on' : ''}">${l}</a>`).join('')}</div>
-      <label class="check moi-toggle"><input type="checkbox" id="moi" ${avecMoi() ? 'checked' : ''}> Inclure mes propres visites</label></div><div id="st"><p class="muted">Chargement des statistiques…</p></div>`;
-    $('#moi').addEventListener('change', e => { ls.set('jm-stats-moi', e.target.checked); VIEWS.stats(String(jours)); });
+      <div class="seg qui" id="qui" role="group" aria-label="Visiteurs affichés"><a href="#" data-q="autres" class="${quiVoir() === 'autres' ? 'on' : ''}">👥 Autres visiteurs</a><a href="#" data-q="moi" class="${quiVoir() === 'moi' ? 'on' : ''}">🙋 Mes visites</a></div></div><div id="st"><p class="muted">Chargement des statistiques…</p></div>`;
+    $('#qui').addEventListener('click', e => { const a = e.target.closest('[data-q]'); if (!a) return; e.preventDefault(); if (a.dataset.q === quiVoir()) return; ls.set('jm-stats-qui', a.dataset.q); VIEWS.stats(String(jours)); });
     let d;
     try { d = await statsFetch(jours); }
     catch (e) {
@@ -615,7 +615,7 @@
     const ago = agoTxt;
     const evtLabel = evtLabelTxt;
     $('#st').innerHTML = `
-      <p class="moi-info">${d.avecMoi ? '<span class="tag b">Vous</span> Vos propres visites sont <b>incluses</b> dans les chiffres.' : `<span class="tag b">Vous</span> Vos propres visites ne sont pas comptées (${nf(d.mesVues)} page(s) vue(s) par vous sur la période).`}</p>
+      <p class="moi-info">${d.qui === 'moi' ? '<span class="tag b">Vous</span> Vous voyez <b>uniquement vos propres visites</b> (depuis vos appareils reconnus).' : `Vous voyez <b>les autres visiteurs</b> uniquement. Vos propres visites sont à part (${nf(d.mesVues)} page(s) vue(s) par vous sur la période).`}</p>
       <div class="kpis">
         <div class="kpi"><small>Visiteurs</small><b>${nf(visiteurs)}</b><span>personnes différentes par jour, additionnées</span></div>
         <div class="kpi"><small>Pages vues</small><b>${nf(vues)}</b><span>${visiteurs ? (vues / visiteurs).toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + ' pages par visiteur' : '—'}</span></div>
@@ -730,6 +730,11 @@
   addEventListener('hashchange', route);
   $('#publish').addEventListener('click', publish);
   $('#logout').addEventListener('click', () => logout());
+  // Thème clair / sombre (choix mémorisé)
+  const themeBtn = $('#theme');
+  const setTheme = t => { document.documentElement.dataset.theme = t; try { localStorage.setItem('jm-theme', t); } catch {} themeBtn.textContent = t === 'dark' ? '☀️' : '🌙'; themeBtn.title = t === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'; themeBtn.setAttribute('aria-label', themeBtn.title); };
+  setTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+  themeBtn.addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
   $('#menu-btn').addEventListener('click', () => $('#app').classList.toggle('menu'));
   addEventListener('beforeunload', e => { if (Object.values(store).some(f => f.dirty) || images.length) { e.preventDefault(); e.returnValue = ''; } });
   $('#login-form').addEventListener('submit', async e => {

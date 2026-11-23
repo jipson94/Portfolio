@@ -7,7 +7,8 @@
 <title>Administration — Jipson Mathas</title>
 <link rel="icon" href="favicon.svg?v=2" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="admin.css?v=5">
+<link rel="stylesheet" href="admin.css?v=6">
+<script>try{var t=localStorage.getItem("jm-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.dataset.theme=t}catch(e){}</script>
 </head>
 <body>
 
@@ -73,6 +74,7 @@
       <h1 id="view-title">Tableau de bord</h1>
       <div class="pub-box">
         <span class="pending" id="pending" hidden></span>
+        <button type="button" class="theme-btn" id="theme" aria-label="Mode sombre">🌙</button>
         <button type="button" class="btn" id="publish" disabled>Publier</button>
       </div>
     </header>
@@ -84,7 +86,7 @@
 <!-- Fenêtre de réponse / confirmation -->
 <dialog id="dlg" class="dlg"><form method="dialog" id="dlg-form"></form></dialog>
 
-<script src="admin.js?v=3"></script>
-<script src="motion.js?v=3"></script>
+<script src="admin.js?v=6"></script>
+<script src="motion.js?v=6"></script>
 </body>
 </html>

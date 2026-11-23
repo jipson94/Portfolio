@@ -171,7 +171,8 @@ async function ghProxy(req, env, url) {
 async function stats(url, env) {
   const days = Math.min(400, Math.max(1, parseInt(url.searchParams.get('jours') || '30', 10) || 30));
   const since = new Date(Date.now() - (days - 1) * 864e5).toISOString().slice(0, 10);
-  const M = url.searchParams.get('moi') === '1' ? '' : ' AND moi = 0';   // vos propres visites exclues par défaut
+  const qui = url.searchParams.get('qui') || (url.searchParams.get('moi') === '1' ? 'tous' : 'autres');   // autres (défaut) | moi | tous
+  const M = qui === 'moi' ? ' AND moi = 1' : qui === 'tous' ? '' : ' AND moi = 0';
   const P = "path NOT LIKE 'evt:%'" + M;
   const q = (sql, ...a) => env.DB.prepare(sql).bind(...a);
   const [jours, pages, evts, sources, pays, villes, appareils, recents, direct, mes] = await env.DB.batch([
@@ -182,11 +183,11 @@ async function stats(url, env) {
     q(`SELECT country AS k, COUNT(DISTINCT day || vid) AS n FROM hits WHERE day >= ? AND ${P} GROUP BY country ORDER BY n DESC LIMIT 15`, since),
     q(`SELECT city || ' (' || country || ')' AS k, COUNT(DISTINCT day || vid) AS n FROM hits WHERE day >= ? AND ${P} AND city IS NOT NULL GROUP BY city, country ORDER BY n DESC LIMIT 15`, since),
     q(`SELECT device AS k, COUNT(DISTINCT day || vid) AS n FROM hits WHERE day >= ? AND ${P} GROUP BY device ORDER BY n DESC`, since),
-    q(`SELECT ts, path, ref, country, city, device, moi FROM hits ORDER BY ts DESC LIMIT 40`),
-    q(`SELECT COUNT(DISTINCT vid) AS n FROM hits WHERE ts >= ? AND moi = 0`, Date.now() - 30 * 60e3),
+    q(`SELECT ts, path, ref, country, city, device, moi FROM hits WHERE 1 = 1${M} ORDER BY ts DESC LIMIT 40`),
+    q(`SELECT COUNT(DISTINCT vid) AS n FROM hits WHERE ts >= ?${M}`, Date.now() - 30 * 60e3),
     q(`SELECT COUNT(*) AS n FROM hits WHERE day >= ? AND moi = 1 AND path NOT LIKE 'evt:%'`, since)
   ]);
-  return { jours: days, depuis: since, parJour: jours.results, pages: pages.results, actions: evts.results, sources: sources.results, pays: pays.results, villes: villes.results, appareils: appareils.results, recents: recents.results, enLigne: (direct.results[0] || {}).n || 0, mesVues: (mes.results[0] || {}).n || 0, avecMoi: !M };
+  return { jours: days, depuis: since, parJour: jours.results, pages: pages.results, actions: evts.results, sources: sources.results, pays: pays.results, villes: villes.results, appareils: appareils.results, recents: recents.results, enLigne: (direct.results[0] || {}).n || 0, mesVues: (mes.results[0] || {}).n || 0, qui };
 }
 
 export default {

@@ -321,10 +321,12 @@
       const P = store.projets.data.PROJETS, A = store.articles.data.ARTICLES, F = store.formations.data.FORMATIONS;
       $('#view').innerHTML = `<div class="grid">
         <div class="card"><h3>Demandes reçues</h3><p>Les inscriptions, devis et messages du site arrivent par e-mail dans <b>contact@jipsonmathas.com</b>. Répondez-y depuis votre boîte mail.</p><p style="margin-top:10px"><a href="https://mail.hostinger.com" target="_blank" rel="noopener">Ouvrir la boîte mail ↗</a></p></div>
+        <a class="card" href="#stats/7" style="color:inherit"><h3>Visites · 7 derniers jours</h3><p id="d-stats" class="muted">…</p></a>
         <div class="card"><h3>Contenu du site</h3><p><b>${P.length}</b> projets · <b>${A.length}</b> articles · <b>${F.length}</b> formations</p><p class="muted" style="margin-top:6px">${A.filter(a => a.exemple).length} article(s) d'exemple à remplacer</p></div>
         <div class="card"><h3>Dernière mise en ligne</h3><p id="d-deploy" class="muted">…</p></div>
         <div class="card"><h3>Raccourcis</h3><div class="links"><a href="#article/nouveau">+ Écrire un article</a><a href="#projet/nouveau">+ Ajouter un projet</a><a href="https://mail.hostinger.com" target="_blank" rel="noopener">Boîte mail contact@ ↗</a><a href="https://github.com/jipson94/Portfolio" target="_blank" rel="noopener">GitHub ↗</a></div></div>
       </div>`;
+      statsFetch(7).then(s => { const v = s.parJour.reduce((a, x) => a + x.visiteurs, 0), p = s.parJour.reduce((a, x) => a + x.vues, 0); $('#d-stats').innerHTML = '<b>' + nf(v) + '</b> visiteurs · <b>' + nf(p) + '</b> pages vues<br>' + nf(s.enLigne) + ' en ce moment · voir le détail →'; }).catch(e => { $('#d-stats').textContent = e.message === 'nokey' ? 'Compteur pas encore branché.' : e.message; });
       try {
         const { list } = await api('deploys'); const d = list[0];
         if (!d) { $('#d-deploy').textContent = 'Aucune information pour le moment.'; return; }
@@ -489,6 +491,7 @@
         groups: [
           { title: 'Coordonnées', fields: [{ k: 'whatsapp', label: 'Numéro WhatsApp (chiffres, avec 242)', ph: '242068050665' }, { k: 'email', label: 'E-mail affiché' }, { k: 'ville', label: 'Ville' }, { k: 'telephone', label: 'Téléphone affiché (facultatif)' },
             { k: 'whatsappMessage', label: 'Message pré-rempli WhatsApp', full: true }] },
+          { title: 'Statistiques', fields: [{ k: 'stats', label: 'Adresse du compteur de visites', full: true, type: 'url', ph: 'https://jm-stats.….workers.dev', help: 'Compteur Cloudflare (dossier stats/ du site). Laissée vide, aucune visite n’est comptée.' }] },
           { title: 'Formulaires du site', fields: [{ k: 'web3forms', label: 'Clé Web3Forms (Access Key)', full: true, help: 'Les demandes du site arrivent par e-mail dans contact@ grâce à cette clé (web3forms.com). Laissée vide, les demandes partent par WhatsApp.' }] },
           { title: 'Réseaux sociaux (laisser vide pour masquer)', fields: Object.keys(S.reseaux || {}).map(k => ({ k: 'r_' + k, label: k, type: 'url', ph: 'https://…' })) }
         ],
@@ -499,6 +502,94 @@
           Object.assign(S, out); markDirty('site');
         }
       });
+    }
+  };
+
+  /* ---------- Statistiques (compteur Cloudflare, voir stats/) ---------- */
+  const nf = n => Number(n || 0).toLocaleString('fr-FR');
+  const paysNom = (() => { let d; try { d = new Intl.DisplayNames(['fr'], { type: 'region' }); } catch {} return c => { if (!c) return 'Inconnu'; try { return d ? d.of(c) : c; } catch { return c; } }; })();
+  function pageLabel(path) {
+    const m = String(path).match(/^\/([a-z0-9._-]*)(?:\?id=(.+))?$/i); if (!m) return path;
+    const page = m[1] || 'index.html', id = m[2];
+    const find = (L, k) => (L.find(x => x.id === id) || {})[k] || id;
+    if (page === 'projet.html' && id) return 'Projet · ' + find(store.projets.data.PROJETS, 'titre');
+    if (page === 'article.html' && id) return 'Article · ' + find(store.articles.data.ARTICLES, 'titre');
+    return ({ 'index.html': 'Accueil', 'projets.html': 'Page Projets', 'actualites.html': 'Page Actualités', 'formations.html': 'Page Formations', 'merci.html': 'Page « Merci » (formulaire envoyé)', 'projet.html': 'Projet', 'article.html': 'Article' })[page] || page;
+  }
+  const barList = (rows, label, val = 'n', unit = '') => {
+    if (!rows.length) return '<p class="muted">Pas encore de données.</p>';
+    const max = Math.max(...rows.map(r => r[val] || 0), 1);
+    return `<div class="bars">${rows.map(r => `<div class="bar-row"><div class="bar-top"><span class="bar-lab">${esc(label(r))}</span><b>${nf(r[val])}${unit}</b></div><div class="bar-track"><i style="width:${Math.max(2, Math.round(100 * (r[val] || 0) / max))}%"></i></div></div>`).join('')}</div>`;
+  };
+  async function statsFetch(jours) {
+    const base = (store.site.data.SITE.stats || '').replace(/\/$/, '');
+    if (!base) throw new Error('nokey');
+    const r = await fetch(base + '/stats?jours=' + jours, { cache: 'no-store', headers: { authorization: 'Bearer ' + token } });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(d.erreur || ('Compteur indisponible (' + r.status + ')'));
+    return d;
+  }
+  VIEWS.stats = async function (arg) {
+    $('#view-title').textContent = 'Statistiques';
+    const jours = [1, 7, 30, 90, 365].includes(+arg) ? +arg : 30;
+    const periodes = [[1, 'Aujourd\'hui'], [7, '7 jours'], [30, '30 jours'], [90, '3 mois'], [365, '12 mois']];
+    $('#view').innerHTML = `<div class="toolbar"><div class="seg">${periodes.map(([j, l]) => `<a href="#stats/${j}" class="${j === jours ? 'on' : ''}">${l}</a>`).join('')}</div></div><div id="st"><p class="muted">Chargement des statistiques…</p></div>`;
+    let d;
+    try { d = await statsFetch(jours); }
+    catch (e) {
+      $('#st').innerHTML = e.message === 'nokey' ? '<p class="note">Le compteur de visites n\'est pas encore branché : l\'adresse du compteur manque dans Réglages → « Statistiques ».</p>' : `<p class="note">${esc(e.message)}</p>`;
+      return;
+    }
+    // Jours sans visite : affichés à zéro
+    const byDay = Object.fromEntries(d.parJour.map(x => [x.day, x]));
+    const days = []; for (let i = jours - 1; i >= 0; i--) { const k = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10); days.push({ day: k, visiteurs: (byDay[k] || {}).visiteurs || 0, vues: (byDay[k] || {}).vues || 0 }); }
+    const visiteurs = days.reduce((s, x) => s + x.visiteurs, 0), vues = days.reduce((s, x) => s + x.vues, 0);
+    const A = d.actions, sumA = re => A.filter(a => re.test(a.path)).reduce((s, a) => s + a.n, 0);
+    const envois = sumA(/^evt:envoi:/);
+    const maxV = Math.max(...days.map(x => x.visiteurs), 1);
+    const fmtDay = k => new Date(k + 'T12:00').toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' });
+    const pagesOf = re => d.pages.filter(p => re.test(p.path)).map(p => ({ ...p, n: p.visiteurs }));
+    const F = store.formations.data.FORMATIONS;
+    const fRows = F.map(f => { const c = k => (A.find(a => a.path === 'evt:formation:' + f.id + ':' + k) || {}).n || 0, e = k => (A.find(a => a.path === 'evt:envoi:' + k + ':' + f.id) || {}).n || 0;
+      return { t: f.titre, vue: c('vue'), pdf: c('programme'), ci: c('clic-inscription'), cd: c('clic-devis'), ins: e('inscription'), dev: e('devis') }; }).sort((a, b) => b.vue - a.vue || b.ins + b.dev - a.ins - a.dev);
+    const ago = ts => { const m = Math.round((Date.now() - ts) / 60e3); return m < 1 ? 'à l\'instant' : m < 60 ? 'il y a ' + m + ' min' : m < 1440 ? 'il y a ' + Math.round(m / 60) + ' h' : new Date(ts).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) + ' ' + new Date(ts).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); };
+    const evtLabel = p => { const m = p.match(/^evt:(formation|envoi):([a-z0-9-]+)(?::([a-z0-9-]+))?$/i); if (!m) return p;
+      const ft = id => (F.find(f => f.id === id) || {}).titre || id;
+      if (m[1] === 'envoi') return ({ inscription: 'Inscription envoyée', devis: 'Devis demandé', contact: 'Message de contact envoyé' }[m[2]] || 'Formulaire envoyé') + (m[3] ? ' · ' + ft(m[3]) : '');
+      return ({ vue: 'Formation regardée', programme: 'Programme PDF téléchargé', 'clic-inscription': 'Clic « S\'inscrire »', 'clic-devis': 'Clic « Demander un devis »' }[m[3]] || m[3]) + ' · ' + ft(m[2]); };
+    $('#st').innerHTML = `
+      <div class="kpis">
+        <div class="kpi"><small>Visiteurs</small><b>${nf(visiteurs)}</b><span>personnes différentes par jour, additionnées</span></div>
+        <div class="kpi"><small>Pages vues</small><b>${nf(vues)}</b><span>${visiteurs ? (vues / visiteurs).toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + ' pages par visiteur' : '—'}</span></div>
+        <div class="kpi"><small>Demandes envoyées</small><b>${nf(envois)}</b><span>inscriptions, devis et messages</span></div>
+        <div class="kpi live"><small>En ce moment</small><b>${nf(d.enLigne)}</b><span>visiteur(s) ces 30 dernières minutes</span></div>
+      </div>
+      ${jours > 1 ? `<section class="card st-card"><h3>Visiteurs par jour</h3>
+        <div class="chart" id="chart" role="img" aria-label="Visiteurs par jour sur la période">${days.map(x => `<div class="col" data-t="${esc(fmtDay(x.day))} : ${nf(x.visiteurs)} visiteur(s), ${nf(x.vues)} page(s) vue(s)"><i style="height:${x.visiteurs ? Math.max(3, Math.round(100 * x.visiteurs / maxV)) : 0}%"></i></div>`).join('')}</div>
+        <div class="chart-axis"><span>${esc(fmtDay(days[0].day))}</span><span>max. ${nf(maxV)} / jour</span><span>${esc(fmtDay(days[days.length - 1].day))}</span></div>
+        <div class="tip" id="tip" hidden></div>
+        <details class="st-table"><summary>Voir le détail jour par jour</summary><table><thead><tr><th>Jour</th><th>Visiteurs</th><th>Pages vues</th></tr></thead><tbody>${days.slice().reverse().map(x => `<tr><td>${esc(fmtDay(x.day))}</td><td>${nf(x.visiteurs)}</td><td>${nf(x.vues)}</td></tr>`).join('')}</tbody></table></details></section>` : ''}
+      <div class="st-grid">
+        <section class="card st-card"><h3>Articles les plus lus</h3><p class="muted st-sub">lecteurs</p>${barList(pagesOf(/^\/article\.html\?id=/).slice(0, 10), r => pageLabel(r.path).replace(/^Article · /, ''))}</section>
+        <section class="card st-card"><h3>Projets les plus vus</h3><p class="muted st-sub">visiteurs</p>${barList(pagesOf(/^\/projet\.html\?id=/).slice(0, 10), r => pageLabel(r.path).replace(/^Projet · /, ''))}</section>
+      </div>
+      <section class="card st-card"><h3>Formations</h3><p class="muted st-sub">« Regardée » = carte restée au moins 2 secondes à l'écran</p>
+        <div class="tbl-wrap"><table class="st-tbl"><thead><tr><th>Formation</th><th>Regardée</th><th>Programme PDF</th><th>Clic « S'inscrire »</th><th>Clic « Devis »</th><th>Inscriptions envoyées</th><th>Devis demandés</th></tr></thead>
+        <tbody>${fRows.map(r => `<tr><td>${esc(r.t)}</td><td>${nf(r.vue)}</td><td>${nf(r.pdf)}</td><td>${nf(r.ci)}</td><td>${nf(r.cd)}</td><td><b>${nf(r.ins)}</b></td><td><b>${nf(r.dev)}</b></td></tr>`).join('')}</tbody></table></div></section>
+      <div class="st-grid">
+        <section class="card st-card"><h3>D'où viennent les visiteurs</h3><p class="muted st-sub">arrivées sur le site</p>${barList(d.sources, r => r.k)}</section>
+        <section class="card st-card"><h3>Pages du site</h3><p class="muted st-sub">visiteurs</p>${barList(pagesOf(/^\/(?!article\.html\?|projet\.html\?)/).slice(0, 10), r => pageLabel(r.path))}</section>
+        <section class="card st-card"><h3>Pays</h3><p class="muted st-sub">visiteurs</p>${barList(d.pays, r => paysNom(r.k))}</section>
+        <section class="card st-card"><h3>Villes</h3><p class="muted st-sub">visiteurs (ville estimée, approximative)</p>${barList(d.villes, r => r.k.replace(/\(([A-Z]{2})\)$/, (m, c) => '(' + paysNom(c) + ')'))}</section>
+        <section class="card st-card"><h3>Appareils</h3><p class="muted st-sub">visiteurs</p>${barList(d.appareils, r => r.k || 'Inconnu')}</section>
+      </div>
+      <section class="card st-card"><h3>Dernières activités</h3><p class="muted st-sub">en temps réel, toutes périodes</p>
+        <div class="tbl-wrap"><table class="st-tbl feed"><tbody>${d.recents.map(r => `<tr><td class="muted">${esc(ago(r.ts))}</td><td>${esc(r.path.startsWith('evt:') ? evtLabel(r.path) : pageLabel(r.path))}</td><td>${esc([r.city, paysNom(r.country)].filter(Boolean).join(', '))}</td><td>${esc(r.device || '')}</td><td class="muted">${esc(r.ref || '')}</td></tr>`).join('') || '<tr><td class="muted">Aucune visite enregistrée pour l\'instant.</td></tr>'}</tbody></table></div></section>
+      <p class="note">Les visiteurs restent anonymes : le site n'utilise pas de cookie et n'enregistre ni nom ni adresse IP. On ne peut donc pas savoir <i>qui</i> regarde, seulement combien, d'où et sur quoi. Les robots (Google, aperçus de liens…) ne sont pas comptés.</p>`;
+    const chart = $('#chart'), tip = $('#tip');
+    if (chart) {
+      chart.addEventListener('mousemove', e => { const c = e.target.closest('.col'); if (!c) { tip.hidden = true; return; } tip.textContent = c.dataset.t; tip.hidden = false; const box = chart.parentNode.getBoundingClientRect(); tip.style.left = Math.min(box.width - tip.offsetWidth - 8, Math.max(8, e.clientX - box.left - tip.offsetWidth / 2)) + 'px'; tip.style.top = (chart.offsetTop - 34) + 'px'; chart.querySelectorAll('.col.hov').forEach(x => x.classList.remove('hov')); c.classList.add('hov'); });
+      chart.addEventListener('mouseleave', () => { tip.hidden = true; chart.querySelectorAll('.col.hov').forEach(x => x.classList.remove('hov')); });
     }
   };
 

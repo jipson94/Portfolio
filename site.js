@@ -215,3 +215,41 @@ window.envoyerFormulaire = async function (form) {
   });
   nav.appendChild(a);
 })();
+
+/* Statistiques de visite (compteur maison sur Cloudflare, voir stats/) : sans cookie, aucune donnée personnelle.
+   Envoie la page vue et sa provenance, plus quelques actions (formation vue / inscription / devis / programme, formulaire envoyé). */
+(function () {
+  const U = (typeof SITE !== 'undefined' && SITE.stats || '').replace(/\/$/, '');
+  if (!U || !/^https:/.test(U) || /^(localhost|127\.|\[::1\])/.test(location.hostname) || navigator.webdriver) return;
+  const page = location.pathname.split('/').pop() || 'index.html';
+  if (/^(pressbook|programme)\.html$/.test(page)) return;            // pages servant à fabriquer les PDF
+  const q = new URLSearchParams(location.search), id = q.get('id');
+  const send = o => { try { const b = JSON.stringify(o); if (!(navigator.sendBeacon && navigator.sendBeacon(U + '/hit', new Blob([b], { type: 'text/plain' })))) fetch(U + '/hit', { method: 'POST', body: b, keepalive: true, mode: 'no-cors' }); } catch (e) {} };
+  const evt = name => send({ p: 'evt:' + name });
+  send({ p: '/' + page + (id && /^[a-z0-9_-]{1,80}$/i.test(id) ? '?id=' + id : ''), r: document.referrer, s: q.get('utm_source') || '' });
+
+  // Formations : carte réellement regardée (au moins 2 secondes à l'écran), boutons utilisés
+  const fid = el => { const c = el && el.closest('[data-id]'); return c ? c.dataset.id : ''; };
+  if (page === 'formations.html' && 'IntersectionObserver' in window) {
+    const seen = new Set(), timers = new Map();
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      const k = e.target.dataset.id; if (!k || seen.has(k)) return;
+      if (e.isIntersecting) timers.set(k, setTimeout(() => { seen.add(k); io.unobserve(e.target); evt('formation:' + k + ':vue'); }, 2000));
+      else clearTimeout(timers.get(k));
+    }), { threshold: 0.5 });
+    setTimeout(() => document.querySelectorAll('.f-card-full[data-id]').forEach(c => io.observe(c)), 500);
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('.f-card-full [data-open], .f-card-full a.dl-pdf'); if (!b) return;
+    const k = fid(b); if (!k) return;
+    evt('formation:' + k + ':' + (b.classList.contains('dl-pdf') ? 'programme' : b.dataset.open === 'Inscription' ? 'clic-inscription' : 'clic-devis'));
+  }, true);
+  // Formulaires envoyés (inscription, devis, contact)
+  document.addEventListener('submit', e => {
+    const f = e.target; if (!f.matches || !f.matches('form[data-form]')) return;
+    const d = f.elements.demande ? f.elements.demande.value : '';
+    const t = d === 'Inscription' ? 'inscription' : d === 'Demande de devis' ? 'devis' : 'contact';
+    const sel = f.elements.formation, fo = sel && typeof FORMATIONS !== 'undefined' ? FORMATIONS.find(x => x.titre === sel.value) : null;
+    evt('envoi:' + t + (fo ? ':' + fo.id : ''));
+  }, true);
+})();

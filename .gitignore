@@ -13,3 +13,5 @@ node_modules/
 
 # Espace admin (mode test local)
 .admin-blobs/
+stats/.wrangler/
+stats/node_modules/

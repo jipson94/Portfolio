@@ -47,8 +47,8 @@ async function hit(req, env, text) {
   const vid = await sha(day + '|' + ip + '|' + ua + '|' + (env.SEL || 'jm'));
   const cf = req.cf || {};
   const isEvt = path.startsWith('evt:');
-  await env.DB.prepare('INSERT INTO hits (ts, day, path, ref, country, city, device, vid) VALUES (?,?,?,?,?,?,?,?)')
-    .bind(now.getTime(), day, path, isEvt ? null : source(String(b.r || ''), String(b.s || '')), cf.country || null, cf.city || null, device(ua), vid).run();
+  await env.DB.prepare('INSERT INTO hits (ts, day, path, ref, country, city, device, vid, moi) VALUES (?,?,?,?,?,?,?,?,?)')
+    .bind(now.getTime(), day, path, isEvt ? null : source(String(b.r || ''), String(b.s || '')), cf.country || null, cf.city || null, device(ua), vid, b.m ? 1 : 0).run();
   if (Math.random() < 0.01) await env.DB.prepare('DELETE FROM hits WHERE ts < ?').bind(now.getTime() - 400 * 864e5).run();   // garde ~13 mois
 }
 
@@ -171,20 +171,22 @@ async function ghProxy(req, env, url) {
 async function stats(url, env) {
   const days = Math.min(400, Math.max(1, parseInt(url.searchParams.get('jours') || '30', 10) || 30));
   const since = new Date(Date.now() - (days - 1) * 864e5).toISOString().slice(0, 10);
-  const P = "path NOT LIKE 'evt:%'";
+  const M = url.searchParams.get('moi') === '1' ? '' : ' AND moi = 0';   // vos propres visites exclues par défaut
+  const P = "path NOT LIKE 'evt:%'" + M;
   const q = (sql, ...a) => env.DB.prepare(sql).bind(...a);
-  const [jours, pages, evts, sources, pays, villes, appareils, recents, direct] = await env.DB.batch([
+  const [jours, pages, evts, sources, pays, villes, appareils, recents, direct, mes] = await env.DB.batch([
     q(`SELECT day, COUNT(*) AS vues, COUNT(DISTINCT vid) AS visiteurs FROM hits WHERE day >= ? AND ${P} GROUP BY day ORDER BY day`, since),
     q(`SELECT path, COUNT(*) AS vues, COUNT(DISTINCT day || vid) AS visiteurs FROM hits WHERE day >= ? AND ${P} GROUP BY path ORDER BY vues DESC LIMIT 300`, since),
-    q(`SELECT path, COUNT(*) AS n, COUNT(DISTINCT day || vid) AS visiteurs FROM hits WHERE day >= ? AND path LIKE 'evt:%' GROUP BY path ORDER BY n DESC LIMIT 300`, since),
+    q(`SELECT path, COUNT(*) AS n, COUNT(DISTINCT day || vid) AS visiteurs FROM hits WHERE day >= ? AND path LIKE 'evt:%'${M} GROUP BY path ORDER BY n DESC LIMIT 300`, since),
     q(`SELECT ref AS k, COUNT(DISTINCT day || vid) AS n FROM hits WHERE day >= ? AND ${P} AND ref IS NOT NULL GROUP BY ref ORDER BY n DESC LIMIT 15`, since),
     q(`SELECT country AS k, COUNT(DISTINCT day || vid) AS n FROM hits WHERE day >= ? AND ${P} GROUP BY country ORDER BY n DESC LIMIT 15`, since),
     q(`SELECT city || ' (' || country || ')' AS k, COUNT(DISTINCT day || vid) AS n FROM hits WHERE day >= ? AND ${P} AND city IS NOT NULL GROUP BY city, country ORDER BY n DESC LIMIT 15`, since),
     q(`SELECT device AS k, COUNT(DISTINCT day || vid) AS n FROM hits WHERE day >= ? AND ${P} GROUP BY device ORDER BY n DESC`, since),
-    q(`SELECT ts, path, ref, country, city, device FROM hits ORDER BY ts DESC LIMIT 40`),
-    q(`SELECT COUNT(DISTINCT vid) AS n FROM hits WHERE ts >= ?`, Date.now() - 30 * 60e3)
+    q(`SELECT ts, path, ref, country, city, device, moi FROM hits ORDER BY ts DESC LIMIT 40`),
+    q(`SELECT COUNT(DISTINCT vid) AS n FROM hits WHERE ts >= ? AND moi = 0`, Date.now() - 30 * 60e3),
+    q(`SELECT COUNT(*) AS n FROM hits WHERE day >= ? AND moi = 1 AND path NOT LIKE 'evt:%'`, since)
   ]);
-  return { jours: days, depuis: since, parJour: jours.results, pages: pages.results, actions: evts.results, sources: sources.results, pays: pays.results, villes: villes.results, appareils: appareils.results, recents: recents.results, enLigne: (direct.results[0] || {}).n || 0 };
+  return { jours: days, depuis: since, parJour: jours.results, pages: pages.results, actions: evts.results, sources: sources.results, pays: pays.results, villes: villes.results, appareils: appareils.results, recents: recents.results, enLigne: (direct.results[0] || {}).n || 0, mesVues: (mes.results[0] || {}).n || 0, avecMoi: !M };
 }
 
 export default {

@@ -224,7 +224,8 @@ window.envoyerFormulaire = async function (form) {
   const page = location.pathname.split('/').pop() || 'index.html';
   if (/^(pressbook|programme)\.html$/.test(page)) return;            // pages servant à fabriquer les PDF
   const q = new URLSearchParams(location.search), id = q.get('id');
-  const send = o => { try { const b = JSON.stringify(o); if (!(navigator.sendBeacon && navigator.sendBeacon(U + '/hit', new Blob([b], { type: 'text/plain' })))) fetch(U + '/hit', { method: 'POST', body: b, keepalive: true, mode: 'no-cors' }); } catch (e) {} };
+  let moi = false; try { moi = localStorage.getItem('jm-moi') === '1'; } catch (e) {}   // appareil où l'admin a été ouvert : vos propres visites
+  const send = o => { try { if (moi) o.m = 1; const b = JSON.stringify(o); if (!(navigator.sendBeacon && navigator.sendBeacon(U + '/hit', new Blob([b], { type: 'text/plain' })))) fetch(U + '/hit', { method: 'POST', body: b, keepalive: true, mode: 'no-cors' }); } catch (e) {} };
   const evt = name => send({ p: 'evt:' + name });
   send({ p: '/' + page + (id && /^[a-z0-9_-]{1,80}$/i.test(id) ? '?id=' + id : ''), r: document.referrer, s: q.get('utm_source') || '' });
 

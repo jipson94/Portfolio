@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS hits (
   country TEXT,                 -- code pays (CG, FR…)
   city TEXT,
   device TEXT,                  -- Téléphone / Ordinateur / Tablette
-  vid TEXT                      -- identifiant anonyme, valable un jour
+  vid TEXT,                     -- identifiant anonyme, valable un jour
+  moi INTEGER NOT NULL DEFAULT 0 -- 1 = visite faite depuis un appareil où l'admin a été ouvert (vous)
 );
 CREATE INDEX IF NOT EXISTS hits_day ON hits (day);
 CREATE INDEX IF NOT EXISTS hits_ts ON hits (ts);

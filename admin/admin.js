@@ -333,18 +333,43 @@
     async tableau() {
       $('#view-title').textContent = 'Tableau de bord';
       const P = store.projets.data.PROJETS, A = store.articles.data.ARTICLES, F = store.formations.data.FORMATIONS;
-      $('#view').innerHTML = `<div class="grid">
-        <div class="card"><h3>Demandes reçues</h3><p>Les inscriptions, devis et messages du site arrivent par e-mail dans <b>contact@jipsonmathas.com</b>. Répondez-y depuis votre boîte mail.</p><p style="margin-top:10px"><a href="https://mail.hostinger.com" target="_blank" rel="noopener">Ouvrir la boîte mail ↗</a></p></div>
-        <a class="card" href="#stats/7" style="color:inherit"><h3>Visites · 7 derniers jours</h3><p id="d-stats" class="muted">…</p></a>
-        <div class="card"><h3>Contenu du site</h3><p><b>${P.length}</b> projets · <b>${A.length}</b> articles · <b>${F.length}</b> formations</p><p class="muted" style="margin-top:6px">${A.filter(a => a.exemple).length} article(s) d'exemple à remplacer</p></div>
-        <div class="card"><h3>Dernière mise en ligne</h3><p id="d-deploy" class="muted">…</p></div>
-        <div class="card"><h3>Raccourcis</h3><div class="links"><a href="#article/nouveau">+ Écrire un article</a><a href="#projet/nouveau">+ Ajouter un projet</a><a href="https://mail.hostinger.com" target="_blank" rel="noopener">Boîte mail contact@ ↗</a><a href="https://github.com/jipson94/Portfolio" target="_blank" rel="noopener">GitHub ↗</a></div></div>
-      </div>`;
-      statsFetch(7).then(s => { const v = s.parJour.reduce((a, x) => a + x.visiteurs, 0), p = s.parJour.reduce((a, x) => a + x.vues, 0); $('#d-stats').innerHTML = '<b>' + nf(v) + '</b> visiteurs · <b>' + nf(p) + '</b> pages vues<br>' + nf(s.enLigne) + ' en ce moment · voir le détail →'; }).catch(e => { $('#d-stats').textContent = e.message === 'nokey' ? 'Compteur pas encore branché.' : e.message; });
+      const h = new Date().getHours(), salut = h < 12 ? 'Bonjour' : h < 18 ? 'Bon après-midi' : 'Bonsoir';
+      $('#view').innerHTML = `<div class="hello"><div><h2>${salut} Jipson 👋</h2><p class="muted">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · chiffres des visiteurs, <b>hors vos propres visites</b></p></div>
+        <div class="row"><a class="btn small" href="#article/nouveau">+ Article</a><a class="btn small light" href="#projet/nouveau">+ Projet</a><a class="btn small light" href="../" target="_blank" rel="noopener">Voir le site ↗</a></div></div>
+        <div class="kpis" id="d-kpis">${['Aujourd\'hui', '7 derniers jours', 'En ce moment', 'Demandes (30 j)'].map(t => `<div class="kpi"><small>${t}</small><b>…</b><span>&nbsp;</span></div>`).join('')}</div>
+        <div class="dash">
+          <section class="card st-card d-wide"><div class="row between"><h3>Visiteurs · 14 derniers jours</h3><a href="#stats/30" class="small-link">Toutes les statistiques →</a></div><div id="d-chart"><p class="muted">Chargement…</p></div></section>
+          <section class="card st-card"><h3>D'où viennent-ils ?</h3><p class="muted st-sub">30 derniers jours</p><div id="d-src"><p class="muted">…</p></div></section>
+          <section class="card st-card"><h3>Contenus les plus vus</h3><p class="muted st-sub">30 derniers jours · visiteurs</p><div id="d-top"><p class="muted">…</p></div></section>
+          <section class="card st-card"><h3>Dernières activités</h3><p class="muted st-sub">en temps réel</p><div id="d-feed"><p class="muted">…</p></div></section>
+          <section class="card st-card"><h3>Appareils</h3><p class="muted st-sub">30 derniers jours</p><div id="d-dev"><p class="muted">…</p></div></section>
+          <section class="card st-card"><h3>Contenu du site</h3>
+            <div class="counts"><a href="#projets"><b>${P.length}</b>projets</a><a href="#articles"><b>${A.length}</b>articles</a><a href="#formations"><b>${F.length}</b>formations</a></div>
+            ${A.filter(a => a.exemple).length ? `<p class="note" style="margin-top:12px">${A.filter(a => a.exemple).length} article(s) d'exemple à remplacer</p>` : ''}
+            <p class="muted" style="margin-top:12px">Dernier article : <b>${esc((A.slice().sort((x, y) => (y.date || '').localeCompare(x.date || ''))[0] || {}).titre || '—')}</b></p></section>
+          <section class="card st-card"><h3>Mise en ligne</h3><p id="d-deploy" class="muted">…</p>
+            <h3 style="margin-top:16px">Demandes reçues</h3><p class="muted">Inscriptions, devis et messages arrivent par e-mail dans <b>contact@jipsonmathas.com</b>.</p>
+            <div class="links" style="margin-top:10px"><a href="https://mail.hostinger.com" target="_blank" rel="noopener">Ouvrir la boîte mail ↗</a><a href="https://github.com/jipson94/Portfolio" target="_blank" rel="noopener">GitHub ↗</a></div></section>
+        </div>`;
+      statsFetch(30, false).then(d => {
+        const by = Object.fromEntries(d.parJour.map(x => [x.day, x])), key = i => new Date(Date.now() - i * 864e5).toISOString().slice(0, 10);
+        const days = []; for (let i = 13; i >= 0; i--) { const k = key(i); days.push({ day: k, v: (by[k] || {}).visiteurs || 0, p: (by[k] || {}).vues || 0 }); }
+        const sum = (n, f) => { let t = 0; for (let i = 0; i < n; i++) t += ((by[key(i)] || {})[f] || 0); return t; };
+        const today = by[key(0)] || {}, envois = d.actions.filter(a => /^evt:envoi:/.test(a.path)).reduce((t, a) => t + a.n, 0);
+        const k = [[today.visiteurs || 0, nf(today.vues || 0) + ' page(s) vue(s)'], [sum(7, 'visiteurs'), nf(sum(7, 'vues')) + ' pages vues'], [d.enLigne, 'ces 30 dernières minutes'], [envois, 'inscriptions, devis, messages']];
+        $('#d-kpis').innerHTML = k.map(([v, sub], i) => `<div class="kpi ${i === 2 ? 'live' : ''}"><small>${['Aujourd\'hui', '7 derniers jours', 'En ce moment', 'Demandes (30 j)'][i]}</small><b>${nf(v)}</b><span>${i < 2 ? 'visiteurs · ' : ''}${sub}</span></div>`).join('');
+        const max = Math.max(...days.map(x => x.v), 1), fd = k2 => new Date(k2 + 'T12:00').toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric' });
+        $('#d-chart').innerHTML = `<div class="chart mini" title="">${days.map(x => `<div class="col" title="${esc(fd(x.day))} : ${nf(x.v)} visiteur(s), ${nf(x.p)} page(s)"><i style="height:${x.v ? Math.max(4, Math.round(100 * x.v / max)) : 0}%"></i></div>`).join('')}</div><div class="chart-axis"><span>${esc(fd(days[0].day))}</span><span>max. ${nf(max)} / jour</span><span>aujourd'hui</span></div>`;
+        $('#d-src').innerHTML = donut(d.sources, x => x.k, 'arrivées');
+        $('#d-dev').innerHTML = donut(d.appareils, x => x.k || 'Inconnu');
+        const top = d.pages.filter(p => !/^\/(index|merci)\.html$/.test(p.path)).slice(0, 6).map(p => ({ ...p, n: p.visiteurs }));
+        $('#d-top').innerHTML = barList(top, x => pageLabel(x.path));
+        $('#d-feed').innerHTML = d.recents.length ? `<ul class="feed-list">${d.recents.slice(0, 7).map(x => `<li class="${x.moi ? 'is-moi' : ''}"><span class="when">${esc(agoTxt(x.ts))}</span><span class="what">${esc(activite(x))}</span><span class="who">${x.moi ? '<span class="tag b">Vous</span>' : esc([x.city, x.device].filter(Boolean).join(' · '))}</span></li>`).join('')}</ul>` : '<p class="muted">Aucune visite pour l\'instant.</p>';
+      }).catch(e => { ['#d-chart', '#d-src', '#d-top', '#d-feed', '#d-dev'].forEach(id => { $(id).innerHTML = `<p class="muted">${esc(e.message)}</p>`; }); });
       try {
         const { list } = await api('deploys'); const d = list[0];
         if (!d) { $('#d-deploy').textContent = 'Aucune information pour le moment.'; return; }
-        const lab ={ ready: '<span class="tag g">En ligne</span>', building: '<span class="tag y">En cours</span>', enqueued: '<span class="tag y">En attente</span>', error: '<span class="tag r">Échec</span>' }[d.state] || esc(d.state);
+        const lab = { ready: '<span class="tag g">En ligne</span>', building: '<span class="tag y">En cours</span>', enqueued: '<span class="tag y">En attente</span>', error: '<span class="tag r">Échec</span>' }[d.state] || esc(d.state);
         $('#d-deploy').innerHTML = `${lab} ${new Date(d.published_at || d.created_at).toLocaleString('fr-FR')}<br>${esc(d.title)}`;
       } catch (e) { $('#d-deploy').textContent = e.message; }
     },
@@ -535,8 +560,28 @@
     const max = Math.max(...rows.map(r => r[val] || 0), 1);
     return `<div class="bars">${rows.map(r => `<div class="bar-row"><div class="bar-top"><span class="bar-lab">${esc(label(r))}</span><b>${nf(r[val])}${unit}</b></div><div class="bar-track"><i style="width:${Math.max(2, Math.round(100 * (r[val] || 0) / max))}%"></i></div></div>`).join('')}</div>`;
   };
-  async function statsFetch(jours) {
-    const r = await fetch(API + '/stats?jours=' + jours, { cache: 'no-store', headers: { authorization: 'Bearer ' + token } });
+  const avecMoi = () => ls.get('jm-stats-moi', false);
+  const agoTxt = ts => { const m = Math.round((Date.now() - ts) / 60e3); return m < 1 ? 'à l\'instant' : m < 60 ? 'il y a ' + m + ' min' : m < 1440 ? 'il y a ' + Math.round(m / 60) + ' h' : new Date(ts).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) + ' ' + new Date(ts).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); };
+  const evtLabelTxt = p => { const m = p.match(/^evt:(formation|envoi):([a-z0-9-]+)(?::([a-z0-9-]+))?$/i); if (!m) return p;
+    const F = store.formations.data.FORMATIONS, ft = id => (F.find(f => f.id === id) || {}).titre || id;
+    if (m[1] === 'envoi') return ({ inscription: 'Inscription envoyée', devis: 'Devis demandé', contact: 'Message de contact envoyé' }[m[2]] || 'Formulaire envoyé') + (m[3] ? ' · ' + ft(m[3]) : '');
+    return ({ vue: 'Formation regardée', programme: 'Programme PDF téléchargé', 'clic-inscription': 'Clic « S\'inscrire »', 'clic-devis': 'Clic « Demander un devis »' }[m[3]] || m[3]) + ' · ' + ft(m[2]); };
+  const activite = r => r.path.startsWith('evt:') ? evtLabelTxt(r.path) : pageLabel(r.path);
+  // Anneau (« camembert ») : 4 parts au plus + « Autres », couleurs dans un ordre fixe, légende avec valeurs
+  const COULEURS = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100'], AUTRES = '#a3a9bf';
+  function donut(rows, label, centre = 'visiteurs') {
+    const tot = rows.reduce((a, x) => a + (x.n || 0), 0);
+    if (!tot) return '<p class="muted">Pas encore de données.</p>';
+    let parts = rows.slice(0, 4).map((x, i) => ({ l: label(x), n: x.n, c: COULEURS[i] }));
+    const reste = rows.slice(4).reduce((a, x) => a + x.n, 0); if (reste) parts.push({ l: 'Autres', n: reste, c: AUTRES });
+    const R = 52, C = 2 * Math.PI * R; let off = 0;
+    const arcs = parts.map(p => { const len = C * p.n / tot, gap = parts.length > 1 ? Math.min(2, len / 2) : 0;
+      const a = `<circle r="${R}" cx="70" cy="70" fill="none" stroke="${p.c}" stroke-width="22" stroke-dasharray="${Math.max(0, len - gap)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"><title>${esc(p.l)} : ${nf(p.n)} (${Math.round(100 * p.n / tot)} %)</title></circle>`; off += len; return a; }).join('');
+    return `<div class="donut"><svg viewBox="0 0 140 140" role="img" aria-label="Répartition">${arcs}<text x="70" y="68" text-anchor="middle" class="d-tot">${nf(tot)}</text><text x="70" y="86" text-anchor="middle" class="d-lab">${centre}</text></svg>
+      <ul class="legend">${parts.map(p => `<li><i style="background:${p.c}"></i><span>${esc(p.l)}</span><b>${Math.round(100 * p.n / tot)} %</b><em>${nf(p.n)}</em></li>`).join('')}</ul></div>`;
+  }
+  async function statsFetch(jours, moi = avecMoi()) {
+    const r = await fetch(API + '/stats?jours=' + jours + (moi ? '&moi=1' : ''), { cache: 'no-store', headers: { authorization: 'Bearer ' + token } });
     const d = await r.json().catch(() => ({}));
     if (r.status === 401) { logout('Votre session a expiré. Reconnectez-vous avec votre mot de passe.'); throw new Error('Session expirée.'); }
     if (!r.ok) throw new Error(d.erreur || ('Compteur indisponible (' + r.status + ')'));
@@ -546,11 +591,13 @@
     $('#view-title').textContent = 'Statistiques';
     const jours = [1, 7, 30, 90, 365].includes(+arg) ? +arg : 30;
     const periodes = [[1, 'Aujourd\'hui'], [7, '7 jours'], [30, '30 jours'], [90, '3 mois'], [365, '12 mois']];
-    $('#view').innerHTML = `<div class="toolbar"><div class="seg">${periodes.map(([j, l]) => `<a href="#stats/${j}" class="${j === jours ? 'on' : ''}">${l}</a>`).join('')}</div></div><div id="st"><p class="muted">Chargement des statistiques…</p></div>`;
+    $('#view').innerHTML = `<div class="toolbar"><div class="seg">${periodes.map(([j, l]) => `<a href="#stats/${j}" class="${j === jours ? 'on' : ''}">${l}</a>`).join('')}</div>
+      <label class="check moi-toggle"><input type="checkbox" id="moi" ${avecMoi() ? 'checked' : ''}> Inclure mes propres visites</label></div><div id="st"><p class="muted">Chargement des statistiques…</p></div>`;
+    $('#moi').addEventListener('change', e => { ls.set('jm-stats-moi', e.target.checked); VIEWS.stats(String(jours)); });
     let d;
     try { d = await statsFetch(jours); }
     catch (e) {
-      $('#st').innerHTML = e.message === 'nokey' ? '<p class="note">Le compteur de visites n\'est pas encore branché : l\'adresse du compteur manque dans Réglages → « Statistiques ».</p>' : `<p class="note">${esc(e.message)}</p>`;
+      $('#st').innerHTML = `<p class="note">${esc(e.message)}</p>`;
       return;
     }
     // Jours sans visite : affichés à zéro
@@ -565,12 +612,10 @@
     const F = store.formations.data.FORMATIONS;
     const fRows = F.map(f => { const c = k => (A.find(a => a.path === 'evt:formation:' + f.id + ':' + k) || {}).n || 0, e = k => (A.find(a => a.path === 'evt:envoi:' + k + ':' + f.id) || {}).n || 0;
       return { t: f.titre, vue: c('vue'), pdf: c('programme'), ci: c('clic-inscription'), cd: c('clic-devis'), ins: e('inscription'), dev: e('devis') }; }).sort((a, b) => b.vue - a.vue || b.ins + b.dev - a.ins - a.dev);
-    const ago = ts => { const m = Math.round((Date.now() - ts) / 60e3); return m < 1 ? 'à l\'instant' : m < 60 ? 'il y a ' + m + ' min' : m < 1440 ? 'il y a ' + Math.round(m / 60) + ' h' : new Date(ts).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) + ' ' + new Date(ts).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); };
-    const evtLabel = p => { const m = p.match(/^evt:(formation|envoi):([a-z0-9-]+)(?::([a-z0-9-]+))?$/i); if (!m) return p;
-      const ft = id => (F.find(f => f.id === id) || {}).titre || id;
-      if (m[1] === 'envoi') return ({ inscription: 'Inscription envoyée', devis: 'Devis demandé', contact: 'Message de contact envoyé' }[m[2]] || 'Formulaire envoyé') + (m[3] ? ' · ' + ft(m[3]) : '');
-      return ({ vue: 'Formation regardée', programme: 'Programme PDF téléchargé', 'clic-inscription': 'Clic « S\'inscrire »', 'clic-devis': 'Clic « Demander un devis »' }[m[3]] || m[3]) + ' · ' + ft(m[2]); };
+    const ago = agoTxt;
+    const evtLabel = evtLabelTxt;
     $('#st').innerHTML = `
+      <p class="moi-info">${d.avecMoi ? '<span class="tag b">Vous</span> Vos propres visites sont <b>incluses</b> dans les chiffres.' : `<span class="tag b">Vous</span> Vos propres visites ne sont pas comptées (${nf(d.mesVues)} page(s) vue(s) par vous sur la période).`}</p>
       <div class="kpis">
         <div class="kpi"><small>Visiteurs</small><b>${nf(visiteurs)}</b><span>personnes différentes par jour, additionnées</span></div>
         <div class="kpi"><small>Pages vues</small><b>${nf(vues)}</b><span>${visiteurs ? (vues / visiteurs).toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + ' pages par visiteur' : '—'}</span></div>
@@ -590,14 +635,14 @@
         <div class="tbl-wrap"><table class="st-tbl"><thead><tr><th>Formation</th><th>Regardée</th><th>Programme PDF</th><th>Clic « S'inscrire »</th><th>Clic « Devis »</th><th>Inscriptions envoyées</th><th>Devis demandés</th></tr></thead>
         <tbody>${fRows.map(r => `<tr><td>${esc(r.t)}</td><td>${nf(r.vue)}</td><td>${nf(r.pdf)}</td><td>${nf(r.ci)}</td><td>${nf(r.cd)}</td><td><b>${nf(r.ins)}</b></td><td><b>${nf(r.dev)}</b></td></tr>`).join('')}</tbody></table></div></section>
       <div class="st-grid">
-        <section class="card st-card"><h3>D'où viennent les visiteurs</h3><p class="muted st-sub">arrivées sur le site</p>${barList(d.sources, r => r.k)}</section>
+        <section class="card st-card"><h3>D'où viennent les visiteurs</h3><p class="muted st-sub">arrivées sur le site</p>${donut(d.sources, r => r.k, 'arrivées')}</section>
         <section class="card st-card"><h3>Pages du site</h3><p class="muted st-sub">visiteurs</p>${barList(pagesOf(/^\/(?!article\.html\?|projet\.html\?)/).slice(0, 10), r => pageLabel(r.path))}</section>
-        <section class="card st-card"><h3>Pays</h3><p class="muted st-sub">visiteurs</p>${barList(d.pays, r => paysNom(r.k))}</section>
+        <section class="card st-card"><h3>Pays</h3><p class="muted st-sub">visiteurs</p>${donut(d.pays, r => paysNom(r.k))}</section>
         <section class="card st-card"><h3>Villes</h3><p class="muted st-sub">visiteurs (ville estimée, approximative)</p>${barList(d.villes, r => r.k.replace(/\(([A-Z]{2})\)$/, (m, c) => '(' + paysNom(c) + ')'))}</section>
-        <section class="card st-card"><h3>Appareils</h3><p class="muted st-sub">visiteurs</p>${barList(d.appareils, r => r.k || 'Inconnu')}</section>
+        <section class="card st-card"><h3>Appareils</h3><p class="muted st-sub">visiteurs</p>${donut(d.appareils, r => r.k || 'Inconnu')}</section>
       </div>
       <section class="card st-card"><h3>Dernières activités</h3><p class="muted st-sub">en temps réel, toutes périodes</p>
-        <div class="tbl-wrap"><table class="st-tbl feed"><tbody>${d.recents.map(r => `<tr><td class="muted">${esc(ago(r.ts))}</td><td>${esc(r.path.startsWith('evt:') ? evtLabel(r.path) : pageLabel(r.path))}</td><td>${esc([r.city, paysNom(r.country)].filter(Boolean).join(', '))}</td><td>${esc(r.device || '')}</td><td class="muted">${esc(r.ref || '')}</td></tr>`).join('') || '<tr><td class="muted">Aucune visite enregistrée pour l\'instant.</td></tr>'}</tbody></table></div></section>
+        <div class="tbl-wrap"><table class="st-tbl feed"><tbody>${d.recents.map(r => `<tr class="${r.moi ? 'is-moi' : ''}"><td class="muted">${esc(ago(r.ts))}${r.moi ? ' <span class="tag b">Vous</span>' : ''}</td><td>${esc(r.path.startsWith('evt:') ? evtLabel(r.path) : pageLabel(r.path))}</td><td>${esc([r.city, paysNom(r.country)].filter(Boolean).join(', '))}</td><td>${esc(r.device || '')}</td><td class="muted">${esc(r.ref || '')}</td></tr>`).join('') || '<tr><td class="muted">Aucune visite enregistrée pour l\'instant.</td></tr>'}</tbody></table></div></section>
       <p class="note">Les visiteurs restent anonymes : le site n'utilise pas de cookie et n'enregistre ni nom ni adresse IP. On ne peut donc pas savoir <i>qui</i> regarde, seulement combien, d'où et sur quoi. Les robots (Google, aperçus de liens…) ne sont pas comptés.</p>`;
     const chart = $('#chart'), tip = $('#tip');
     if (chart) {
@@ -636,7 +681,10 @@
 
   function listView(title, list, fmt, newHash, newLabel, searchable = true) {
     $('#view-title').textContent = title;
-    $('#view').innerHTML = `<div class="toolbar">${searchable ? '<input class="search" id="q" type="search" placeholder="Rechercher…">' : '<span></span>'}<a class="btn" href="${newHash}">${esc(newLabel)}</a></div><div class="items" id="lst"></div>`;
+    const mode = ls.get('jm-vue', 'liste');
+    $('#view').innerHTML = `<div class="toolbar">${searchable ? '<input class="search" id="q" type="search" placeholder="Rechercher…">' : '<span></span>'}
+      <div class="row"><div class="seg" id="vue-mode" role="group" aria-label="Affichage"><a href="#" data-m="liste" class="${mode === 'liste' ? 'on' : ''}" title="En liste">☰ Liste</a><a href="#" data-m="grille" class="${mode === 'grille' ? 'on' : ''}" title="En grille">▦ Grille</a></div><a class="btn" href="${newHash}">${esc(newLabel)}</a></div></div><div class="items ${mode === 'grille' ? 'as-grid' : ''}" id="lst"></div>`;
+    $('#vue-mode').addEventListener('click', e => { const a = e.target.closest('[data-m]'); if (!a) return; e.preventDefault(); ls.set('jm-vue', a.dataset.m); $('#lst').classList.toggle('as-grid', a.dataset.m === 'grille'); $('#vue-mode').querySelectorAll('a').forEach(x => x.classList.toggle('on', x === a)); });
     const draw = q => {
       $('#lst').innerHTML = list.map(fmt).filter(x => !q || x.t.toLowerCase().includes(q)).map(x => `<a class="item" href="${x.href}">${x.img ? `<img src="${esc(x.img)}" alt="" loading="lazy">` : '<span class="ph"></span>'}<div class="grow"><div class="t">${esc(x.t)}</div><div class="muted">${esc(x.sub)}</div></div>${x.tags || ''}</a>`).join('') || '<p class="muted">Rien pour l\'instant.</p>';
     };
@@ -657,6 +705,7 @@
   }
   async function start() {
     $('#login').hidden = true; $('#app').hidden = false;
+    try { localStorage.setItem('jm-moi', '1'); } catch {}   // lu par site.js : vos visites sont reconnues sur cet appareil
     status('Chargement des données…');
     try { await loadAll(); status(''); } catch (e) { status('Impossible de charger les données : ' + e.message, 'err'); return; }
     route();

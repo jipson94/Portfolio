@@ -7,7 +7,7 @@ const PROJETS = [
   {
     "id": "anic-2026",
     "titre": "ANIC 2026",
-    "sousTitre": "Film officiel des Assises Nationales de l'Industrie du Congo",
+    "sousTitre": "Vidéo de communication pour les Assises Nationales de l'Industrie du Congo",
     "categorie": "Montage vidéo · Motion design",
     "domaine": "Vidéo & motion",
     "annee": "2026",
@@ -20,7 +20,7 @@ const PROJETS = [
       "Montage vidéo",
       "Export 1080p & 4K"
     ],
-    "resume": "Un film de présentation pour annoncer les Assises, mobiliser les acteurs publics et privés et inviter les partenaires à rejoindre la dynamique d'industrialisation du Congo.",
+    "resume": "Une vidéo de communication pour annoncer les Assises, mobiliser les acteurs publics et privés et inviter les partenaires à rejoindre la dynamique d'industrialisation du Congo.",
     "video": "videos/anic-showreel.mp4",
     "poster": "videos/anic-showreel.jpg",
     "images": [
@@ -29,7 +29,7 @@ const PROJETS = [
       "images/anic-industrialiser.jpg",
       "images/anic-batir.jpg"
     ],
-    "contexte": "Du 14 au 16 décembre 2026, Brazzaville accueille les Assises Nationales de l'Industrie du Congo. L'événement réunit pouvoirs publics, secteur privé, investisseurs, partenaires techniques et financiers, universitaires et société civile autour d'un enjeu majeur : l'industrialisation du pays. Il fallait un film capable de présenter l'événement de façon claire, rythmée et crédible.",
+    "contexte": "Du 14 au 16 décembre 2026, Brazzaville accueille les Assises Nationales de l'Industrie du Congo. L'événement réunit pouvoirs publics, secteur privé, investisseurs, partenaires techniques et financiers, universitaires et société civile autour d'un enjeu majeur : l'industrialisation du pays. Il fallait une vidéo capable de présenter l'événement de façon claire, rythmée et crédible.",
     "objectifs": [
       "Présenter les Assises, leurs dates et leur ambition",
       "Montrer la réalité industrielle du pays à travers des images de terrain",

@@ -16,11 +16,33 @@
   <form class="login-card" id="login-form">
     <img src="../images/logo-signature.png" alt="Jipson Mathas">
     <h1>Espace d'administration</h1>
-    <label for="pw">Clé GitHub</label>
-    <input id="pw" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…" required>
+    <label for="pw">Mot de passe</label>
+    <input id="pw" type="password" autocomplete="current-password" spellcheck="false" required>
     <button class="btn" type="submit">Se connecter</button>
     <p class="login-err" id="login-err" role="alert"></p>
-    <p class="login-help">À coller une seule fois : elle reste enregistrée dans ce navigateur jusqu'à « Se déconnecter ». N'utilisez l'admin que sur vos propres appareils.</p>
+    <p class="login-help">Vous restez connecté 30 jours sur cet appareil (jusqu'à « Se déconnecter »). Après 5 essais ratés, la connexion est bloquée 15 minutes.</p>
+  </form>
+  <form class="login-card" id="setup-form" hidden>
+    <img src="../images/logo-signature.png" alt="Jipson Mathas">
+    <h1>Créer votre mot de passe</h1>
+    <p class="login-help" style="margin-top:-4px">À faire une seule fois.</p>
+    <label for="su-code">Code d'installation</label>
+    <input id="su-code" type="text" autocomplete="off" spellcheck="false" required style="text-transform:uppercase">
+    <label for="su-pw">Nouveau mot de passe (8 caractères minimum)</label>
+    <input id="su-pw" type="password" autocomplete="new-password" minlength="8" required>
+    <label for="su-pw2">Répétez le mot de passe</label>
+    <input id="su-pw2" type="password" autocomplete="new-password" minlength="8" required>
+    <label for="su-gh">Clé GitHub</label>
+    <input id="su-gh" type="password" autocomplete="off" spellcheck="false" placeholder="github_pat_…" required>
+    <details class="login-help"><summary>Comment obtenir la clé GitHub ?</summary><ol>
+      <li>Ouvrez <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Nouvelle clé</a> (connecté à votre compte GitHub).</li>
+      <li>Nom : « Admin site ». Expiration : la plus longue possible.</li>
+      <li>Repository access : « Only select repositories » → <b>Portfolio</b>.</li>
+      <li>Permissions → Repository → <b>Contents : Read and write</b>.</li>
+      <li>« Generate token », puis copiez la clé et collez-la ici.</li></ol></details>
+    <button class="btn" type="submit">Créer et se connecter</button>
+    <p class="login-err" id="setup-err" role="alert"></p>
+    <p class="login-help">La clé GitHub est gardée chiffrée chez Cloudflare : vous n'aurez plus à la saisir.</p>
   </form>
 </section>
 
@@ -36,6 +58,7 @@
       <a href="#formations" data-v="formations">Formations</a>
       <a href="#annonces" data-v="annonces">Annonces</a>
       <a href="#reglages" data-v="reglages">Réglages</a>
+      <a href="#compte" data-v="compte">Mot de passe</a>
     </nav>
     <div class="side-links">
       <a href="../" target="_blank" rel="noopener">Voir le site ↗</a>

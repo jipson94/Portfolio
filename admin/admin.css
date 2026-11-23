@@ -175,3 +175,6 @@ button,input,select,textarea{font:inherit;color:inherit}
 .bar-lab{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar-track{height:6px;background:var(--fond);border-radius:999px;margin-top:4px}
 .bar-track i{display:block;height:100%;background:var(--vif);border-radius:999px}
+.login-card details{font-size:13px;color:var(--gris)}.login-card details summary{cursor:pointer;color:var(--vif);font-weight:600}
+.login-card details ol{padding-left:18px;margin-top:6px;display:flex;flex-direction:column;gap:3px}
+.login{align-content:center}.login-card+.login-card{margin-top:0}

@@ -1,13 +1,16 @@
 /* ============================================================
    Espace d'administration — Jipson Mathas
-   Le site est hébergé sur GitHub Pages : l'admin enregistre directement dans le dépôt GitHub,
-   avec la clé GitHub (jeton) saisie à la connexion et gardée dans ce navigateur.
+   Le site est hébergé sur GitHub Pages : l'admin enregistre dans le dépôt GitHub en passant par le
+   « portier » Cloudflare (stats/worker.js), qui garde la clé GitHub en secret. Connexion par mot de passe,
+   session de 30 jours gardée dans ce navigateur.
    Les modifications restent en brouillon jusqu'au bouton « Publier », qui envoie tout en une fois.
    Les demandes des formulaires arrivent par e-mail dans contact@ (Web3Forms), pas dans l'admin.
    ============================================================ */
 (function () {
   const REPO = 'jipson94/Portfolio', BRANCH = 'main', GH = 'https://api.github.com/repos/' + REPO;
-  const TOKEN_KEY = 'jm-admin-gh';
+  const TOKEN_KEY = 'jm-admin-session';
+  const API = (() => { try { return localStorage.getItem('jm-admin-api') || ''; } catch { return ''; } })() || 'https://jm-stats.jipsonmathas.workers.dev';   // portier Cloudflare
+  try { localStorage.removeItem('jm-admin-gh'); } catch {}   // ancienne clé GitHub : plus utilisée
   const FILES = { projets: 'data/projets.js', articles: 'data/articles.js', formations: 'data/formations.js', pubs: 'data/pubs.js', site: 'data/site.js' };
   const DRAFT_KEY = 'jm-admin-draft';
   const $ = s => document.querySelector(s);
@@ -23,14 +26,19 @@
   const WRITABLE = p => typeof p === 'string' && !p.includes('..') && !p.startsWith('/') &&
     (/^data\/[a-z0-9-]+\.js$/.test(p) || p === 'traductions.js' || /^images\/[a-z0-9/_-]+\.(jpe?g|png|webp|svg)$/i.test(p));
   async function gh(method, url, body) {
-    const r = await fetch(GH + url, {
-      method, cache: 'no-store',
-      headers: { authorization: 'Bearer ' + token, accept: 'application/vnd.github+json', ...(body ? { 'content-type': 'application/json' } : {}) },
-      body: body ? JSON.stringify(body) : undefined
-    });
+    let r;
+    try {
+      r = await fetch(API + '/gh' + url, {
+        method, cache: 'no-store',
+        headers: { authorization: 'Bearer ' + token, ...(body ? { 'content-type': 'application/json' } : {}) },
+        body: body ? JSON.stringify(body) : undefined
+      });
+    } catch { throw new Error('Connexion impossible. Vérifiez votre accès à Internet.'); }
     const data = r.status === 204 ? {} : await r.json().catch(() => ({}));
-    if (r.status === 401) { logout('Clé GitHub refusée (expirée ou supprimée). Collez une nouvelle clé.'); throw new Error('Clé GitHub refusée.'); }
-    if (!r.ok) { const e = new Error(r.status === 403 || r.status === 404 ? 'Accès refusé par GitHub : la clé doit avoir le droit « Contents : Read and write » sur le dépôt Portfolio.' : 'GitHub ' + r.status + ' : ' + (data.message || '')); e.status = r.status; throw e; }
+    if (r.status === 401) { logout('Votre session a expiré. Reconnectez-vous avec votre mot de passe.'); throw new Error('Session expirée.'); }
+    if (r.status === 502) throw new Error('La clé GitHub enregistrée chez Cloudflare a expiré ou a été supprimée : demandez à Claude de la remplacer.');
+    if (r.status === 503) throw new Error(data.message || 'Le portier Cloudflare n’est pas encore configuré.');
+    if (!r.ok) { const e = new Error(r.status === 403 || r.status === 404 ? 'Accès refusé par GitHub (' + (data.message || r.status) + ').' : 'GitHub ' + r.status + ' : ' + (data.message || '')); e.status = r.status; throw e; }
     return data;
   }
   const b64ToText = b => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\s/g, '')), c => c.charCodeAt(0)));
@@ -79,11 +87,17 @@
     if (action === 'publish') return publishFiles(payload);
     if (action === 'deploys') return { list: await deploys() };
     if (action === 'login') {
-      const repo = await gh('GET', '');
-      if (!repo.permissions || !repo.permissions.push) throw new Error('Cette clé peut lire le dépôt mais pas le modifier : donnez-lui « Contents : Read and write ».');
-      return { ok: true };
+      const d = await portier('/login', { password: payload.password });
+      return { session: d.session };
     }
     throw new Error('Action inconnue');
+  }
+  async function portier(path, body, auth) {
+    let r; try { r = await fetch(API + path, { method: body ? 'POST' : 'GET', cache: 'no-store', headers: { ...(body ? { 'content-type': 'application/json' } : {}), ...(auth ? { authorization: 'Bearer ' + token } : {}) }, body: body ? JSON.stringify(body) : undefined }); }
+    catch { throw new Error('Connexion impossible. Vérifiez votre accès à Internet.'); }
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) { const e = new Error(d.erreur || 'Erreur ' + r.status); e.status = r.status; e.data = d; throw e; }
+    return d;
   }
   function status(msg, kind = '', ms = 0) {
     const el = $('#status'); el.textContent = msg; el.className = 'status ' + kind; el.hidden = !msg;
@@ -522,10 +536,9 @@
     return `<div class="bars">${rows.map(r => `<div class="bar-row"><div class="bar-top"><span class="bar-lab">${esc(label(r))}</span><b>${nf(r[val])}${unit}</b></div><div class="bar-track"><i style="width:${Math.max(2, Math.round(100 * (r[val] || 0) / max))}%"></i></div></div>`).join('')}</div>`;
   };
   async function statsFetch(jours) {
-    const base = (store.site.data.SITE.stats || '').replace(/\/$/, '');
-    if (!base) throw new Error('nokey');
-    const r = await fetch(base + '/stats?jours=' + jours, { cache: 'no-store', headers: { authorization: 'Bearer ' + token } });
+    const r = await fetch(API + '/stats?jours=' + jours, { cache: 'no-store', headers: { authorization: 'Bearer ' + token } });
     const d = await r.json().catch(() => ({}));
+    if (r.status === 401) { logout('Votre session a expiré. Reconnectez-vous avec votre mot de passe.'); throw new Error('Session expirée.'); }
     if (!r.ok) throw new Error(d.erreur || ('Compteur indisponible (' + r.status + ')'));
     return d;
   }
@@ -593,6 +606,34 @@
     }
   };
 
+  VIEWS.compte = function () {
+    $('#view-title').textContent = 'Mot de passe';
+    $('#view').innerHTML = `<form class="form" id="acc">
+      <section class="fgroup"><h2>Changer le mot de passe</h2>
+        <div class="f"><label for="a-new">Nouveau mot de passe (8 caractères minimum)</label><input type="password" id="a-new" autocomplete="new-password" minlength="8"></div>
+        <div class="f"><label for="a-new2">Répétez le nouveau mot de passe</label><input type="password" id="a-new2" autocomplete="new-password" minlength="8"></div>
+        <span class="help full">Vos autres appareils seront déconnectés.</span></section>
+      <section class="fgroup"><h2>Remplacer la clé GitHub</h2>
+        <div class="f full"><label for="a-gh">Nouvelle clé GitHub (seulement si l'ancienne a expiré)</label><input type="password" id="a-gh" autocomplete="off" spellcheck="false" placeholder="github_pat_…"></div>
+        <span class="help full">Créez-la sur <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com</a> : dépôt « Portfolio », permission « Contents : Read and write ».</span></section>
+      <section class="fgroup"><h2>Confirmer</h2>
+        <div class="f"><label for="a-cur">Mot de passe actuel</label><input type="password" id="a-cur" autocomplete="current-password" required></div></section>
+      <div class="actions"><span></span><button class="btn" type="submit">Enregistrer</button></div></form>`;
+    $('#acc').addEventListener('submit', async e => {
+      e.preventDefault();
+      const nouveau = $('#a-new').value, github = $('#a-gh').value.trim();
+      if (nouveau !== $('#a-new2').value) { status('Les deux nouveaux mots de passe ne sont pas identiques.', 'err'); return; }
+      if (!nouveau && !github) { status('Remplissez un nouveau mot de passe ou une nouvelle clé GitHub.', 'err'); return; }
+      const b = e.target.querySelector('button[type=submit]'); b.disabled = true; status('Enregistrement…');
+      try {
+        const d = await portier('/compte', { actuel: $('#a-cur').value, nouveau: nouveau || undefined, github: github || undefined }, true);
+        if (d.session) { token = d.session; try { localStorage.setItem(TOKEN_KEY, token); } catch {} }
+        e.target.reset(); status('Enregistré ✓' + (nouveau ? ' — utilisez désormais votre nouveau mot de passe.' : ''), 'ok', 8000);
+      } catch (err) { status(err.message, 'err'); }
+      b.disabled = false;
+    });
+  };
+
   function listView(title, list, fmt, newHash, newLabel, searchable = true) {
     $('#view-title').textContent = title;
     $('#view').innerHTML = `<div class="toolbar">${searchable ? '<input class="search" id="q" type="search" placeholder="Rechercher…">' : '<span></span>'}<a class="btn" href="${newHash}">${esc(newLabel)}</a></div><div class="items" id="lst"></div>`;
@@ -623,7 +664,19 @@
   function logout(msg) {
     token = ''; try { localStorage.removeItem(TOKEN_KEY); } catch {}
     $('#app').hidden = true; $('#login').hidden = false; $('#login-err').textContent = msg || '';
+    portier('/etat').then(d => { $('#setup-form').hidden = !!d.configure; $('#login-form').hidden = !d.configure; }).catch(() => {});
   }
+  $('#setup-form').addEventListener('submit', async e => {
+    e.preventDefault(); $('#setup-err').textContent = '';
+    if ($('#su-pw').value !== $('#su-pw2').value) { $('#setup-err').textContent = 'Les deux mots de passe ne sont pas identiques.'; return; }
+    const b = e.target.querySelector('button'); b.disabled = true; b.textContent = 'Vérification…';
+    try {
+      const d = await portier('/installer', { code: $('#su-code').value, password: $('#su-pw').value, github: $('#su-gh').value });
+      token = d.session; try { localStorage.setItem(TOKEN_KEY, token); } catch {}
+      e.target.reset(); $('#setup-form').hidden = true; $('#login-form').hidden = false; start();
+    } catch (err) { $('#setup-err').textContent = err.message; }
+    b.disabled = false; b.textContent = 'Créer et se connecter';
+  });
 
   addEventListener('hashchange', route);
   $('#publish').addEventListener('click', publish);
@@ -633,8 +686,7 @@
   $('#login-form').addEventListener('submit', async e => {
     e.preventDefault(); $('#login-err').textContent = '';
     const b = e.target.querySelector('button'); b.disabled = true;
-    token = $('#pw').value.trim();
-    try { await api('login'); try { localStorage.setItem(TOKEN_KEY, token); } catch {} $('#pw').value = ''; start(); }
+    try { token = (await api('login', { password: $('#pw').value })).session; try { localStorage.setItem(TOKEN_KEY, token); } catch {} $('#pw').value = ''; start(); }
     catch (err) { token = ''; $('#login-err').textContent = err.message; }
     b.disabled = false;
   });

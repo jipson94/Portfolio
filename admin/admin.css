@@ -222,3 +222,40 @@ tr.is-moi td,li.is-moi{background:#f3f6ff}
 .items.as-grid .item .grow{padding:12px 14px 14px}
 .items.as-grid .item .tag{position:absolute;top:10px;left:10px}
 .toolbar .seg a{white-space:nowrap}
+
+/* ============ Animations (voir motion.js) ============ */
+@keyframes a-in{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes a-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+@keyframes a-bar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes a-title{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+@keyframes a-status{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes a-pulse{0%{box-shadow:0 0 0 0 rgba(31,157,85,.45)}70%{box-shadow:0 0 0 9px rgba(31,157,85,0)}100%{box-shadow:0 0 0 0 rgba(31,157,85,0)}}
+@keyframes a-shine{from{background-position:-200% 0}to{background-position:200% 0}}
+.anim-on .a-in{animation:a-in .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0) * 45ms)}
+.anim-on .a-grow{transform-origin:bottom;animation:a-grow .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0ms)}
+.anim-on .a-bar{transform-origin:left;animation:a-bar .8s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0ms)}
+.anim-on .a-title{animation:a-title .4s ease both}
+.anim-on .a-status{animation:a-status .35s cubic-bezier(.2,.7,.2,1) both}
+.anim-on .kpi.live b::after{animation:a-pulse 2s ease-out infinite;box-shadow:none}
+/* Survol : les cartes se soulèvent légèrement */
+.card,.kpi,.item,.counts a{transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .2s,background .2s}
+a.card:hover,.kpi:hover,.item:hover,.counts a:hover,.st-card:hover{transform:translateY(-3px);box-shadow:0 14px 30px -14px rgba(15,33,103,.28)}
+.items.as-grid .item img{transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.items.as-grid .item:hover img{transform:scale(1.05)}
+/* Boutons et menu */
+.btn{transition:background .2s,color .2s,transform .15s,box-shadow .2s}
+.btn:active{transform:scale(.96)}
+.btn:not(:disabled):hover{box-shadow:0 8px 20px -8px rgba(29,68,194,.55)}
+.side-nav a{transition:background .2s,color .2s,transform .2s}
+.side-nav a:hover{transform:translateX(3px)}
+.seg a{transition:background .25s,color .25s}
+.chart .col i{transition:background .2s,filter .2s}
+.bar-track i{transition:filter .2s}.bar-row:hover .bar-track i{filter:brightness(1.15)}
+.legend li{transition:transform .2s}.legend li:hover{transform:translateX(3px)}
+.f input,.f select,.f textarea,.search{transition:border-color .2s,box-shadow .2s}
+.f input:focus,.f select:focus,.f textarea:focus,.search:focus{outline:none;border-color:var(--vif);box-shadow:0 0 0 4px rgba(29,68,194,.12)}
+/* Chargement : texte qui scintille */
+.anim-on #st > .muted:only-child,.anim-on .st-card .muted:only-child:not(.st-sub){background:linear-gradient(90deg,var(--gris) 40%,#c9d0e6 50%,var(--gris) 60%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:a-shine 1.4s linear infinite}
+/* Connexion */
+.anim-on .login-card:not([hidden]){animation:a-in .6s cubic-bezier(.2,.7,.2,1) both}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}

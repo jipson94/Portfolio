@@ -10,6 +10,7 @@ const SITE = {
   "telephone": "",
   "whatsapp": "242068050665",
   "whatsappMessage": "Bonjour Jipson, je vous contacte depuis votre site.",
+  "stats": "https://jm-stats.jipsonmathas.workers.dev",
   "web3forms": "8b4b9ee4-2be9-49fc-b0e9-4729f8ee3cee",
   "reseaux": {
     "LinkedIn": "https://www.linkedin.com/in/jipsonmathas",

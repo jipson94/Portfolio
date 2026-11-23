@@ -7,4 +7,4 @@ workers_dev = true
 [[d1_databases]]
 binding = "DB"
 database_name = "jm-stats"
-database_id = "A_REMPLIR"
+database_id = "2b0dee23-2d43-45b8-8f74-eb9bb038b280"

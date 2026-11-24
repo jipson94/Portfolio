@@ -99,6 +99,31 @@
     if (!r.ok) { const e = new Error(d.erreur || 'Erreur ' + r.status); e.status = r.status; e.data = d; throw e; }
     return d;
   }
+  // Champs mot de passe : bouton « œil » pour voir ce qu'on tape
+  const OEIL = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>';
+  const OEIL_BARRE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7c2 0 3.7.7 5.1 1.6M22 12s-3.6 7-10 7c-2 0-3.7-.7-5.1-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M3 3l18 18"/></svg>';
+  function oeil(root) {
+    (root || document).querySelectorAll('input[type=password]:not([data-oeil])').forEach(inp => {
+      inp.dataset.oeil = '1';
+      const box = document.createElement('span'); box.className = 'pw-wrap';
+      inp.parentNode.insertBefore(box, inp); box.appendChild(inp);
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'pw-eye'; b.innerHTML = OEIL;
+      b.setAttribute('aria-label', 'Afficher le mot de passe'); b.title = 'Afficher le mot de passe';
+      b.addEventListener('click', () => {
+        const voir = inp.type === 'password'; inp.type = voir ? 'text' : 'password';
+        b.innerHTML = voir ? OEIL_BARRE : OEIL; b.title = voir ? 'Masquer le mot de passe' : 'Afficher le mot de passe'; b.setAttribute('aria-label', b.title); inp.focus();
+      });
+      box.appendChild(b);
+    });
+  }
+  oeil(); new MutationObserver(() => oeil()).observe(document.body, { childList: true, subtree: true });
+  // Message affiché juste sous le bouton d'un formulaire
+  function msgForm(form, texte, kind) {
+    let p = form.querySelector('.form-msg');
+    if (!p) { p = document.createElement('p'); p.className = 'form-msg'; p.setAttribute('role', 'status'); form.querySelector('.actions').after(p); }
+    p.textContent = texte; p.className = 'form-msg ' + (kind || ''); p.hidden = !texte;
+    p.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
   function status(msg, kind = '', ms = 0) {
     const el = $('#status'); el.textContent = msg; el.className = 'status ' + kind; el.hidden = !msg;
     if (ms) setTimeout(() => { if (el.textContent === msg) el.hidden = true; }, ms);
@@ -673,10 +698,14 @@
     portier('/etat').then(d => { if (d.boite) $('#boite-etat').insertAdjacentHTML('afterbegin', '<span class="tag g">Activé</span> '); }).catch(() => {});
     $('#boite').addEventListener('submit', async e => {
       e.preventDefault();
-      const b = e.target.querySelector('button[type=submit]'); b.disabled = true; status('Vérification auprès de Hostinger…');
-      try { await portier('/boite', { motdepasse: $('#b-mdp').value }, true); e.target.reset(); status('C\'est branché ✓ — un e-mail de test vient d\'arriver dans contact@. Les formulaires du site passent désormais par votre boîte.', 'ok', 12000); }
-      catch (err) { status(err.message, 'err'); }
-      b.disabled = false;
+      const f = e.target, b = f.querySelector('button[type=submit]'); b.disabled = true; b.textContent = 'Vérification…';
+      msgForm(f, 'Vérification du mot de passe auprès de Hostinger et envoi du test… (quelques secondes)', 'wait');
+      try {
+        await portier('/boite', { motdepasse: $('#b-mdp').value }, true); f.reset();
+        msgForm(f, '✓ C\'est branché ! Un e-mail de test vient d\'être envoyé à contact@jipsonmathas.com : vérifiez votre boîte de réception. Les formulaires du site passent désormais par votre boîte.', 'ok');
+        if (!$('#boite-etat .tag')) $('#boite-etat').insertAdjacentHTML('afterbegin', '<span class="tag g">Activé</span> ');
+      } catch (err) { msgForm(f, '✕ ' + err.message, 'err'); }
+      b.disabled = false; b.textContent = 'Enregistrer et envoyer un test';
     });
     $('#acc').addEventListener('submit', async e => {
       e.preventDefault();
@@ -687,8 +716,8 @@
       try {
         const d = await portier('/compte', { actuel: $('#a-cur').value, nouveau: nouveau || undefined, github: github || undefined }, true);
         if (d.session) { token = d.session; try { localStorage.setItem(TOKEN_KEY, token); } catch {} }
-        e.target.reset(); status('Enregistré ✓' + (nouveau ? ' — utilisez désormais votre nouveau mot de passe.' : ''), 'ok', 8000);
-      } catch (err) { status(err.message, 'err'); }
+        e.target.reset(); status(''); msgForm(e.target, '✓ Enregistré' + (nouveau ? ' — utilisez désormais votre nouveau mot de passe.' : '.'), 'ok');
+      } catch (err) { status(''); msgForm(e.target, '✕ ' + err.message, 'err'); }
       b.disabled = false;
     });
   };

@@ -321,3 +321,17 @@ html,body,.topbar,.card,.kpi,.item,.fgroup,.seg,.sub,.chip,.icon-btn,.rich,.rich
 [data-theme="dark"] .counts a,[data-theme="dark"] .seg a{color:var(--gris)}
 [data-theme="dark"] .side-links a{color:#c9d3fb}
 [data-theme="dark"] .seg a.on{color:var(--roi)}
+
+/* Champs mot de passe avec bouton « œil » */
+.pw-wrap{position:relative;display:block;width:100%}
+.pw-wrap input{width:100%;box-sizing:border-box;padding-right:48px!important}
+.pw-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;border-radius:10px;background:transparent;color:var(--gris);cursor:pointer;display:grid;place-items:center;padding:0}
+.pw-eye:hover{background:var(--fond);color:var(--vif)}
+.pw-eye svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+[data-theme="dark"] .pw-eye{color:#9ca6cf}[data-theme="dark"] .pw-eye:hover{background:#1b2558;color:#fff}
+/* Message sous le bouton d'un formulaire */
+.form-msg{margin-top:12px;padding:12px 16px;border-radius:12px;font-weight:600;font-size:14px;background:#e8f0ff;color:var(--roi)}
+.form-msg.ok{background:#e3f6ea;color:#0f5a30}.form-msg.err{background:#fde7e7;color:#8a1c1c}.form-msg.wait{background:#fff8dc;color:#8a5a00}
+[data-theme="dark"] .form-msg{background:#1b2a66;color:#dfe6ff}[data-theme="dark"] .form-msg.ok{background:#0f3d27;color:#b9f0cf}[data-theme="dark"] .form-msg.err{background:#4a1414;color:#ffc9c9}[data-theme="dark"] .form-msg.wait{background:#3a3110;color:#ffe08a}
+/* Le bandeau d'état reste visible en faisant défiler */
+.status{position:sticky;top:82px;z-index:4}

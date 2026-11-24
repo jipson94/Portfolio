@@ -663,7 +663,21 @@
         <span class="help full">Créez-la sur <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com</a> : dépôt « Portfolio », permission « Contents : Read and write ».</span></section>
       <section class="fgroup"><h2>Confirmer</h2>
         <div class="f"><label for="a-cur">Mot de passe actuel</label><input type="password" id="a-cur" autocomplete="current-password" required></div></section>
-      <div class="actions"><span></span><button class="btn" type="submit">Enregistrer</button></div></form>`;
+      <div class="actions"><span></span><button class="btn" type="submit">Enregistrer</button></div></form>
+      <form class="form" id="boite" style="margin-top:28px">
+      <section class="fgroup"><h2>Boîte mail des formulaires du site</h2>
+        <p class="help full" id="boite-etat">Les messages du formulaire de contact et des formations sont envoyés par votre propre boîte <b>contact@jipsonmathas.com</b> : ils arrivent dans la boîte de réception, pas dans les spams, et « Répondre » écrit directement au visiteur.</p>
+        <div class="f"><label for="b-mdp">Mot de passe de la boîte contact@jipsonmathas.com</label><input type="password" id="b-mdp" autocomplete="off" required></div>
+        <span class="help full">C'est le mot de passe de votre messagerie Hostinger (celui de mail.hostinger.com). Il est vérifié, puis gardé chiffré chez Cloudflare. Un e-mail de test vous est envoyé.</span></section>
+      <div class="actions"><span></span><button class="btn" type="submit">Enregistrer et envoyer un test</button></div></form>`;
+    portier('/etat').then(d => { if (d.boite) $('#boite-etat').insertAdjacentHTML('afterbegin', '<span class="tag g">Activé</span> '); }).catch(() => {});
+    $('#boite').addEventListener('submit', async e => {
+      e.preventDefault();
+      const b = e.target.querySelector('button[type=submit]'); b.disabled = true; status('Vérification auprès de Hostinger…');
+      try { await portier('/boite', { motdepasse: $('#b-mdp').value }, true); e.target.reset(); status('C\'est branché ✓ — un e-mail de test vient d\'arriver dans contact@. Les formulaires du site passent désormais par votre boîte.', 'ok', 12000); }
+      catch (err) { status(err.message, 'err'); }
+      b.disabled = false;
+    });
     $('#acc').addEventListener('submit', async e => {
       e.preventDefault();
       const nouveau = $('#a-new').value, github = $('#a-gh').value.trim();

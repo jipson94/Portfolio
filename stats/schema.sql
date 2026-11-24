@@ -16,3 +16,4 @@ CREATE INDEX IF NOT EXISTS hits_ts ON hits (ts);
 
 CREATE TABLE IF NOT EXISTS logins (k TEXT NOT NULL, ts INTEGER NOT NULL);   -- essais de mot de passe ratés (anti-force brute)
 CREATE TABLE IF NOT EXISTS config (k TEXT PRIMARY KEY, v TEXT);   -- mot de passe haché, clé GitHub chiffrée, version des sessions
+CREATE TABLE IF NOT EXISTS envois (k TEXT NOT NULL, ts INTEGER NOT NULL);   -- formulaires envoyés (limite par visiteur)

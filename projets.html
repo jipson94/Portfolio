@@ -58,7 +58,7 @@
       <!-- Projet mis en avant -->
       <div class="project">
         <div class="project-img">
-          <video src="videos/anic-showreel.mp4" poster="videos/anic-showreel.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Extrait de la vidéo ANIC 2026"></video>
+          <video data-src="videos/anic-showreel.mp4" poster="videos/anic-showreel.jpg" muted loop playsinline preload="none" aria-label="Extrait de la vidéo ANIC 2026"></video>
           <span class="tag">2026</span>
           <span class="reel-badge">Showreel</span>
           <button class="reel-toggle" aria-label="Mettre en pause la vidéo">❚❚</button>
@@ -128,9 +128,8 @@
 
   // Showreel : pause / lecture
   const vid = document.querySelector('.project-img video'), tog = document.querySelector('.reel-toggle');
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { vid.removeAttribute('autoplay'); vid.pause(); tog.textContent = '▶'; }
   tog.addEventListener('click', () => {
-    if (vid.paused) { vid.play(); tog.textContent = '❚❚'; tog.setAttribute('aria-label','Mettre en pause la vidéo'); }
+    if (vid.paused) { if (!vid.getAttribute('src')) vid.src = vid.dataset.src; vid.play(); tog.textContent = '❚❚'; tog.setAttribute('aria-label','Mettre en pause la vidéo'); }
     else { vid.pause(); tog.textContent = '▶'; tog.setAttribute('aria-label','Lire la vidéo'); }
   });
 </script>

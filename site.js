@@ -140,14 +140,19 @@
     });
   })();
 
-  // Petits écrans / connexion économique : vidéo non lancée automatiquement
+  // Vidéos « data-src » : rien n'est téléchargé tant qu'elles ne sont pas à l'écran.
+  // Sur ordinateur : lecture automatique quand elles apparaissent. Sur téléphone, en mode économie de données
+  // ou si l'appareil demande moins d'animations : seule l'image s'affiche, la vidéo se lance avec le bouton ▶.
   const saveData = navigator.connection && navigator.connection.saveData;
-  if (saveData || matchMedia('(max-width: 720px)').matches) {
-    document.querySelectorAll('video[autoplay]').forEach(v => {
-      v.removeAttribute('autoplay'); v.preload = 'none'; v.pause();
-      const tog = v.parentElement.querySelector('.reel-toggle'); if (tog) { tog.textContent = '▶'; tog.setAttribute('aria-label', 'Lire la vidéo'); }
-    });
-  }
+  const auto = !saveData && !matchMedia('(max-width: 720px)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('video[data-src]').forEach(v => {
+    const tog = v.parentElement.querySelector('.reel-toggle');
+    const etat = lecture => { if (tog) { tog.textContent = lecture ? '❚❚' : '▶'; tog.setAttribute('aria-label', lecture ? 'Mettre en pause la vidéo' : 'Lire la vidéo'); } };
+    if (!auto || !('IntersectionObserver' in window)) { etat(false); return; }
+    etat(true);
+    const io = new IntersectionObserver(es => { if (!es[0].isIntersecting) return; io.disconnect(); v.src = v.dataset.src; v.play().catch(() => etat(false)); }, { rootMargin: '200px' });
+    io.observe(v);
+  });
 })();
 
 /* ============================================================

@@ -1,5 +1,6 @@
 # Régénère les pages des projets et des articles + le plan du site (sitemap.xml)
-# à chaque publication (depuis l'admin ou à la main), puis relance la mise en ligne du site.
+# à chaque publication (depuis l'admin ou à la main), relance la mise en ligne du site,
+# puis prévient Bing (IndexNow) des pages qui ont changé.
 name: Fiches projets et articles
 
 on:
@@ -7,8 +8,7 @@ on:
     branches: [main]
     paths:
       - 'data/**'
-      - 'projet.html'
-      - 'article.html'
+      - '*.html'
       - 'projets.js'
       - 'articles.js'
       - 'scripts/build-pages.mjs'
@@ -27,6 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -51,3 +53,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+      - name: Prévenir Bing des pages modifiées (IndexNow)
+        continue-on-error: true
+        run: |
+          AVANT="${{ github.event.before }}"
+          if [ -z "$AVANT" ] || ! git cat-file -e "$AVANT" 2>/dev/null; then AVANT="HEAD~1"; fi
+          PAGES=$(git diff --name-only "$AVANT" HEAD -- '*.html' | grep -v '/' || true)
+          if [ -z "$PAGES" ]; then echo "Aucune page modifiée."; exit 0; fi
+          sleep 90   # laisse le temps à la nouvelle version d'être en ligne
+          node scripts/indexnow.mjs $PAGES

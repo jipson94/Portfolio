@@ -573,6 +573,7 @@
           { title: 'Le témoignage', fields: [{ k: 'texte', label: 'Ce que la personne dit', type: 'textarea', help: 'Ses propres mots (2 à 4 phrases), avec son accord pour la publication.' },
             { k: 'type', label: 'Il concerne', type: 'select', opts: [['projet', 'Un projet (page Projets)'], ['formation', 'Une formation (page Formations)']] },
             { k: 'cible', label: 'Projet ou formation concerné', type: 'select', opts, help: 'Pour un projet : le témoignage apparaît aussi sur la page de ce projet.' },
+            { k: 'intitule', label: 'Ou, s’il n’est pas dans la liste : son nom', ph: 'Communication digitale', help: 'Affiché en bas de la carte, sans lien.' },
             { k: 'date', label: 'Date', type: 'date' }] }
         ],
         imageFor: async file => { const p = `images/temoignages/${titleNow('temoignage')}-${stamp()}.jpg`; return { path: p, preview: await addImage(file, p, 400) }; },
@@ -581,7 +582,7 @@
           if (!out.nom) return 'Le nom est obligatoire.';
           if (!out.texte) return 'Le texte du témoignage est vide.';
           const [ct, cl] = (out.cible || '').split(':'); delete out.cible;
-          if (cl) { out.type = ct; out.lien = cl; } else delete out.lien;
+          if (cl) { out.type = ct; out.lien = cl; delete out.intitule; } else delete out.lien;
           prune(out);
           if (isNew) L.push({ id: uniqueId(out.nom, L), ...out });
           else { Object.keys(t).forEach(k => { if (k !== 'id') delete t[k]; }); Object.assign(t, out); }

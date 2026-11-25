@@ -1769,3 +1769,9 @@ a.tm-sous:hover{color:#fff}
 /* Bande des logos : versions en niveaux de gris détaillés (scripts/logos-gris.cjs), plus de filtre blanc uniforme */
 .logos-band img,.logos-band .lg-diabo,.logos-band .lg-kitokonature{filter:none;opacity:.88}
 .logos-band img:hover{opacity:1}
+
+/* Images insérées dans le texte d'un article (ou d'une fiche projet) depuis l'admin */
+.article-body figure,#p-solution figure{margin:34px 0}
+.article-body figure img,#p-solution figure img{display:block;width:100%;height:auto;border-radius:18px;background:rgba(255,255,255,.04)}
+.article-body figcaption,#p-solution figcaption{margin-top:10px;font-size:14px;line-height:1.5;color:var(--dim);text-align:center}
+@media (max-width:720px){.article-body figure,#p-solution figure{margin:26px 0}.article-body figure img,#p-solution figure img{border-radius:14px}}

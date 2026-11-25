@@ -260,13 +260,17 @@
     if (fd.type === 'check') return `<div class="f${full}"><label class="check"><input type="checkbox" id="${id}" ${v ? 'checked' : ''}> ${esc(fd.label)}</label>${help}</div>`;
     let input;
     if (fd.type === 'textarea') input = `<textarea id="${id}" placeholder="${esc(fd.ph || '')}">${esc(v)}</textarea>`;
-    else if (fd.type === 'rich') input = `<div class="rich-bar" data-for="${id}"><button type="button" data-c="h3">Intertitre</button><button type="button" data-c="p">Paragraphe</button><button type="button" data-c="bold"><b>G</b></button><button type="button" data-c="italic"><i>I</i></button><button type="button" data-c="ul">• Liste</button><button type="button" data-c="link">Lien</button><button type="button" data-c="clean">Effacer le style</button></div><div class="rich" id="${id}" contenteditable="true">${v || ''}</div>`;
+    else if (fd.type === 'rich') input = `<div class="rich-bar" data-for="${id}"><button type="button" data-c="h3">Intertitre</button><button type="button" data-c="p">Paragraphe</button><button type="button" data-c="bold"><b>G</b></button><button type="button" data-c="italic"><i>I</i></button><button type="button" data-c="ul">• Liste</button><button type="button" data-c="link">Lien</button><button type="button" data-c="img">🖼 Image</button><button type="button" data-c="clean">Effacer le style</button></div><div class="rich" id="${id}" contenteditable="true">${richPourEdition(v)}</div>`;
     else if (fd.type === 'select') input = `<select id="${id}">${fd.opts.map(([val, lab]) => `<option value="${esc(val)}" ${String(v ?? '') === String(val) ? 'selected' : ''}>${esc(lab)}</option>`).join('')}</select>`;
     else if (fd.type === 'list' || fd.type === 'tags') input = `<div class="list-ed" id="${id}">${(v || []).map(x => liHTML(x)).join('')}<button type="button" class="btn light small" data-add="${id}">+ Ajouter une ligne</button></div>`;
     else if (fd.type === 'image') input = `<div class="img-one" id="${id}" data-path="${esc(v || '')}"><img src="${esc(previewOf(v))}" alt=""><label class="btn light small upl">Choisir une image<input type="file" accept="image/*" data-img="${id}"></label></div>`;
     else input = `<input type="${fd.type || 'text'}" id="${id}" value="${esc(v)}" placeholder="${esc(fd.ph || '')}" ${fd.type === 'number' ? 'step="any" min="0"' : ''}>`;
     return `<div class="f${full}"><label for="${id}">${esc(fd.label)}</label>${input}${help}</div>`;
   }
+  // Texte enrichi → affichage dans l'éditeur : images visibles depuis /admin, figures traitées comme un bloc
+  const richPourEdition = v => String(v || '')
+    .replace(/<img([^>]*?)\ssrc="(images\/[^"]+)"/g, (m, a, p) => `<img${a} src="${esc(previewOf(p))}" data-path="${p}"`)
+    .replace(/<figure>/g, '<figure contenteditable="false">');
   const liHTML = x => `<div class="li"><input type="text" value="${esc(x)}"><button type="button" class="icon-btn" data-up title="Monter">↑</button><button type="button" class="icon-btn" data-del title="Retirer">✕</button></div>`;
   function readField(fd) {
     const el = document.getElementById('f-' + fd.k); if (!el) return undefined;
@@ -297,6 +301,7 @@
     }));
   }
   function richCmd(c, el) {
+    if (c === 'img') return insererImage(el);
     el.focus();
     if (c === 'h3' || c === 'p') document.execCommand('formatBlock', false, c);
     else if (c === 'bold' || c === 'italic') document.execCommand(c);
@@ -304,10 +309,27 @@
     else if (c === 'clean') document.execCommand('removeFormat');
     else if (c === 'link') { const u = prompt('Adresse du lien (https://…)'); if (u) document.execCommand('createLink', false, u); }
   }
-  // Ne garde que les balises utiles (titres, paragraphes, gras, italique, listes, liens)
+  function insererImage(el) {
+    const sel = getSelection(), zone = sel.rangeCount && el.contains(sel.anchorNode) ? sel.getRangeAt(0).cloneRange() : null;
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+    inp.addEventListener('change', async () => {
+      const file = inp.files[0]; if (!file) return;
+      try {
+        status('Envoi de l\'image…');
+        const p = `images/articles/${titleNow('article')}-${stamp()}.jpg`, apercu = await addImage(file, p, 1600);
+        const legende = (prompt('Légende sous l\'image (facultatif) :', '') || '').trim();
+        el.focus();
+        if (zone) { sel.removeAllRanges(); sel.addRange(zone); } else { const fin = document.createRange(); fin.selectNodeContents(el); fin.collapse(false); sel.removeAllRanges(); sel.addRange(fin); }
+        document.execCommand('insertHTML', false, `<figure contenteditable="false"><img src="${apercu}" data-path="${p}" alt="${esc(legende)}">${legende ? `<figcaption>${esc(legende)}</figcaption>` : ''}</figure><p><br></p>`);
+        status('Image ajoutée ✓ — pour la retirer, cliquez juste après puis touche Effacer. Elle sera en ligne à la publication.', 'ok', 7000);
+      } catch (err) { status(err.message, 'err'); }
+    });
+    inp.click();
+  }
+  // Ne garde que les balises utiles (titres, paragraphes, gras, italique, listes, liens, images)
   function cleanHTML(html) {
     const tpl = document.createElement('template'); tpl.innerHTML = html;
-    const ALLOW = { P: 1, H3: 1, STRONG: 1, B: 1, EM: 1, I: 1, UL: 1, OL: 1, LI: 1, A: 1, BR: 1 };
+    const ALLOW = { P: 1, H3: 1, STRONG: 1, B: 1, EM: 1, I: 1, UL: 1, OL: 1, LI: 1, A: 1, BR: 1, FIGURE: 1, IMG: 1, FIGCAPTION: 1 };
     const walk = node => {
       [...node.childNodes].forEach(n => {
         if (n.nodeType === 1 && /^(SCRIPT|STYLE|IFRAME|OBJECT|EMBED|TEMPLATE)$/.test(n.tagName)) { n.remove(); return; }
@@ -317,12 +339,19 @@
           if (n.tagName === 'H2' || n.tagName === 'H4') { const h = document.createElement('h3'); h.append(...n.childNodes); n.replaceWith(h); return; }
           if (!ALLOW[n.tagName]) { n.replaceWith(...n.childNodes); return; }
           const href = n.tagName === 'A' ? n.getAttribute('href') : null;
+          if (n.tagName === 'IMG') {
+            const src = (n.getAttribute('data-path') || n.getAttribute('src') || '').replace(/^(\.\.\/)+/, ''), alt = n.getAttribute('alt') || '';
+            [...n.attributes].forEach(a => n.removeAttribute(a.name));
+            if (!/^(images\/[a-z0-9/_.-]+\.(jpe?g|png|webp)|https:\/\/[^"\s]+)$/i.test(src)) { n.remove(); return; }
+            n.setAttribute('src', src); n.setAttribute('alt', alt); n.setAttribute('loading', 'lazy'); return;
+          }
           [...n.attributes].forEach(a => n.removeAttribute(a.name));
           if (href && /^(https?:|mailto:|tel:|[a-z0-9-]+\.html|#)/i.test(href)) { n.setAttribute('href', href); if (/^https?:/.test(href)) { n.setAttribute('target', '_blank'); n.setAttribute('rel', 'noopener'); } }
         } else if (n.nodeType === 8) n.remove();
       });
     };
     walk(tpl.content);
+    tpl.content.querySelectorAll('figure').forEach(f => { if (!f.querySelector('img')) f.remove(); });
     return tpl.innerHTML.replace(/<b>/g, '<strong>').replace(/<\/b>/g, '</strong>').replace(/<i>/g, '<em>').replace(/<\/i>/g, '</em>').replace(/<p><br><\/p>/g, '').trim();
   }
 

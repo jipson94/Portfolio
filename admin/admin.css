@@ -343,3 +343,8 @@ html,body,.topbar,.card,.kpi,.item,.fgroup,.seg,.sub,.chip,.icon-btn,.rich,.rich
 .tm-bloc-aide{margin:4px 0 14px}
 .tm-ph{display:grid;place-items:center;background:var(--roi);color:var(--jaune);font-weight:800;font-size:18px;border-radius:50%!important;width:56px!important;height:56px!important}
 .items.as-grid .tm-ph{width:100%!important;height:150px!important;border-radius:0!important;font-size:34px}
+
+/* Images dans l'éditeur de texte */
+.rich figure{margin:14px 0;padding:8px;border:1.5px dashed var(--ligne);border-radius:12px;cursor:default;user-select:none}
+.rich figure img{display:block;max-width:100%;max-height:320px;border-radius:8px;margin:0 auto}
+.rich figcaption{text-align:center;font-size:13px;color:var(--gris);margin-top:6px}

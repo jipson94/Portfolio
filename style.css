@@ -1691,3 +1691,24 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 /* Formation ou projet sous le nom de la personne */
 .tm-sous{font-size:13px;font-weight:600;color:var(--orange);text-decoration:none;margin-top:2px}
 a.tm-sous:hover{color:#fff}
+
+/* Témoignages sur fond jaune (accueil) */
+.tm-sec.tm-jaune{background:var(--orange);color:var(--bg)}
+.tm-jaune .kicker{color:var(--bg)}
+.tm-jaune .kicker::before,.tm-jaune .kicker::after{background:var(--bg)}
+.tm-jaune h2{color:var(--bg)}
+.tm-jaune .process-head p{color:#33407a}
+.tm-jaune .tm-card{background:#fff;border-color:rgba(15,33,103,.12);box-shadow:0 18px 40px -26px rgba(15,33,103,.45)}
+.tm-jaune .tm-card:hover{border-color:var(--bg);background:#fff}
+.tm-jaune .tm-quote{fill:var(--bg);opacity:1}
+.tm-jaune .tm-card blockquote{color:#1d2a5e}
+.tm-jaune .tm-who b{color:var(--bg)}
+.tm-jaune .tm-who small{color:#5d6890}
+.tm-jaune .tm-ini{background:var(--bg);color:var(--orange)}
+.tm-jaune .tm-avatar{border-color:var(--bg)}
+.tm-jaune .tm-sous{color:#1d44c2}
+.tm-jaune a.tm-sous:hover{color:var(--bg)}
+.tm-jaune .tm-btn{border-color:rgba(15,33,103,.3);background:transparent;color:var(--bg)}
+.tm-jaune .tm-btn:hover{background:var(--bg);border-color:var(--bg);color:var(--orange)}
+.tm-jaune .tm-dots button{background:rgba(15,33,103,.25)}
+.tm-jaune .tm-dots button.on{background:var(--bg)}

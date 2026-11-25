@@ -13,10 +13,10 @@
   const projet = id => typeof PROJETS !== 'undefined' && PROJETS.find(p => p.id === id);
   const formation = id => typeof FORMATIONS !== 'undefined' && FORMATIONS.find(f => f.id === id);
   const lienDe = t => {
-    if (t.type === 'projet' && t.lien) { const p = projet(t.lien); return p ? `<a class="tm-lien" href="projet-${esc(p.id)}.html">Projet : ${esc(p.titre)} →</a>` : ''; }
-    if (t.type === 'formation' && t.lien) { const f = formation(t.lien); return f ? `<a class="tm-lien" href="formations.html#${esc(f.id)}">Formation : ${esc(f.titre.split(" : ")[0])} →</a>` : ''; }
+    if (t.type === 'projet' && t.lien) { const p = projet(t.lien); return p ? `<a class="tm-sous" href="projet-${esc(p.id)}.html">Projet : ${esc(p.titre)} ›</a>` : ''; }
+    if (t.type === 'formation' && t.lien) { const f = formation(t.lien); return f ? `<a class="tm-sous" href="formations.html#${esc(f.id)}">Formation : ${esc(f.titre.includes(" : ") ? f.titre.split(" : ")[0] : f.titre.length > 34 && f.theme ? f.theme : f.titre)} ›</a>` : ''; }
     // Formation ou projet hors catalogue : même présentation, sans lien
-    if (t.intitule) return `<span class="tm-lien tm-sans-lien">${t.type === 'formation' ? 'Formation' : 'Projet'} : ${esc(t.intitule)}</span>`;
+    if (t.intitule) return `<span class="tm-sous">${t.type === 'formation' ? 'Formation' : 'Projet'} : ${esc(t.intitule)}</span>`;
     return '';
   };
   const carte = t => `
@@ -25,9 +25,8 @@
       <blockquote>${esc(t.texte)}</blockquote>
       <figcaption>
         ${t.photo ? `<img class="tm-avatar" src="${esc(t.photo)}" alt="" loading="lazy">` : `<span class="tm-avatar tm-ini" aria-hidden="true">${esc(initiales(t.nom))}</span>`}
-        <span class="tm-who"><b>${esc(t.nom)}</b><small>${esc([t.fonction, t.structure].filter(Boolean).join(' · '))}</small></span>
+        <span class="tm-who"><b>${esc(t.nom)}</b>${t.fonction || t.structure ? `<small>${esc([t.fonction, t.structure].filter(Boolean).join(' · '))}</small>` : ''}${lienDe(t)}</span>
       </figcaption>
-      ${lienDe(t)}
     </figure>`;
   // Accueil : les plus récents, en alternant projets et formations
   const melange = list => {

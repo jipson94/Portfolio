@@ -569,14 +569,14 @@
         title: isNew ? 'Nouveau témoignage' : 'Modifier le témoignage', backHash: '#temoignages', item: { ...t, cible: t.lien ? t.type + ':' + t.lien : '' },
         groups: [
           { title: 'La personne', fields: [{ k: 'nom', label: 'Nom et prénom' }, { k: 'fonction', label: 'Fonction', ph: 'Directrice de la communication' }, { k: 'structure', label: 'Entreprise / structure', ph: 'Nom de l\'organisation' },
-            { k: 'photo', label: 'Photo (facultatif)', type: 'image', help: 'Sans photo, ses initiales s\'affichent dans un rond jaune.' }] },
+            { k: 'photo', label: 'Photo de la personne', type: 'image', help: 'Cliquez sur « Choisir une image ». Elle s’affiche dans un rond : une photo de visage, de face, est idéale. Sans photo, ses initiales s’affichent dans un rond jaune.' }] },
           { title: 'Le témoignage', fields: [{ k: 'texte', label: 'Ce que la personne dit', type: 'textarea', help: 'Ses propres mots (2 à 4 phrases), avec son accord pour la publication.' },
             { k: 'type', label: 'Il concerne', type: 'select', opts: [['projet', 'Un projet (page Projets)'], ['formation', 'Une formation (page Formations)']] },
             { k: 'cible', label: 'Projet ou formation concerné', type: 'select', opts, help: 'Pour un projet : le témoignage apparaît aussi sur la page de ce projet.' },
             { k: 'intitule', label: 'Ou, s’il n’est pas dans la liste : son nom', ph: 'Communication digitale', help: 'Affiché en bas de la carte, sans lien.' },
             { k: 'date', label: 'Date', type: 'date' }] }
         ],
-        imageFor: async file => { const p = `images/temoignages/${titleNow('temoignage')}-${stamp()}.jpg`; return { path: p, preview: await addImage(file, p, 400) }; },
+        imageFor: async file => { const p = `images/temoignages/${titleNow('temoignage')}-${stamp()}.jpg`; return { path: p, preview: await addImage(file, p, 600) }; },
         note: 'Publiez uniquement des témoignages réels, avec l\'accord de la personne. Ils restent en français dans les versions anglaise et chinoise.',
         onSave: out => {
           if (!out.nom) return 'Le nom est obligatoire.';

@@ -1688,3 +1688,6 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 .tm-dots button{width:9px;height:9px;padding:0;border-radius:999px;border:0;background:var(--line);cursor:pointer;transition:width .3s,background .3s}
 .tm-dots button.on{width:26px;background:var(--orange)}
 .tm-sans-lien{cursor:default}.tm-sans-lien:hover{color:var(--orange)}
+/* Formation ou projet sous le nom de la personne */
+.tm-sous{font-size:13px;font-weight:600;color:var(--orange);text-decoration:none;margin-top:2px}
+a.tm-sous:hover{color:#fff}

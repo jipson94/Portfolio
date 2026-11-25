@@ -28,7 +28,7 @@ const TEMOIGNAGES = [
     "texte": "La formation en communication digitale m’a appris à définir une cible, à choisir les bons réseaux sociaux et à construire un calendrier éditorial. J’ai aussi appris à rédiger des publications avec un message clair et un appel à l’action adapté.",
     "type": "formation",
     "date": "2026-11-25",
-    "lien": "prise-de-parole"
+    "lien": "communication-institutionnelle"
   },
   {
     "id": "yann",

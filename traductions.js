@@ -1076,5 +1076,8 @@ I18N.load([
   ["Clients et participants à mes formations racontent leur expérience.","Clients and training participants share their experience.","客户和培训学员分享他们的体验。"],
   ["Ce que retiennent les participants de mes formations.","What participants take away from my training courses.","学员对培训的收获与评价。"],
   ["Ce que disent les clients avec qui j'ai travaillé.","What the clients I have worked with say.","与我合作过的客户的评价。"],
-  ["Envoi…","Sending…","发送中…"]
+  ["Envoi…","Sending…","发送中…"],
+  ["Cybersécurité","Cybersecurity","网络安全"],
+  ["Tech et géopolitique","Tech and geopolitics","科技与地缘政治"],
+  ["Événements","Events","活动"]
 ]);

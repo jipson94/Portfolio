@@ -123,7 +123,7 @@
 </footer>
 
 <script src="data/articles.js"></script>
-<script src="articles.js"></script>
+<script src="articles.js?v=2"></script>
 <script src="data/pubs.js"></script>
 <script src="pubs.js"></script>
 <script>window.PAGE_ID = "ia-failles-securite-course-contre-la-montre";</script>
@@ -137,7 +137,7 @@
   // Ancienne adresse « article.html?id=… » : on va sur la vraie page de l'article
   if (!window.PAGE_ID && new URLSearchParams(location.search).get('id')) { location.replace(lienArticle(new URLSearchParams(location.search).get('id'))); throw new Error('Redirection'); }
   const id = new URLSearchParams(location.search).get('id') || window.PAGE_ID;
-  const a = ARTICLES.find(x => x.id === id);
+  const a = artL(ARTICLES.find(x => x.id === id));
   if (!a) {
     // Article introuvable : retour à la liste
     location.replace('actualites.html');
@@ -146,7 +146,7 @@
     document.querySelector('meta[name=description]').setAttribute('content', a.resume);
     document.getElementById('crumb-cat').textContent = a.categorie;
     document.getElementById('a-title').textContent = a.titre;
-    document.getElementById('a-meta').innerHTML = `<a class="cat" href="actualites.html?cat=${encodeURIComponent(a.categorie)}">${a.categorie}</a><span>${fmtDate(a.date)}</span><span>· ${a.lecture} de lecture</span>`;
+    document.getElementById('a-meta').innerHTML = `<a class="cat" href="actualites.html?cat=${encodeURIComponent(a.categorie)}">${a.categorie}</a><span>${fmtDate(a.date)}</span><span>· ${({ en: a.lecture + ' read', zh: '阅读约 ' + a.lecture.replace(' min', ' 分钟') })[window.I18N && I18N.lang] || a.lecture + ' de lecture'}</span>`;
     document.getElementById('a-cover').innerHTML = coverHTML(a);
     document.getElementById('a-body').innerHTML = a.contenu;
     if (a.exemple) document.getElementById('a-meta').insertAdjacentHTML('afterend', '<div><span class="ex-banner">Article exemple — texte d\'illustration en attendant un vrai article</span></div>');

@@ -446,13 +446,14 @@
             { k: 'exemple', label: 'Article d\'exemple (affiche la mention « Exemple »)', type: 'check' }] }
         ],
         imageFor: async (file) => { const p = `images/articles/${titleNow('article')}-${stamp()}.jpg`; return { path: p, preview: await addImage(file, p) }; },
-        note: 'Les textes modifiés s\'affichent en français dans les versions anglaise et chinoise tant qu\'ils ne sont pas traduits.',
+        note: 'Versions anglaise et chinoise : si vous modifiez le titre, le résumé ou le texte, la traduction de cet article est retirée et le français s\'affiche à la place, jusqu\'à ce qu\'elle soit refaite.',
         onSave: out => {
           if (!out.titre) return 'Le titre est obligatoire.';
           if (!out.contenu) return 'Le texte de l\'article est vide.';
           const words = out.contenu.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
           out.lecture = Math.max(1, Math.round(words / 200)) + ' min';
           if (!out.exemple) delete out.exemple;
+          if (!isNew && a.tr && ['titre', 'resume', 'contenu'].some(k => (a[k] || '') !== (out[k] || ''))) delete a.tr;   // traduction devenue fausse
           if (isNew) L.push({ id: uniqueId(out.titre, L), ...out }); else Object.keys(out).forEach(k => { a[k] = out[k]; }), out.exemple || delete a.exemple;
           markDirty('articles');
         },

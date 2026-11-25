@@ -13,11 +13,13 @@ const COVERS = {
 };
 // Adresse de la page d'un article (pages générées par scripts/build-pages.mjs)
 const lienArticle = id => 'article-' + id + '.html';
+// Version de l'article dans la langue du visiteur : tr.en / tr.zh (titre, resume, contenu) si la traduction existe, sinon le français
+const artL = a => { const L = window.I18N && I18N.lang, t = a && L && L !== 'fr' && a.tr && a.tr[L]; return t ? Object.assign({}, a, t) : a; };
 const coverHTML = a => a.image ? `<img src="${a.image}" alt="" loading="lazy">` : COVERS[a.cover] || '';
 const fmtDate = d => new Date(d + 'T12:00:00').toLocaleDateString((window.I18N && I18N.locale) || 'fr-FR', {day:'numeric', month:'long', year:'numeric'});
 
 // Carte d'aperçu d'un article (lien vers sa page dédiée)
-const postCard = a => `
+const postCard = a0 => { const a = artL(a0); return `
   <a class="post" href="${lienArticle(a.id)}" data-cat="${a.categorie}">
     <div class="post-cover">${coverHTML(a)}${a.exemple ? '<span class="ex">Exemple</span>' : ''}</div>
     <div class="post-body">
@@ -26,7 +28,7 @@ const postCard = a => `
       <p class="excerpt">${a.resume}</p>
       <span class="more">Lire l'article →</span>
     </div>
-  </a>`;
+  </a>`; };
 
 // Les anciens liens « index.html#article-xxx » redirigent vers la page de l'article
 if (location.hash.startsWith('#article-')) location.replace(lienArticle(location.hash.slice(9)));

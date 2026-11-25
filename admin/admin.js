@@ -826,6 +826,10 @@
     if (!store.site) return;
     $('#app').classList.remove('menu');
     const [v, arg] = (location.hash.slice(1) || 'tableau').split('/');
+    // Flèche de retour : vers la liste pour une fiche, vers le tableau de bord sinon
+    const PARENT = { article: 'articles', projet: 'projets', formation: 'formations', annonce: 'annonces', temoignage: 'temoignages' };
+    const retour = arg && PARENT[v] ? PARENT[v] : v === 'tableau' ? '' : 'tableau';
+    $('#back-btn').hidden = !retour; $('#back-btn').dataset.to = retour;
     document.querySelectorAll('#side-nav a').forEach(a => a.classList.toggle('on', a.dataset.v === v || a.dataset.v + 's' === v || a.dataset.v === v + 's'));
     const fn = VIEWS[v] || VIEWS.tableau;
     try { fn(arg && decodeURIComponent(arg)); } catch (e) { status(e.message, 'err'); }
@@ -863,7 +867,14 @@
   const setTheme = t => { document.documentElement.dataset.theme = t; try { localStorage.setItem('jm-theme', t); } catch {} themeBtn.textContent = t === 'dark' ? '☀️' : '🌙'; themeBtn.title = t === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'; themeBtn.setAttribute('aria-label', themeBtn.title); };
   setTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
   themeBtn.addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+  // Menu mobile : s'ouvre avec ☰, se referme avec ✕, en touchant à côté, en choisissant une page ou avec Échap
+  const fermerMenu = () => $('#app').classList.remove('menu');
   $('#menu-btn').addEventListener('click', () => $('#app').classList.toggle('menu'));
+  $('#side-close').addEventListener('click', fermerMenu);
+  $('#side-veil').addEventListener('click', fermerMenu);
+  $('#side-nav').addEventListener('click', e => { if (e.target.closest('a')) fermerMenu(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') fermerMenu(); });
+  $('#back-btn').addEventListener('click', () => { location.hash = '#' + ($('#back-btn').dataset.to || 'tableau'); });
   addEventListener('beforeunload', e => { if (Object.values(store).some(f => f.dirty) || images.length) { e.preventDefault(); e.returnValue = ''; } });
   $('#login-form').addEventListener('submit', async e => {
     e.preventDefault(); $('#login-err').textContent = '';

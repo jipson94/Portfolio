@@ -129,7 +129,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 @media (max-width:860px){
   .app{grid-template-columns:1fr}
   .side{position:fixed;inset:0 auto 0 0;width:260px;z-index:20;transform:translateX(-100%);transition:transform .25s}
-  .app.menu .side{transform:none;box-shadow:0 0 0 100vmax rgba(5,12,40,.5)}
+  .app.menu .side{transform:none}
+  .side-veil{position:fixed;inset:0;z-index:19;background:rgba(5,12,40,.55);opacity:0;pointer-events:none;transition:opacity .25s}
+  .app.menu .side-veil{opacity:1;pointer-events:auto}
+  .side-close{display:flex}
   .menu-btn{display:block}
   .topbar{padding:12px 14px}
   .topbar h1{font-size:17px}
@@ -355,3 +358,14 @@ html,body,.topbar,.card,.kpi,.item,.fgroup,.seg,.sub,.chip,.icon-btn,.rich,.rich
 .kpis.conv{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
 .kpis.conv .kpi b{font-size:26px}
 @media (max-width:560px){.kpis.conv{grid-template-columns:1fr 1fr}.kpis.conv .kpi:last-child{grid-column:1/-1}}
+
+/* Menu mobile : bouton de fermeture ; flèche de retour dans la barre du haut */
+@media (min-width:861px){.side-veil,.side-close{display:none!important}}
+.side-close{display:flex;position:absolute;top:14px;right:12px;width:38px;height:38px;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:17px;cursor:pointer;align-items:center;justify-content:center}
+.side-close:hover{background:rgba(255,255,255,.22)}
+.back-btn{flex:none;width:40px;height:40px;border:1px solid var(--ligne);border-radius:50%;background:transparent;color:inherit;font-size:19px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s}
+.back-btn[hidden]{display:none}
+.back-btn:hover{background:var(--fond);transform:translateX(-2px)}
+[data-theme="dark"] .back-btn{border-color:#2a3570}
+[data-theme="dark"] .back-btn:hover{background:#1b2558}
+@media (max-width:860px){.back-btn{width:38px;height:38px}.topbar{gap:10px}}

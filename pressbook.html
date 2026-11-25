@@ -125,6 +125,15 @@
   .mos.n4{grid-template:1fr 1fr 1fr/1.7fr 1fr}.mos.n4 img:first-child{grid-row:1/4}
 
   /* Clients */
+  .tm{padding:16mm 18mm 0}
+  .tm h2{font-size:30pt;font-weight:800;margin:2mm 0 2mm}
+  .tm .sub{font-size:10pt;color:var(--gris);margin-bottom:6mm}
+  .tm .g{display:grid;grid-template-columns:repeat(3,1fr);gap:5mm}
+  .tm .c{background:var(--roi);color:#fff;border-radius:4mm;padding:12mm 6mm 5mm;position:relative;display:flex;flex-direction:column}
+  .tm .c::before{content:"\201C";position:absolute;left:6mm;top:2.5mm;font-size:36pt;font-weight:800;color:var(--jaune-vif);line-height:1}
+  .tm .c p{font-size:8.6pt;line-height:1.5;color:#e8edff;flex:1;margin-bottom:4mm}
+  .tm .c b{display:block;font-size:10pt;color:var(--jaune)}
+  .tm .c small{display:block;font-size:7.5pt;color:var(--dim);margin-top:.6mm}
   .cl{padding:16mm 18mm 0}
   .cl h2{font-size:30pt;font-weight:800;margin:2mm 0 2mm}
   .cl .sub{font-size:10pt;color:var(--dim);margin-bottom:7mm}
@@ -159,10 +168,15 @@
 <script src="data/projets.js"></script>
 <script src="projets.js"></script>
 <script src="data/site.js"></script>
+<script src="data/formations.js"></script>
+<script src="data/temoignages.js"></script>
 <script>
 (function () {
   const S = SITE;
   const LEGER = new URLSearchParams(location.search).has('leger');
+  // Version légère : copies réduites fabriquées par scripts/pressbook-mini.cjs
+  const MINI = s => !LEGER ? s : 'images/pressbook/mini/' + s.replace(/^images\//, '').replace(/\//g, '__').replace(/\.(png|webp|jpe?g)$/i, '') + '.jpg';
+  const DET = LEGER ? 'images/pressbook/mini/jipson-detoure-2.png' : 'images/jipson-detoure-2.webp';
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const tel = '+' + S.whatsapp.replace(/^(\d{3})(\d{2})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4 $5');
   const AST = '<path d="M84 0h32v61.4l43.4-43.4 22.6 22.6L138.6 84H200v32h-61.4l43.4 43.4-22.6 22.6L116 138.6V200H84v-61.4L40.6 182 18 159.4 61.4 116H0V84h61.4L18 40.6 40.6 18 84 61.4z"/>';
@@ -175,7 +189,7 @@
   /* 1. Couverture */
   page('roi cover', `
     <div class="who"><div class="ring" style="width:250mm;height:250mm"></div><div class="ring" style="width:170mm;height:170mm"></div>
-      ${ast('width:118mm')}<img class="ph" src="images/jipson-detoure-2.webp" alt=""></div>
+      ${ast('width:118mm')}<img class="ph" src="${DET}" alt=""></div>
     <div class="t"><img class="logo" src="images/logo-signature.png" alt="Jipson Mathas"><h1>Press<span>-</span>book</h1><p>Communication, design et technologies numériques<br>Brazzaville, Congo · ${new Date().getFullYear()}</p></div>`, false);
 
   /* 2. Citation */
@@ -184,7 +198,7 @@
 
   /* 3. Sommaire */
   page('', `<div class="toc"><div class="l"><span class="kicker">Press-book</span><h2>Sommaire</h2></div>
-    <ol><li>Présentation</li><li>Mes domaines d'expertise</li><li>Création graphique</li><li>Digital</li><li>Conseil et marketing</li><li>Communication 360°</li><li>Réalisations <span>${PROJETS.length} projets</span></li><li>Ils me font confiance</li><li>Contact</li></ol></div>`);
+    <ol><li>Présentation</li><li>Mes domaines d'expertise</li><li>Création graphique</li><li>Digital</li><li>Conseil et marketing</li><li>Communication 360°</li><li>Réalisations <span>${PROJETS.length} projets</span></li><li>Ce qu'ils en disent</li><li>Ils me font confiance</li><li>Contact</li></ol></div>`);
 
   /* 4. Citation d'ouverture + présentation */
   page('dark quote', `${ast('width:40mm;left:24mm;top:20mm')}
@@ -195,7 +209,7 @@
     <p>Chaque projet repose sur une approche structurée : comprendre les objectifs de mon client, créer des solutions visuelles cohérentes, puis mesurer les résultats. Cette méthode m'a permis d'accompagner mes clients dans le développement de leur clientèle, le renforcement de leur image de marque et l'optimisation de leur présence digitale.</p>
     <p><b>Ce que j'apporte :</b> une vision à la croisée de la technique, du design et du marketing, au service de projets qui marquent les esprits.</p>
     <div class="stats"><div><small>Créatif<br>depuis</small><b>2016</b></div><div><small>Clients<br>accompagnés</small><b>300+</b></div><div><small>Identités<br>créées</small><b>150+</b></div><div><small>Personnes<br>formées</small><b>650+</b></div></div></div>
-    <div class="side">${ast('width:70mm;right:-12mm;top:12mm')}<img src="images/jipson-detoure-2.webp" alt=""></div></div>`);
+    <div class="side">${ast('width:70mm;right:-12mm;top:12mm')}<img src="${DET}" alt=""></div></div>`);
 
   /* 5. Services (repris du site) */
   const SVC = [
@@ -208,7 +222,7 @@
   page('dark', `<div class="svc"><span class="kicker">Services</span><h2>Mes domaines d'expertise</h2><div class="g">${SVC.map(([t, d, tg], i) => `<div class="c"><i>0${i + 1}</i><h3>${esc(t)}</h3><p>${esc(d)}</p><div class="tg">${tg.map(x => `<span>${esc(x)}</span>`).join('')}</div></div>`).join('')}</div></div>`);
 
   /* 6 à 9. Pages d'expertise (textes du press-book, corrigés) */
-  const exp = (num, title, tags, intro, photo, blocks) => page('', `<div class="exp"><div class="hd"><span class="num">${num}</span><h2>${title}</h2>${tags.map(t => `<span class="tag">${t}</span><br>`).join('')}<p>${intro}</p><img class="photo" src="${LEGER ? 'images/pressbook/leger/' + photo.split('/').pop() : photo}" alt=""></div>
+  const exp = (num, title, tags, intro, photo, blocks) => page('', `<div class="exp"><div class="hd"><span class="num">${num}</span><h2>${title}</h2>${tags.map(t => `<span class="tag">${t}</span><br>`).join('')}<p>${intro}</p><img class="photo" src="${MINI(photo)}" alt=""></div>
     <div class="bd">${blocks.map(([h, p, li]) => `<section><h3>${h}</h3>${p ? `<p>${p}</p>` : ''}${li ? `<ul class="l">${li.map(x => `<li>${x}</li>`).join('')}</ul>` : ''}</section>`).join('')}</div></div>`);
 
   exp('01', 'Création graphique', ['Où vos visions', 'deviennent ma mission !'],
@@ -254,8 +268,8 @@
 
   /* 10. Réalisations : par catégorie, une page par projet */
   const thumb = s => s.includes('images/projets/g/') ? s.replace('images/projets/g/', 'images/projets/g/t/') : s;
-  // pressbook.html?leger : version allégée pour le site (miniatures et copies réduites dans images/pressbook/leger/)
-  const big = s => !LEGER ? s : s.includes('images/projets/g/') ? thumb(s) : 'images/pressbook/leger/' + s.split('/').pop();
+  // pressbook.html?leger : version allégée pour le site (copies réduites dans images/pressbook/mini/, voir scripts/pressbook-mini.cjs)
+  const big = s => LEGER ? MINI(s) : s;
   const groups = [{ id: 'video', label: 'Vidéo & motion design' }, ...CATEGORIES];
   let pn = 0;
   groups.forEach((g, gi) => {
@@ -271,9 +285,27 @@
         <dl class="facts">${facts.map(([k, v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>
         <p>${esc(p.contexte || p.resume || '')}</p>
         <div class="chips">${tags.map(t => `<span>${esc(t)}</span>`).join('')}</div></div>
-        <div class="mos n${imgs.length}">${imgs.map((s, i) => `<img src="${i ? thumb(s) : big(s)}" alt="">`).join('')}</div></div>`);
+        <div class="mos n${imgs.length}">${imgs.map((s, i) => `<img src="${LEGER ? MINI(s) : i ? thumb(s) : s}" alt="">`).join('')}</div></div>`);
     });
   });
+
+  /* 11. Témoignages réels (data/temoignages.js), 6 par page */
+  if (typeof TEMOIGNAGES !== 'undefined' && TEMOIGNAGES.length) {
+    const FO = typeof FORMATIONS !== 'undefined' ? FORMATIONS : [];
+    const sous = t => {
+      if (t.type === 'formation') { const f = FO.find(x => x.id === t.lien); return 'Formation · ' + (f ? f.titre.split(' : ')[0] : ''); }
+      const p = PROJETS.find(x => x.id === t.lien);
+      return [t.structure, p ? p.titre : t.intitule].filter(Boolean).join(' · ');
+    };
+    // Formations et projets mélangés, pour varier la lecture
+    const F1 = TEMOIGNAGES.filter(t => t.type === 'formation'), P1 = TEMOIGNAGES.filter(t => t.type !== 'formation'), mix = [];
+    for (let i = 0; i < Math.max(F1.length, P1.length); i++) { if (P1[i]) mix.push(P1[i]); if (F1[i]) mix.push(F1[i]); }
+    for (let i = 0; i < mix.length; i += 6) {
+      const lot = mix.slice(i, i + 6);
+      page('', `<div class="tm"><span class="kicker">Témoignages</span><h2>Ce qu'ils en disent</h2><p class="sub">Clients et participants aux formations${i ? ' (suite)' : ''}.</p>
+        <div class="g">${lot.map(t => `<div class="c"><p>${esc(t.texte)}</p><b>${esc(t.nom)}</b><small>${esc(sous(t))}</small></div>`).join('')}</div></div>`);
+    }
+  }
 
   /* 11. Clients */
   const C = 595;   // repère de la page 47 de l'ancien press-book (image de 900 px pour 595 points)
@@ -295,7 +327,7 @@
       <div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/></svg>${esc(S.email)}</div>
       <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>jipsonmathas.com</div></div>
     <p class="legal"><b>NIU :</b> P23000000256495N &nbsp;·&nbsp; <b>RCCM :</b> CG-BZV-01-2024-A10-00567 &nbsp;·&nbsp; ${esc(S.ville)}</p></div>
-    <div class="ph">${ast('width:90mm;right:-10mm;top:8mm')}<img src="images/jipson-detoure-2.webp" alt=""></div></div>`, false);
+    <div class="ph">${ast('width:90mm;right:-10mm;top:8mm')}<img src="${DET}" alt=""></div></div>`, false);
 
   document.getElementById('book').innerHTML = pages.join('');
   document.title = 'Press-book — Jipson Mathas';

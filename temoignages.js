@@ -14,7 +14,7 @@
   const formation = id => typeof FORMATIONS !== 'undefined' && FORMATIONS.find(f => f.id === id);
   const lienDe = t => {
     if (t.type === 'projet' && t.lien) { const p = projet(t.lien); return p ? `<a class="tm-lien" href="projet-${esc(p.id)}.html">Projet : ${esc(p.titre)} →</a>` : ''; }
-    if (t.type === 'formation' && t.lien) { const f = formation(t.lien); return f ? `<a class="tm-lien" href="formations.html#${esc(f.id)}">Formation : ${esc(f.titre)} →</a>` : ''; }
+    if (t.type === 'formation' && t.lien) { const f = formation(t.lien); return f ? `<a class="tm-lien" href="formations.html#${esc(f.id)}">Formation : ${esc(f.titre.split(" : ")[0])} →</a>` : ''; }
     return '';
   };
   const carte = t => `

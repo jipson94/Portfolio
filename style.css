@@ -1712,3 +1712,15 @@ a.tm-sous:hover{color:#fff}
 .tm-jaune .tm-btn:hover{background:var(--bg);border-color:var(--bg);color:var(--orange)}
 .tm-jaune .tm-dots button{background:rgba(15,33,103,.25)}
 .tm-jaune .tm-dots button.on{background:var(--bg)}
+
+/* Accueil, fond jaune : cartes bleues, sans ombre */
+.tm-jaune .tm-card{background:var(--bg);border-color:var(--bg);box-shadow:none}
+.tm-jaune .tm-card:hover{background:#132a7a;border-color:#132a7a;box-shadow:none}
+.tm-jaune .tm-quote{fill:var(--orange)}
+.tm-jaune .tm-card blockquote{color:#fff}
+.tm-jaune .tm-who b{color:#fff}
+.tm-jaune .tm-who small{color:var(--muted)}
+.tm-jaune .tm-ini{background:var(--orange);color:var(--bg)}
+.tm-jaune .tm-avatar{border-color:var(--orange)}
+.tm-jaune .tm-sous{color:var(--orange)}
+.tm-jaune a.tm-sous:hover{color:#fff}

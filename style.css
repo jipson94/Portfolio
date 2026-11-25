@@ -1780,3 +1780,5 @@ a.tm-sous:hover{color:#fff}
 .article-body a{color:var(--jaune-vif);font-weight:600;text-decoration:none;transition:opacity .2s}
 .article-body a:hover{opacity:.75}
 .article-body ul,.article-body ol{margin-bottom:18px}
+/* Images hautes ou carrées dans un article : hauteur limitée, centrées */
+.article-body figure img,#p-solution figure img{width:auto;max-width:100%;max-height:620px;margin:0 auto}

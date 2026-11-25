@@ -88,8 +88,8 @@ const TEMOIGNAGES = [
     "date": "2026-11-25"
   },
   {
-    "id": "nelson-chisugi",
-    "nom": "Nelson Chisugi",
+    "id": "nelson-cishugi",
+    "nom": "Nelson Cishugi",
     "type": "projet",
     "lien": "nelson-cishugi",
     "texte": "Jipson a créé une identité visuelle à partir de mon nom, puis a travaillé sur l’identité de certains de mes clients. Les propositions m’ont aidé à mieux présenter mon activité et à donner à chaque client une image qui lui correspond.",

@@ -11,7 +11,7 @@
   const TOKEN_KEY = 'jm-admin-session';
   const API = (() => { try { return localStorage.getItem('jm-admin-api') || ''; } catch { return ''; } })() || 'https://jm-stats.jipsonmathas.workers.dev';   // portier Cloudflare
   try { localStorage.removeItem('jm-admin-gh'); } catch {}   // ancienne clé GitHub : plus utilisée
-  const FILES = { projets: 'data/projets.js', articles: 'data/articles.js', formations: 'data/formations.js', pubs: 'data/pubs.js', site: 'data/site.js' };
+  const FILES = { projets: 'data/projets.js', articles: 'data/articles.js', formations: 'data/formations.js', pubs: 'data/pubs.js', site: 'data/site.js', temoignages: 'data/temoignages.js' };
   const DRAFT_KEY = 'jm-admin-draft';
   const $ = s => document.querySelector(s);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -182,7 +182,7 @@
   async function publish() {
     const dirty = Object.entries(store).filter(([, f]) => f.dirty);
     if (!dirty.length && !images.length) return;
-    const what = dirty.map(([k]) => ({ projets: 'projets', articles: 'articles', formations: 'formations', pubs: 'annonces', site: 'réglages' }[k]));
+    const what = dirty.map(([k]) => ({ projets: 'projets', articles: 'articles', formations: 'formations', pubs: 'annonces', site: 'réglages', temoignages: 'témoignages' }[k]));
     const ok = await ask('Publier sur le site ?', `Mise en ligne de : <b>${esc(what.join(', ') || 'images')}</b>${images.length ? ` et ${images.length} image(s)` : ''}.<br><br>Le site sera à jour dans une à deux minutes.`, 'Publier', 'Annuler');
     if (!ok) return;
     $('#publish').disabled = true; status('Publication en cours…');
@@ -545,6 +545,49 @@
         imageFor: async file => { const p = `images/annonces/${titleNow('annonce')}-${stamp()}.jpg`; return { path: p, preview: await addImage(file, p, 1000) }; },
         onSave: out => { if (!out.titre) return 'Le titre est obligatoire.'; if (isNew) L.push({ id: uniqueId(out.titre, L), ...out }); else Object.assign(a, out); markDirty('pubs'); },
         onDelete: isNew ? null : () => { L.splice(L.indexOf(a), 1); markDirty('pubs'); }
+      });
+    },
+
+    temoignages() {
+      const L = store.temoignages.data.TEMOIGNAGES;
+      const P = store.projets.data.PROJETS, F = store.formations.data.FORMATIONS;
+      const lien = t => t.type === 'formation' ? (F.find(f => f.id === t.lien) || {}).titre : (P.find(p => p.id === t.lien) || {}).titre;
+      listView('Témoignages', L.slice().sort((a, b) => String(b.date || '').localeCompare(String(a.date || ''))), t => ({
+        img: t.photo ? previewOf(t.photo) : '', t: t.nom + (t.structure ? ' — ' + t.structure : ''),
+        sub: (t.type === 'formation' ? 'Formation' : 'Projet') + (lien(t) ? ' · ' + lien(t) : '') + ' · « ' + String(t.texte || '').slice(0, 70) + (String(t.texte || '').length > 70 ? '… »' : ' »'),
+        tags: t.type === 'formation' ? '<span class="tag b">Formation</span>' : '<span class="tag y">Projet</span>', href: '#temoignage/' + t.id
+      }), '#temoignage/nouveau', '+ Ajouter un témoignage');
+      if (!L.length) $('#lst').innerHTML = '<p class="note">Aucun témoignage pour l\'instant. Ajoutez uniquement de vrais témoignages, avec l\'accord de la personne : ils apparaissent sur l\'accueil, la page Projets (et la page du projet concerné) ou la page Formations.</p>';
+    },
+    temoignage(id) {
+      const L = store.temoignages.data.TEMOIGNAGES, isNew = id === 'nouveau';
+      const t = isNew ? { type: 'projet', date: new Date().toISOString().slice(0, 10) } : L.find(x => x.id === id);
+      if (!t) return notFound('#temoignages');
+      const P = store.projets.data.PROJETS, F = store.formations.data.FORMATIONS;
+      const opts = [['', '— Aucun en particulier —']].concat(P.map(p => ['projet:' + p.id, 'Projet · ' + p.titre]), F.map(f => ['formation:' + f.id, 'Formation · ' + f.titre]));
+      editor({
+        title: isNew ? 'Nouveau témoignage' : 'Modifier le témoignage', backHash: '#temoignages', item: { ...t, cible: t.lien ? t.type + ':' + t.lien : '' },
+        groups: [
+          { title: 'La personne', fields: [{ k: 'nom', label: 'Nom et prénom' }, { k: 'fonction', label: 'Fonction', ph: 'Directrice de la communication' }, { k: 'structure', label: 'Entreprise / structure', ph: 'Nom de l\'organisation' },
+            { k: 'photo', label: 'Photo (facultatif)', type: 'image', help: 'Sans photo, ses initiales s\'affichent dans un rond jaune.' }] },
+          { title: 'Le témoignage', fields: [{ k: 'texte', label: 'Ce que la personne dit', type: 'textarea', help: 'Ses propres mots (2 à 4 phrases), avec son accord pour la publication.' },
+            { k: 'type', label: 'Il concerne', type: 'select', opts: [['projet', 'Un projet (page Projets)'], ['formation', 'Une formation (page Formations)']] },
+            { k: 'cible', label: 'Projet ou formation concerné', type: 'select', opts, help: 'Pour un projet : le témoignage apparaît aussi sur la page de ce projet.' },
+            { k: 'date', label: 'Date', type: 'date' }] }
+        ],
+        imageFor: async file => { const p = `images/temoignages/${titleNow('temoignage')}-${stamp()}.jpg`; return { path: p, preview: await addImage(file, p, 400) }; },
+        note: 'Publiez uniquement des témoignages réels, avec l\'accord de la personne. Ils restent en français dans les versions anglaise et chinoise.',
+        onSave: out => {
+          if (!out.nom) return 'Le nom est obligatoire.';
+          if (!out.texte) return 'Le texte du témoignage est vide.';
+          const [ct, cl] = (out.cible || '').split(':'); delete out.cible;
+          if (cl) { out.type = ct; out.lien = cl; } else delete out.lien;
+          prune(out);
+          if (isNew) L.push({ id: uniqueId(out.nom, L), ...out });
+          else { Object.keys(t).forEach(k => { if (k !== 'id') delete t[k]; }); Object.assign(t, out); }
+          markDirty('temoignages');
+        },
+        onDelete: isNew ? null : () => { L.splice(L.indexOf(t), 1); markDirty('temoignages'); }
       });
     },
 

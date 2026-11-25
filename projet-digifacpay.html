@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261122b">
+<link rel="stylesheet" href="style.css?v=20261125">
 </head>
 <body>
 
@@ -88,6 +88,8 @@
       </div>
 
       <div class="p-nav" id="p-nav" role="navigation" aria-label="Autres projets"><a href="projet-anic-2026.html"><small>← Projet précédent</small><b>ANIC 2026</b></a><a href="projet-kemonie.html"><small>Projet suivant →</small><b>Kémonie</b></a></div>
+
+      <section class="tm-sec tm-inpage" data-temoignages="projet" data-lien="auto" data-titre="Le mot du client" hidden></section>
 
       <div style="text-align:center;margin-top:64px">
         <p style="color:var(--muted);margin-bottom:18px">Vous avez un projet similaire ?</p>
@@ -201,6 +203,8 @@
     <a href="${lienProjet(prev.id)}"><small>← Projet précédent</small><b>${prev.titre}</b></a>
     <a href="${lienProjet(next.id)}"><small>Projet suivant →</small><b>${next.titre}</b></a>`;
 </script>
+<script src="data/temoignages.js"></script>
+<script src="temoignages.js"></script>
 <script src="data/site.js"></script>
 <script src="site.js"></script>
 <script>I18N.apply()</script>

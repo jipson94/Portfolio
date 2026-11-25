@@ -1070,5 +1070,11 @@ I18N.load([
   ["Mises en situation","Mock-ups","效果图"],
   ["Diable Rouge — Projet de Jipson Mathas","Diable Rouge — Project by Jipson Mathas","Diable Rouge — Jipson Mathas 的项目"],
   ["Visuel du projet Diable Rouge","Visual from the Diable Rouge project","Diable Rouge 项目图片"],
+  ["Témoignages","Testimonials","客户评价"],
+  ["Ce qu'ils en disent","What they say","他们怎么说"],
+  ["Le mot du client","A word from the client","客户的评价"],
+  ["Clients et participants à mes formations racontent leur expérience.","Clients and training participants share their experience.","客户和培训学员分享他们的体验。"],
+  ["Ce que retiennent les participants de mes formations.","What participants take away from my training courses.","学员对培训的收获与评价。"],
+  ["Ce que disent les clients avec qui j'ai travaillé.","What the clients I have worked with say.","与我合作过的客户的评价。"],
   ["Envoi…","Sending…","发送中…"]
 ]);

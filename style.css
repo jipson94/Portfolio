@@ -1643,3 +1643,33 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
 /* Accroche du haut : toujours sur une seule ligne (taille réduite sur petit écran) */
 .hero-kicker{white-space:nowrap!important}
 @media (max-width:600px){.hero-kicker{font-size:min(12.5px,2.9vw)!important;letter-spacing:.03em}}
+
+/* ============ Témoignages (temoignages.js) ============ */
+.tm-sec{background:linear-gradient(180deg,#0c1c5e,#0f2167)}
+.tm-sec[hidden]{display:none}
+.tm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.tm-grid.tm-solo{grid-template-columns:minmax(0,760px)}
+.tm-card{position:relative;margin:0;display:flex;flex-direction:column;gap:22px;padding:34px 30px 28px;border-radius:24px;background:rgba(255,255,255,.04);border:1px solid var(--line);transition:transform .35s cubic-bezier(.2,.7,.2,1),border-color .3s,background .3s}
+.tm-card:hover{transform:translateY(-4px);border-color:rgba(255,247,153,.45);background:rgba(255,255,255,.06)}
+.tm-quote{width:40px;height:30px;fill:var(--orange);opacity:.9}
+.tm-card blockquote{margin:0;font-size:16.5px;line-height:1.65;color:#fff;flex:1}
+.tm-card figcaption{display:flex;align-items:center;gap:14px}
+.tm-avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none;border:2px solid var(--orange)}
+.tm-ini{display:grid;place-items:center;background:var(--orange);color:var(--bg);font-weight:800;font-size:17px;letter-spacing:.02em}
+.tm-who{display:flex;flex-direction:column;line-height:1.35}
+.tm-who b{font-size:15.5px;color:#fff}
+.tm-who small{font-size:13px;color:var(--muted)}
+.tm-lien{font-size:13px;font-weight:600;color:var(--orange);text-decoration:none;align-self:flex-start;border-top:1px solid var(--line);padding-top:16px;width:100%}
+.tm-lien:hover{color:var(--jaune-vif,#ffd84a)}
+/* Page d'un projet : section intégrée, plus compacte */
+.tm-inpage{background:none;padding-block:72px 0}
+.tm-inpage .wrap{padding:0;max-width:none}
+.tm-inpage .process-head{margin-bottom:28px}
+/* Téléphone : les cartes défilent sur le côté */
+@media (max-width:720px){
+  .tm-grid:not(.tm-solo){display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;margin:0 -16px;padding:0 16px 8px;scrollbar-width:none}
+  .tm-grid::-webkit-scrollbar{display:none}
+  .tm-grid:not(.tm-solo) .tm-card{flex:0 0 86%;scroll-snap-align:center}
+  .tm-card{padding:28px 22px 22px}
+  .tm-card blockquote{font-size:15.5px}
+}

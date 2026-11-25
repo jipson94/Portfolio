@@ -250,6 +250,8 @@ window.envoyerFormulaire = async function (form) {
     const k = fid(b); if (!k) return;
     evt('formation:' + k + ':' + (b.classList.contains('dl-pdf') ? 'programme' : b.dataset.open === 'Inscription' ? 'clic-inscription' : 'clic-devis'));
   }, true);
+  // Press-book téléchargé (lien vers le PDF, où qu'il soit sur le site)
+  document.addEventListener('click', e => { if (e.target.closest('a[href*="press-book"][href$=".pdf"]')) evt('pressbook'); }, true);
   // Formulaires envoyés (inscription, devis, contact)
   document.addEventListener('submit', e => {
     const f = e.target; if (!f.matches || !f.matches('form[data-form]')) return;

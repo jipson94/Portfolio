@@ -390,6 +390,7 @@
       const h = new Date().getHours(), salut = h < 12 ? 'Bonjour' : h < 18 ? 'Bon après-midi' : 'Bonsoir';
       $('#view').innerHTML = `<div class="hello"><div><h2>${salut} Jipson 👋</h2><p class="muted">${new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · chiffres des visiteurs, <b>hors vos propres visites</b></p></div>
         <div class="row"><a class="btn small" href="#article/nouveau">+ Article</a><a class="btn small light" href="#projet/nouveau">+ Projet</a><a class="btn small light" href="../" target="_blank" rel="noopener">Voir le site ↗</a></div></div>
+        <h3 class="conv-t">Demandes et téléchargements <span class="muted">· 30 derniers jours</span></h3><div id="d-conv"><div class="kpis conv"><div class="kpi"><small>…</small><b>…</b><span>&nbsp;</span></div><div class="kpi"><small>…</small><b>…</b><span>&nbsp;</span></div><div class="kpi"><small>…</small><b>…</b><span>&nbsp;</span></div><div class="kpi"><small>…</small><b>…</b><span>&nbsp;</span></div><div class="kpi"><small>…</small><b>…</b><span>&nbsp;</span></div></div></div>
         <div class="kpis" id="d-kpis">${['Aujourd\'hui', '7 derniers jours', 'En ce moment', 'Demandes (30 j)'].map(t => `<div class="kpi"><small>${t}</small><b>…</b><span>&nbsp;</span></div>`).join('')}</div>
         <div class="dash">
           <section class="card st-card d-wide"><div class="row between"><h3>Visiteurs · 14 derniers jours</h3><a href="#stats/30" class="small-link">Toutes les statistiques →</a></div><div id="d-chart"><p class="muted">Chargement…</p></div></section>
@@ -411,6 +412,7 @@
         const sum = (n, f) => { let t = 0; for (let i = 0; i < n; i++) t += ((by[key(i)] || {})[f] || 0); return t; };
         const today = by[key(0)] || {}, envois = d.actions.filter(a => /^evt:envoi:/.test(a.path)).reduce((t, a) => t + a.n, 0);
         const k = [[today.visiteurs || 0, nf(today.vues || 0) + ' page(s) vue(s)'], [sum(7, 'visiteurs'), nf(sum(7, 'vues')) + ' pages vues'], [d.enLigne, 'ces 30 dernières minutes'], [envois, 'inscriptions, devis, messages']];
+        $('#d-conv').innerHTML = convHTML(d.actions);
         $('#d-kpis').innerHTML = k.map(([v, sub], i) => `<div class="kpi ${i === 2 ? 'live' : ''}"><small>${['Aujourd\'hui', '7 derniers jours', 'En ce moment', 'Demandes (30 j)'][i]}</small><b>${nf(v)}</b><span>${i < 2 ? 'visiteurs · ' : ''}${sub}</span></div>`).join('');
         const max = Math.max(...days.map(x => x.v), 1), fd = k2 => new Date(k2 + 'T12:00').toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric' });
         $('#d-chart').innerHTML = `<div class="chart mini" title="">${days.map(x => `<div class="col" title="${esc(fd(x.day))} : ${nf(x.v)} visiteur(s), ${nf(x.p)} page(s)"><i style="height:${x.v ? Math.max(4, Math.round(100 * x.v / max)) : 0}%"></i></div>`).join('')}</div><div class="chart-axis"><span>${esc(fd(days[0].day))}</span><span>max. ${nf(max)} / jour</span><span>aujourd'hui</span></div>`;
@@ -670,7 +672,7 @@
   };
   const quiVoir = () => (ls.get('jm-stats-qui', 'autres') === 'moi' ? 'moi' : 'autres');   // « Autres visiteurs » ou « Mes visites »
   const agoTxt = ts => { const m = Math.round((Date.now() - ts) / 60e3); return m < 1 ? 'à l\'instant' : m < 60 ? 'il y a ' + m + ' min' : m < 1440 ? 'il y a ' + Math.round(m / 60) + ' h' : new Date(ts).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) + ' ' + new Date(ts).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); };
-  const evtLabelTxt = p => { const m = p.match(/^evt:(formation|envoi):([a-z0-9-]+)(?::([a-z0-9-]+))?$/i); if (!m) return p;
+  const evtLabelTxt = p => { if (p === 'evt:pressbook') return 'Press-book téléchargé'; const m = p.match(/^evt:(formation|envoi):([a-z0-9-]+)(?::([a-z0-9-]+))?$/i); if (!m) return p;
     const F = store.formations.data.FORMATIONS, ft = id => (F.find(f => f.id === id) || {}).titre || id;
     if (m[1] === 'envoi') return ({ inscription: 'Inscription envoyée', devis: 'Devis demandé', contact: 'Message de contact envoyé' }[m[2]] || 'Formulaire envoyé') + (m[3] ? ' · ' + ft(m[3]) : '');
     return ({ vue: 'Formation regardée', programme: 'Programme PDF téléchargé', 'clic-inscription': 'Clic « S\'inscrire »', 'clic-devis': 'Clic « Demander un devis »' }[m[3]] || m[3]) + ' · ' + ft(m[2]); };
@@ -693,8 +695,25 @@
     const d = await r.json().catch(() => ({}));
     if (r.status === 401) { logout('Votre session a expiré. Reconnectez-vous avec votre mot de passe.'); throw new Error('Session expirée.'); }
     if (!r.ok) throw new Error(d.erreur || ('Compteur indisponible (' + r.status + ')'));
+    const norm = p => String(p).replace(/^\/(projet|article)-([a-z0-9_-]+)\.html$/i, '/$1.html?id=$2');
+    const fus = new Map();
+    (d.pages || []).forEach(x => { const k = norm(x.path), o = fus.get(k); if (o) { o.n += x.n; o.visiteurs += x.visiteurs; } else fus.set(k, { ...x, path: k }); });
+    d.pages = [...fus.values()].sort((a, b) => b.visiteurs - a.visiteurs);
+    (d.recents || []).forEach(x => { x.path = norm(x.path); });
     return d;
   }
+  // Demandes et téléchargements sur la période : devis, inscriptions, programmes, press-book, messages
+  function conversions(A) {
+    const s = re => A.filter(a => re.test(a.path)).reduce((t, a) => t + a.n, 0);
+    return [
+      ['📝', 'Devis demandés', s(/^evt:envoi:devis(:|$)/), 'formulaires de devis envoyés'],
+      ['✅', 'Inscriptions', s(/^evt:envoi:inscription(:|$)/), 'formulaires d\'inscription envoyés'],
+      ['📄', 'Programmes téléchargés', s(/^evt:formation:[a-z0-9-]+:programme$/), 'PDF des formations'],
+      ['📘', 'Press-book téléchargé', s(/^evt:pressbook$/), 'PDF du press-book'],
+      ['✉️', 'Messages de contact', s(/^evt:envoi:contact(:|$)/), 'formulaire de l\'accueil']
+    ];
+  }
+  const convHTML = A => `<div class="kpis conv">${conversions(A).map(([ic, t, v, sub]) => `<div class="kpi"><small>${ic} ${t}</small><b>${nf(v)}</b><span>${sub}</span></div>`).join('')}</div>`;
   VIEWS.stats = async function (arg) {
     $('#view-title').textContent = 'Statistiques';
     const jours = [1, 7, 30, 90, 365].includes(+arg) ? +arg : 30;
@@ -730,6 +749,7 @@
         <div class="kpi"><small>Demandes envoyées</small><b>${nf(envois)}</b><span>inscriptions, devis et messages</span></div>
         <div class="kpi live"><small>En ce moment</small><b>${nf(d.enLigne)}</b><span>visiteur(s) ces 30 dernières minutes</span></div>
       </div>
+      <h3 class="conv-t">Demandes et téléchargements</h3>${convHTML(A)}
       ${jours > 1 ? `<section class="card st-card"><h3>Visiteurs par jour</h3>
         <div class="chart" id="chart" role="img" aria-label="Visiteurs par jour sur la période">${days.map(x => `<div class="col" data-t="${esc(fmtDay(x.day))} : ${nf(x.visiteurs)} visiteur(s), ${nf(x.vues)} page(s) vue(s)"><i style="height:${x.visiteurs ? Math.max(3, Math.round(100 * x.visiteurs / maxV)) : 0}%"></i></div>`).join('')}</div>
         <div class="chart-axis"><span>${esc(fmtDay(days[0].day))}</span><span>max. ${nf(maxV)} / jour</span><span>${esc(fmtDay(days[days.length - 1].day))}</span></div>

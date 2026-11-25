@@ -1752,12 +1752,16 @@ a.tm-sous:hover{color:#fff}
 .services-sec .card.cta:hover .cta-fille{transform:translateY(-4px) scale(1.02)}
 .services-sec .card.cta .arrow,.services-sec .card.cta .cta-txt{position:relative;z-index:1}
 .services-sec .card.cta .cta-txt{max-width:55%}
-@media (max-width:640px){.services-sec .card.cta{min-height:230px!important}.services-sec .card.cta .cta-fille{height:100%;max-width:48%}.services-sec .card.cta .cta-txt{max-width:58%}}
 .services-sec .card.cta .cta-fille{max-width:50%;height:92%}
 .services-sec .card.cta .cta-txt{max-width:50%}
 .services-sec .card.cta .cta-fille{mix-blend-mode:multiply}
-@media (max-width:640px){
-  .services-sec .card.cta{grid-column:1/-1!important;min-height:210px!important}
-  .services-sec .card.cta .cta-fille{height:100%;max-width:46%}
-  .services-sec .card.cta .cta-txt{max-width:54%}
+
+/* Carte « Un projet en tête ? » : jeune femme plus grande */
+.services-sec .card.cta .cta-fille{height:100%;max-width:58%;right:-10px}
+.services-sec .card.cta .cta-txt{max-width:48%}
+/* Téléphone (cartes étroites et hautes) : texte en haut, jeune femme en bas à droite */
+@media (max-width:480px){
+  .services-sec .card.cta{justify-content:flex-start!important;gap:10px!important}
+  .services-sec .card.cta .cta-txt{max-width:100%}
+  .services-sec .card.cta .cta-fille{height:57%;max-width:115%;right:-14px}
 }

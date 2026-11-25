@@ -1673,3 +1673,17 @@ body.merci .foot-bottom{border-top:0;padding-top:16px;padding-bottom:18px}
   .tm-card{padding:28px 22px 22px}
   .tm-card blockquote{font-size:15.5px}
 }
+
+/* Témoignages en carrousel défilant */
+.tm-grid.tm-carrousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:22px;scrollbar-width:none;padding:6px 2px 10px;margin:-6px -2px 0;outline:none}
+.tm-grid.tm-carrousel::-webkit-scrollbar{display:none}
+.tm-carrousel .tm-card{flex:0 0 calc((100% - 44px) / 3);scroll-snap-align:start}
+@media (max-width:1000px){.tm-carrousel .tm-card{flex-basis:calc((100% - 22px) / 2)}}
+@media (max-width:720px){.tm-grid.tm-carrousel{gap:14px;margin:0 -16px;padding:6px 16px 10px;scroll-padding:0 16px}.tm-carrousel .tm-card{flex-basis:86%}}
+.tm-nav{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:26px}
+.tm-nav[hidden]{display:none}
+.tm-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.04);color:#fff;font-size:24px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .2s,border-color .2s,color .2s}
+.tm-btn:hover{background:var(--orange);border-color:var(--orange);color:var(--bg)}
+.tm-dots{display:flex;gap:8px}
+.tm-dots button{width:9px;height:9px;padding:0;border-radius:999px;border:0;background:var(--line);cursor:pointer;transition:width .3s,background .3s}
+.tm-dots button.on{width:26px;background:var(--orange)}

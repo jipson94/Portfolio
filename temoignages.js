@@ -46,9 +46,50 @@
     list = list.slice(0, max);
     if (!list.length) return;
     const titre = sec.dataset.titre || 'Ce qu\'ils en disent';
+    const solo = list.length === 1;
     sec.innerHTML = `<div class="wrap">
       <div class="process-head"><div><div class="kicker">Témoignages</div><h2>${esc(titre)}</h2></div>${sec.dataset.intro ? `<p>${esc(sec.dataset.intro)}</p>` : ''}</div>
-      <div class="tm-grid${list.length === 1 ? ' tm-solo' : ''}">${list.map(carte).join('')}</div></div>`;
+      <div class="tm-grid${solo ? ' tm-solo' : ' tm-carrousel'}" tabindex="${solo ? -1 : 0}" aria-label="Témoignages">${list.map(carte).join('')}</div>
+      ${solo ? '' : `<div class="tm-nav"><button type="button" class="tm-btn tm-prev" aria-label="Témoignage précédent">‹</button><div class="tm-dots"></div><button type="button" class="tm-btn tm-next" aria-label="Témoignage suivant">›</button></div>`}</div>`;
     sec.hidden = false;
+    if (!solo) carrousel(sec);
   });
+
+  /* Carrousel : défile tout seul (pause au survol, au toucher, hors de l'écran ou si l'appareil demande moins d'animations),
+     flèches, points et glissement du doigt. Sur ordinateur 3 cartes visibles, 2 sur tablette, 1 sur téléphone. */
+  function carrousel(sec) {
+    const piste = sec.querySelector('.tm-grid'), cartes = [...piste.children], dots = sec.querySelector('.tm-dots');
+    const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const pas = () => cartes[0].getBoundingClientRect().width + parseFloat(getComputedStyle(piste).columnGap || getComputedStyle(piste).gap || 0);
+    const parVue = () => Math.max(1, Math.round(piste.clientWidth / pas()));
+    const pages = () => Math.max(1, cartes.length - parVue() + 1);
+    const actuelle = () => Math.round(piste.scrollLeft / pas());
+    const aller = i => { const n = pages(); i = ((i % n) + n) % n; piste.scrollTo({ left: i * pas(), behavior: calme ? 'auto' : 'smooth' }); };
+    const dessinerPoints = () => {
+      const n = pages(); sec.querySelector('.tm-nav').hidden = n < 2;
+      dots.innerHTML = Array.from({ length: n }, (_, i) => `<button type="button" aria-label="Aller au témoignage ${i + 1}"></button>`).join('');
+      majPoints();
+    };
+    const majPoints = () => { const a = Math.min(actuelle(), pages() - 1); [...dots.children].forEach((d, i) => d.classList.toggle('on', i === a)); };
+    dots.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { aller([...dots.children].indexOf(b)); relancer(); } });
+    sec.querySelector('.tm-prev').addEventListener('click', () => { aller(actuelle() - 1); relancer(); });
+    sec.querySelector('.tm-next').addEventListener('click', () => { aller(actuelle() + 1); relancer(); });
+    let attente; piste.addEventListener('scroll', () => { clearTimeout(attente); attente = setTimeout(majPoints, 80); }, { passive: true });
+    addEventListener('resize', () => { dessinerPoints(); });
+    dessinerPoints();
+    if (calme) return;
+    // Défilement automatique
+    let minuterie = null, survol = false, visible = false;
+    const tourner = () => { if (!survol && visible && !document.hidden) aller(actuelle() + 1); };
+    const relancer = () => { clearInterval(minuterie); minuterie = setInterval(tourner, 5000); };
+    relancer();
+    piste.addEventListener('mouseenter', () => { survol = true; });
+    piste.addEventListener('mouseleave', () => { survol = false; });
+    piste.addEventListener('focusin', () => { survol = true; });
+    piste.addEventListener('focusout', () => { survol = false; });
+    piste.addEventListener('touchstart', () => { survol = true; }, { passive: true });
+    piste.addEventListener('touchend', () => { survol = false; relancer(); }, { passive: true });
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; }, { threshold: .3 }).observe(piste);
+    else visible = true;
+  }
 })();

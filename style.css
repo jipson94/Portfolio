@@ -1765,3 +1765,7 @@ a.tm-sous:hover{color:#fff}
   .services-sec .card.cta .cta-txt{max-width:100%}
   .services-sec .card.cta .cta-fille{height:57%;max-width:115%;right:-14px}
 }
+
+/* Bande des logos : versions en niveaux de gris détaillés (scripts/logos-gris.cjs), plus de filtre blanc uniforme */
+.logos-band img,.logos-band .lg-diabo,.logos-band .lg-kitokonature{filter:none;opacity:.88}
+.logos-band img:hover{opacity:1}

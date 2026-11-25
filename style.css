@@ -1728,3 +1728,20 @@ a.tm-sous:hover{color:#fff}
 /* Questionnaire : boutons de choix en blanc */
 .quiz-opt{background:#fff;border-color:rgba(11,24,80,.08)}
 .quiz-opt:hover,.quiz-opt.on{background:#fff;border-color:#0b1850}
+
+/* Services (accueil) : cartes bleues, carte « Un projet en tête ? » toute blanche */
+.services-sec .card:not(.cta){background:#0b1850!important;box-shadow:none}
+.services-sec .card:not(.cta):hover{background:#132a7a!important;box-shadow:0 18px 36px rgba(11,24,80,.25)}
+.services-sec .card:not(.cta) h3{color:#fff}
+.services-sec .card:not(.cta) p{color:#c9d3fb}
+.services-sec .card:not(.cta) .card-ico{background:#fff799}
+.services-sec .card:not(.cta) .card-ico svg{stroke:#0b1850}
+.services-sec .card:not(.cta):hover .card-ico{background:#fff}
+.services-sec .card:not(.cta):hover .card-ico svg{stroke:#0b1850}
+.services-sec .card:not(.cta) .card-tags li{background:rgba(255,255,255,.1)!important;color:#fff}
+.services-sec .card:not(.cta)::before{background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,247,153,.12),transparent 60%)}
+.services-sec .card.cta{background:#fff!important;color:#0b1850}
+.services-sec .card.cta h3{color:#0b1850!important}
+.services-sec .card.cta p{color:#3d4a7a!important;opacity:1}
+.services-sec .card.cta .arrow{color:#0b1850}
+.services-sec .card.cta:hover{background:#fff!important;box-shadow:0 18px 36px rgba(11,24,80,.18)}

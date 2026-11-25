@@ -13,7 +13,8 @@ const sharp = require(sharpPath || 'sharp'); sharp.cache(false);
 const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const inline = s => esc(s)
   .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
-  .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+  .replace(/(^|[^*\w])\*([^*\s][^*]*?)\*(?![*\w])/g, '$1<em>$2</em>');
 let titre = '', liste = []; const out = [];
 const flush = () => { if (liste.length) { out.push('<ul>' + liste.map(x => `<li>${inline(x)}</li>`).join('') + '</ul>'); liste = []; } };
 for (const l of fs.readFileSync(md, 'utf8').replace(/\r/g, '').split('\n').map(x => x.trim())) {

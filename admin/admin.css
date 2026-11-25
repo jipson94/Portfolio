@@ -335,3 +335,11 @@ html,body,.topbar,.card,.kpi,.item,.fgroup,.seg,.sub,.chip,.icon-btn,.rich,.rich
 [data-theme="dark"] .form-msg{background:#1b2a66;color:#dfe6ff}[data-theme="dark"] .form-msg.ok{background:#0f3d27;color:#b9f0cf}[data-theme="dark"] .form-msg.err{background:#4a1414;color:#ffc9c9}[data-theme="dark"] .form-msg.wait{background:#3a3110;color:#ffe08a}
 /* Le bandeau d'état reste visible en faisant défiler */
 .status{position:sticky;top:82px;z-index:4}
+
+/* Témoignages : formations et projets séparés */
+.tm-bloc{margin-bottom:34px}
+.tm-bloc-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tm-bloc-head h2{font-size:18px;display:flex;align-items:center;gap:10px}
+.tm-bloc-aide{margin:4px 0 14px}
+.tm-ph{display:grid;place-items:center;background:var(--roi);color:var(--jaune);font-weight:800;font-size:18px;border-radius:50%!important;width:56px!important;height:56px!important}
+.items.as-grid .tm-ph{width:100%!important;height:150px!important;border-radius:0!important;font-size:34px}

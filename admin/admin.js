@@ -552,16 +552,26 @@
       const L = store.temoignages.data.TEMOIGNAGES;
       const P = store.projets.data.PROJETS, F = store.formations.data.FORMATIONS;
       const lien = t => t.type === 'formation' ? (F.find(f => f.id === t.lien) || {}).titre : (P.find(p => p.id === t.lien) || {}).titre;
-      listView('Témoignages', L.slice().sort((a, b) => String(b.date || '').localeCompare(String(a.date || ''))), t => ({
-        img: t.photo ? previewOf(t.photo) : '', t: t.nom + (t.structure ? ' — ' + t.structure : ''),
-        sub: (t.type === 'formation' ? 'Formation' : 'Projet') + (lien(t) ? ' · ' + lien(t) : '') + ' · « ' + String(t.texte || '').slice(0, 70) + (String(t.texte || '').length > 70 ? '… »' : ' »'),
-        tags: t.type === 'formation' ? '<span class="tag b">Formation</span>' : '<span class="tag y">Projet</span>', href: '#temoignage/' + t.id
-      }), '#temoignage/nouveau', '+ Ajouter un témoignage');
-      if (!L.length) $('#lst').innerHTML = '<p class="note">Aucun témoignage pour l\'instant. Ajoutez uniquement de vrais témoignages, avec l\'accord de la personne : ils apparaissent sur l\'accueil, la page Projets (et la page du projet concerné) ou la page Formations.</p>';
+      const mode = ls.get('jm-vue', 'liste');
+      const item = t => `<a class="item" href="#temoignage/${esc(t.id)}">${t.photo ? `<img src="${esc(previewOf(t.photo))}" alt="" loading="lazy">` : `<span class="ph tm-ph">${esc(String(t.nom || '?').trim().split(/\s+/).slice(0, 2).map(m => m[0]).join('').toUpperCase())}</span>`}
+        <div class="grow"><div class="t">${esc(t.nom + (t.structure ? ' — ' + t.structure : ''))}</div><div class="muted">${esc((lien(t) || t.intitule || 'Sans lien') + ' · « ' + String(t.texte || '').slice(0, 80) + (String(t.texte || '').length > 80 ? '… »' : ' »'))}</div></div></a>`;
+      const tri = list => list.slice().sort((x, y) => String(y.date || '').localeCompare(String(x.date || '')));
+      const bloc = (type, titre, aide) => {
+        const list = tri(L.filter(t => (type === 'formation') === (t.type === 'formation')));
+        return `<section class="tm-bloc"><div class="tm-bloc-head"><h2>${titre} <span class="tag ${type === 'formation' ? 'b' : 'y'}">${list.length}</span></h2>
+          <a class="btn small" href="#temoignage/nouveau-${type}">+ Ajouter</a></div><p class="muted tm-bloc-aide">${aide}</p>
+          <div class="items ${mode === 'grille' ? 'as-grid' : ''}">${list.map(item).join('') || '<p class="muted">Aucun pour l\'instant.</p>'}</div></section>`;
+      };
+      $('#view-title').textContent = 'Témoignages';
+      $('#view').innerHTML = `<div class="toolbar"><span class="muted">Uniquement de vrais témoignages, avec l'accord de la personne.</span>
+        <div class="seg" id="vue-mode" role="group" aria-label="Affichage"><a href="#" data-m="liste" class="${mode === 'liste' ? 'on' : ''}">☰ Liste</a><a href="#" data-m="grille" class="${mode === 'grille' ? 'on' : ''}">▦ Grille</a></div></div>
+        ${bloc('formation', 'Formations', 'Affichés sur la page Formations et sur l\'accueil.')}
+        ${bloc('projet', 'Projets', 'Affichés sur la page Projets, sur la page du projet concerné et sur l\'accueil.')}`;
+      $('#vue-mode').addEventListener('click', e => { const m = e.target.closest('[data-m]'); if (!m) return; e.preventDefault(); ls.set('jm-vue', m.dataset.m); document.querySelectorAll('#view .items').forEach(x => x.classList.toggle('as-grid', m.dataset.m === 'grille')); $('#vue-mode').querySelectorAll('a').forEach(x => x.classList.toggle('on', x === m)); });
     },
     temoignage(id) {
-      const L = store.temoignages.data.TEMOIGNAGES, isNew = id === 'nouveau';
-      const t = isNew ? { type: 'projet', date: new Date().toISOString().slice(0, 10) } : L.find(x => x.id === id);
+      const L = store.temoignages.data.TEMOIGNAGES, isNew = String(id).startsWith('nouveau');
+      const t = isNew ? { type: id === 'nouveau-formation' ? 'formation' : 'projet', date: new Date().toISOString().slice(0, 10) } : L.find(x => x.id === id);
       if (!t) return notFound('#temoignages');
       const P = store.projets.data.PROJETS, F = store.formations.data.FORMATIONS;
       const opts = [['', '— Aucun en particulier —']].concat(P.map(p => ['projet:' + p.id, 'Projet · ' + p.titre]), F.map(f => ['formation:' + f.id, 'Formation · ' + f.titre]));

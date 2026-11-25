@@ -1724,3 +1724,7 @@ a.tm-sous:hover{color:#fff}
 .tm-jaune .tm-avatar{border-color:var(--orange)}
 .tm-jaune .tm-sous{color:var(--orange)}
 .tm-jaune a.tm-sous:hover{color:#fff}
+
+/* Questionnaire : boutons de choix en blanc */
+.quiz-opt{background:#fff;border-color:rgba(11,24,80,.08)}
+.quiz-opt:hover,.quiz-opt.on{background:#fff;border-color:#0b1850}

@@ -1775,3 +1775,8 @@ a.tm-sous:hover{color:#fff}
 .article-body figure img,#p-solution figure img{display:block;width:100%;height:auto;border-radius:18px;background:rgba(255,255,255,.04)}
 .article-body figcaption,#p-solution figcaption{margin-top:10px;font-size:14px;line-height:1.5;color:var(--dim);text-align:center}
 @media (max-width:720px){.article-body figure,#p-solution figure{margin:26px 0}.article-body figure img,#p-solution figure img{border-radius:14px}}
+
+/* Liens et listes dans le texte des articles : liens en jaune (sans soulignement), espace après les listes */
+.article-body a{color:var(--jaune-vif);font-weight:600;text-decoration:none;transition:opacity .2s}
+.article-body a:hover{opacity:.75}
+.article-body ul,.article-body ol{margin-bottom:18px}

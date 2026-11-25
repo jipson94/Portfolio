@@ -53,7 +53,7 @@ function remplir(h, id, html) {
   return h.replace(re, (m, a, tag, inner, b) => a + html + b);
 }
 // La page générée sait quel élément afficher (sans « ?id= » dans l'adresse)
-const avecId = (h, id) => h.replace(/(\n<script>\n)/, `\n<script>window.PAGE_ID = ${JSON.stringify(id)};</script>$1`);
+const avecId = (h, id) => h.replace(/(\r?\n<script>\r?\n)/, `\n<script>window.PAGE_ID = ${JSON.stringify(id)};</script>$1`);
 
 const fil = items => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map(([name, item], i) => ({ '@type': 'ListItem', position: i + 1, name, item })) });
 const AUTEUR = { '@type': 'Person', name: 'Jipson Mathas', url: SITE_URL };

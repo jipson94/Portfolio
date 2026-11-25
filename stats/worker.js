@@ -2,11 +2,8 @@
    Compteur de visites — jipsonmathas.com (Cloudflare Worker + base D1, offre gratuite)
    POST /hit    : le site envoie une visite (page, provenance). Pas de cookie, aucune adresse IP enregistrée.
    GET  /stats  : l'admin lit les statistiques (session de l'admin).
-   POST /form   : un visiteur envoie un formulaire du site → e-mail envoyé par la boîte contact@ (SMTP Hostinger).
    Mise en ligne : voir stats/README.md
    ============================================================ */
-import { connect } from 'cloudflare:sockets';
-
 const ORIGINS = ['https://jipsonmathas.com', 'https://www.jipsonmathas.com', 'https://jipson94.github.io', 'http://localhost:5501'];
 const PUBLIC = /^https:\/\/(www\.)?jipsonmathas\.com$|^https:\/\/jipson94\.github\.io$/;   // origines dont les visites comptent
 const REPO = 'jipson94/Portfolio';
@@ -113,7 +110,7 @@ async function testerGithub(token) {
   return '';
 }
 
-async function etat(env) { const c = await config(env); return { configure: !!c.pw, github: !!c.gh || !!env.GITHUB_TOKEN, boite: !!c.smtp }; }
+async function etat(env) { const c = await config(env); return { configure: !!c.pw, github: !!c.gh || !!env.GITHUB_TOKEN }; }
 
 // Première installation : code d'installation + mot de passe + clé GitHub
 async function installer(req, env) {
@@ -149,101 +146,6 @@ async function compte(req, env) {
   if (!Object.keys(maj).length) return [400, { erreur: 'Rien à modifier.' }];
   await ecrire(env, maj);
   return [200, { ok: true, session: maj.ver ? await nouvelleSession(env, maj.ver) : undefined }];
-}
-
-/* ---------- Formulaires du site envoyés par la boîte contact@ (SMTP Hostinger) ----------
-   Les messages partent de contact@jipsonmathas.com vers contact@jipsonmathas.com, avec « Répondre à » = le visiteur.
-   Le mot de passe de la boîte est saisi dans l'admin (page « Mot de passe ») et gardé chiffré (table config, clé « smtp »). */
-const BOITE = 'contact@jipsonmathas.com', SMTP_HOTE = 'smtp.hostinger.com', SMTP_PORT = 465;
-const MAX_ENVOIS_HEURE = 5;
-const b64 = s => { const o = new TextEncoder().encode(s); let t = ''; for (let i = 0; i < o.length; i += 0x8000) t += String.fromCharCode(...o.subarray(i, i + 0x8000)); return btoa(t); };
-const plie = s => s.replace(/.{1,76}/g, 'const bearer = req =>\r\n');
-const entete = s => '=?UTF-8?B?' + b64(s) + '?=';
-const propre = (s, n = 200) => String(s ?? '').replace(/[\r\n]+/g, ' ').trim().slice(0, n);
-const echHtml = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-
-// Petit client SMTP (connexion chiffrée sur le port 465)
-async function smtp(motdepasse, message) {
-  const sock = connect({ hostname: SMTP_HOTE, port: SMTP_PORT }, { secureTransport: 'on', allowHalfOpen: false });
-  const w = sock.writable.getWriter(), r = sock.readable.getReader(), dec = new TextDecoder();
-  let tampon = '';
-  const reponse = async () => {
-    for (;;) {
-      const lignes = tampon.split('\r\n');
-      for (let i = 0; i < lignes.length - 1; i++) if (/^\d{3} /.test(lignes[i])) { const rep = lignes.slice(0, i + 1).join('\n'); tampon = lignes.slice(i + 1).join('\r\n'); return { code: +lignes[i].slice(0, 3), texte: rep }; }
-      const { value, done } = await r.read(); if (done) throw new Error('Connexion SMTP fermée');
-      tampon += dec.decode(value, { stream: true });
-    }
-  };
-  const envoie = async (ligne, attendu, secret) => {
-    if (ligne != null) await w.write(new TextEncoder().encode(ligne + '\r\n'));
-    const rep = await reponse();
-    if (!String(rep.code).startsWith(String(attendu))) { const e = new Error((secret ? 'Étape ' + secret : 'SMTP') + ' refusée : ' + rep.texte.slice(0, 160)); e.code = rep.code; throw e; }
-    return rep;
-  };
-  try {
-    await envoie(null, 220);
-    await envoie('EHLO jipsonmathas.com', 250);
-    await envoie('AUTH LOGIN', 334);
-    await envoie(b64(BOITE), 334);
-    await envoie(b64(motdepasse), 235, 'connexion');
-    if (message) {
-      await envoie(`MAIL FROM:<${BOITE}>`, 250);
-      await envoie(`RCPT TO:<${BOITE}>`, 250);
-      await envoie('DATA', 354);
-      await envoie(message + '\r\n.', 250);
-    }
-    await w.write(new TextEncoder().encode('QUIT\r\n')).catch(() => {});
-  } finally { try { await sock.close(); } catch {} }
-}
-function composer({ sujet, texte, html, repondreA, nomVisiteur }) {
-  const frontiere = 'jm-' + crypto.randomUUID();
-  const h = [
-    `From: ${entete('Site jipsonmathas.com')} <${BOITE}>`, `To: <${BOITE}>`,
-    ...(repondreA ? [`Reply-To: ${nomVisiteur ? entete(nomVisiteur) + ' ' : ''}<${repondreA}>`] : []),
-    `Subject: ${entete(sujet)}`, `Date: ${new Date().toUTCString().replace('GMT', '+0000')}`,
-    `Message-ID: <${crypto.randomUUID()}@jipsonmathas.com>`, 'MIME-Version: 1.0', `Content-Type: multipart/alternative; boundary="${frontiere}"`
-  ];
-  return h.join('\r\n') + '\r\n\r\n' +
-    `--${frontiere}\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n${plie(b64(texte))}` +
-    `--${frontiere}\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n${plie(b64(html))}` +
-    `--${frontiere}--`;
-}
-const motDePasseBoite = async env => { try { return await dechiffrer(env, (await config(env)).smtp); } catch { return ''; } };
-
-// Admin : enregistrer (et vérifier) le mot de passe de contact@, puis envoyer un message de test
-async function boite(req, env) {
-  const b = await corps(req), mdp = String(b.motdepasse || '');
-  if (!mdp || mdp.length > 200) return [400, { erreur: 'Saisissez le mot de passe de la boîte contact@.' }];
-  try {
-    await smtp(mdp, composer({ sujet: 'Test : les formulaires du site passent par votre boîte', texte: 'Tout fonctionne : les messages du site jipsonmathas.com arriveront désormais ainsi, envoyés par votre propre boîte contact@.', html: '<p>Tout fonctionne : les messages du site <b>jipsonmathas.com</b> arriveront désormais ainsi, envoyés par votre propre boîte contact@.</p>' }));
-  } catch (e) { return [400, { erreur: e.code === 535 || /connexion/.test(e.message) ? 'Hostinger refuse ce mot de passe pour contact@jipsonmathas.com.' : 'Envoi impossible : ' + e.message }]; }
-  await ecrire(env, { smtp: await chiffrer(env, mdp) });
-  return [200, { ok: true }];
-}
-// Site : un visiteur envoie le formulaire
-async function formulaire(req, env) {
-  const origin = req.headers.get('origin') || '';
-  if (!PUBLIC.test(origin) && env.TEST_LOCAL !== 'oui') return [403, { erreur: 'Origine refusée' }];
-  const brut = await req.text(); if (brut.length > 20000) return [413, { erreur: 'Message trop long' }];
-  let b; try { b = JSON.parse(brut); } catch { return [400, { erreur: 'Données illisibles' }]; }
-  if (b.piege) return [200, { ok: true }];                         // robot : on fait comme si c'était parti
-  const mdp = await motDePasseBoite(env); if (!mdp) return [503, { erreur: 'Boîte mail pas encore configurée' }];
-  const k = await sha('form|' + (req.headers.get('cf-connecting-ip') || '') + '|' + (env.SEL || ''));
-  await env.DB.prepare('DELETE FROM envois WHERE ts < ?').bind(Date.now() - 3600e3).run();
-  if ((await env.DB.prepare('SELECT COUNT(*) AS n FROM envois WHERE k = ?').bind(k).first()).n >= MAX_ENVOIS_HEURE) return [429, { erreur: 'Trop de messages envoyés. Réessayez plus tard.' }];
-  const champs = Object.entries(b.champs || {}).filter(([n, v]) => typeof v === 'string' && v.trim()).slice(0, 30).map(([n, v]) => [propre(n, 60), String(v).trim().slice(0, 5000)]);
-  if (!champs.length) return [400, { erreur: 'Message vide' }];
-  const email = propre(b.repondreA, 200), nom = propre(b.nom, 100);
-  const emailOk = /^[^\s@<>]+@[^\s@<>]+\.[a-z]{2,}$/i.test(email);
-  const sujet = propre(b.sujet || 'Nouveau message depuis le site', 150);
-  const texte = champs.map(([n, v]) => `${n} : ${v}`).join('\n\n') + '\n\n—\nEnvoyé depuis le site jipsonmathas.com' + (b.page ? ' (' + propre(b.page, 200) + ')' : '');
-  const html = `<div style="font-family:Arial,sans-serif;font-size:15px;color:#0f2167"><p style="margin:0 0 14px;font-size:13px;color:#5d6890">Nouveau message depuis jipsonmathas.com${emailOk ? ' — cliquez sur « Répondre » pour écrire directement au visiteur' : ''}.</p><table cellpadding="0" cellspacing="0" style="border-collapse:collapse">` +
-    champs.map(([n, v]) => `<tr><td style="padding:6px 16px 6px 0;vertical-align:top;font-weight:bold;white-space:nowrap">${echHtml(n)}</td><td style="padding:6px 0;color:#222">${echHtml(v).replace(/\n/g, '<br>')}</td></tr>`).join('') + '</table></div>';
-  try { await smtp(mdp, composer({ sujet, texte, html, repondreA: emailOk ? email : '', nomVisiteur: nom })); }
-  catch (e) { return [502, { erreur: 'Envoi impossible pour le moment' }]; }
-  await env.DB.prepare('INSERT INTO envois (k, ts) VALUES (?, ?)').bind(k, Date.now()).run();
-  return [200, { ok: true }];
 }
 
 const bearer = req => (req.headers.get('authorization') || '').replace(/^Bearer\s+/i, '').trim();
@@ -298,8 +200,6 @@ export default {
     if (url.pathname === '/etat' && req.method === 'GET') return json(await etat(env));
     if (url.pathname === '/installer' && req.method === 'POST') { const [st, o] = await installer(req, env); return json(o, st); }
     if (url.pathname === '/login' && req.method === 'POST') { const [st, o] = await login(req, env); return json(o, st); }
-    if (url.pathname === '/form' && req.method === 'POST') { const [st, o] = await formulaire(req, env); return json(o, st); }
-    if (url.pathname === '/boite' && req.method === 'POST') { if (!(await allowed(req, env))) return json({ erreur: 'Session expirée' }, 401); const [st, o] = await boite(req, env); return json(o, st); }
     if (url.pathname === '/compte' && req.method === 'POST') { if (!(await allowed(req, env))) return json({ erreur: 'Session expirée' }, 401); const [st, o] = await compte(req, env); return json(o, st); }
     if (url.pathname === '/session' && req.method === 'GET') return json({ ok: await allowed(req, env) }, (await allowed(req, env)) ? 200 : 401);
     if (url.pathname === '/gh' || url.pathname.startsWith('/gh/')) {

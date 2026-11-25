@@ -168,17 +168,6 @@ window.envoyerFormulaire = async function (form) {
   const sujet = form.getAttribute('name') === 'formation'
     ? (fd.get('demande') || 'Demande') + ' — ' + (fd.get('formation') || 'formation')
     : 'Nouveau message depuis le site';
-  // 1. Envoi par la boîte contact@ (portier Cloudflare) : les messages n'arrivent pas en spam
-  if (SITE.stats) {
-    const champs = {};
-    for (const [k, v] of fd.entries()) if (!['form-name', 'bot-field'].includes(k) && typeof v === 'string' && v.trim()) champs[CHAMPS[k] || k] = v.trim();
-    try {
-      const r = await fetch(SITE.stats.replace(/\/$/, '') + '/form', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sujet: sujet + ' (' + (fd.get('name') || '') + ')', nom: fd.get('name') || '', repondreA: fd.get('email') || '', champs, page: location.pathname }) });
-      if (r.ok) return true;
-    } catch (e) {}
-  }
-  // 2. Secours : Web3Forms
   if (!SITE.web3forms) return false;
   const corps = { access_key: SITE.web3forms, subject: sujet + ' (' + (fd.get('name') || '') + ')', from_name: 'Site jipsonmathas.com', replyto: fd.get('email') || '' };
   for (const [k, v] of fd.entries()) {

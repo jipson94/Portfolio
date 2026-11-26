@@ -1814,3 +1814,16 @@ a.tm-sous:hover{color:#fff}
 @media (max-width:720px){
   .f-card-full .f-actions .dl-pdf,.f-card-full .f-actions .share-btn{grid-column:auto !important;width:100%;justify-content:center}
 }
+
+/* Formations : partage réduit à une icône ronde, au bout de la ligne de boutons */
+.f-card-full .f-actions{grid-template-columns:auto auto minmax(0,1fr) auto !important}
+.f-card-full .f-actions .share-ico{width:45.6px !important;height:45.6px;padding:0 !important;border-radius:50%;justify-content:center;align-self:center;grid-column:4 !important}
+.f-card-full .f-actions .share-ico span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.f-card-full .f-actions .share-ico svg{width:18px;height:18px}
+@media (max-width:720px){
+  .f-card-full .f-actions{grid-template-columns:1fr 1fr auto !important}
+  .f-card-full .f-actions .btn{grid-column:1 !important}
+  .f-card-full .f-actions [data-open="Demande de devis"]{grid-column:2 / 4 !important}
+  .f-card-full .f-actions .dl-pdf{grid-column:1 / 3 !important;width:100%}
+  .f-card-full .f-actions .share-ico{grid-column:3 !important;width:47.6px !important;height:47.6px}
+}

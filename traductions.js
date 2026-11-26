@@ -1080,5 +1080,6 @@ I18N.load([
   ["Cybersécurité","Cybersecurity","网络安全"],
   ["Tech et géopolitique","Tech and geopolitics","科技与地缘政治"],
   ["Événements","Events","活动"],
-  ["Économie numérique","Digital economy","数字经济"]
+  ["Économie numérique","Digital economy","数字经济"],
+  ["Partager","Share","分享"]
 ]);

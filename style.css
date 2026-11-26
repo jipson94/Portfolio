@@ -1782,3 +1782,16 @@ a.tm-sous:hover{color:#fff}
 .article-body ul,.article-body ol{margin-bottom:18px}
 /* Images hautes ou carrées dans un article : hauteur limitée, centrées */
 .article-body figure img,#p-solution figure img{width:auto;max-width:100%;max-height:620px;margin:0 auto}
+
+/* Partage depuis les cartes d'articles et de formations */
+.post-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}
+.post-foot .more{margin-top:0}
+.share-btn{display:inline-flex;align-items:center;gap:7px;font:600 12.5px var(--font);color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;transition:background .2s,color .2s,border-color .2s;white-space:nowrap}
+.share-btn svg{width:15px;height:15px;fill:currentColor;stroke:currentColor;stroke-width:1.8;flex:none}
+.share-btn svg path{fill:none}
+.share-btn:hover,.share-btn:focus-visible{background:var(--orange);border-color:var(--orange);color:var(--on-accent);outline:none}
+.f-card-full .f-actions .share-btn{padding:8px 14px;font-size:13.5px;color:inherit}
+.share-menu{position:absolute;z-index:200;display:flex;flex-direction:column;min-width:170px;padding:6px;border-radius:16px;background:#fff;box-shadow:0 18px 40px rgba(5,12,40,.35);animation:shareIn .18s ease-out}
+.share-menu a,.share-menu button{display:block;text-align:left;font:600 14px var(--font);color:#0b1850;background:none;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;text-decoration:none}
+.share-menu a:hover,.share-menu button:hover{background:#fff4b0}
+@keyframes shareIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}

@@ -261,3 +261,69 @@ window.envoyerFormulaire = async function (form) {
     evt('envoi:' + t + (fo ? ':' + fo.id : ''));
   }, true);
 })();
+
+/* ============================================================
+   PARTAGE : bouton « Partager » sur les cartes d'articles et de formations ([data-share-url]).
+   Sur téléphone : feuille de partage du téléphone. Sinon : petit menu WhatsApp, Facebook, LinkedIn, X, copier le lien.
+   Chaque lien porte sa provenance (?utm_source=whatsapp…) pour les statistiques de l'admin, et la langue choisie.
+   ============================================================ */
+window.Partage = (function () {
+  const BASE = 'https://jipsonmathas.com/';
+  const T = s => window.I18N ? I18N.t(s) : s;
+  const url = (chemin, source) => {
+    const [p, h] = String(chemin).split('#'), u = new URL(p, BASE);
+    const lg = window.I18N && I18N.lang; if (lg && lg !== 'fr') u.searchParams.set('lang', lg);
+    if (source) u.searchParams.set('utm_source', source);
+    return u.href + (h ? '#' + h : '');
+  };
+  const lien = (canal, chemin, titre) => {
+    const u = encodeURIComponent(url(chemin, canal)), t = encodeURIComponent(titre || '');
+    return ({
+      whatsapp: 'https://wa.me/?text=' + t + '%20' + u,
+      facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + u,
+      linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + u,
+      x: 'https://x.com/intent/post?text=' + t + '&url=' + u
+    })[canal];
+  };
+  let menu = null;
+  const fermer = () => { if (menu) { menu.remove(); menu = null; } };
+  function ouvrir(btn) {
+    const chemin = btn.dataset.shareUrl, titre = btn.dataset.shareTitle || document.title;
+    // Téléphone : partage natif (WhatsApp, Messenger, SMS… selon les applications installées)
+    if (navigator.share && matchMedia('(pointer:coarse)').matches) {
+      navigator.share({ title: titre, url: url(chemin, 'partage') }).catch(() => {});
+      return;
+    }
+    fermer();
+    menu = document.createElement('div');
+    menu.className = 'share-menu'; menu.setAttribute('role', 'menu');
+    menu.innerHTML = [['whatsapp', 'WhatsApp'], ['facebook', 'Facebook'], ['linkedin', 'LinkedIn'], ['x', 'X']]
+      .map(([c, n]) => `<a role="menuitem" href="${lien(c, chemin, titre)}" target="_blank" rel="noopener">${n}</a>`).join('')
+      + `<button type="button" role="menuitem" data-copy>${T('Copier le lien')}</button>`;
+    document.body.appendChild(menu);
+    const r = btn.getBoundingClientRect(), w = menu.offsetWidth, h = menu.offsetHeight;
+    let left = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), innerWidth - w - 8);
+    let top = r.bottom + 8; if (top + h > innerHeight - 8) top = r.top - h - 8;
+    menu.style.left = (left + scrollX) + 'px'; menu.style.top = (top + scrollY) + 'px';
+    menu.querySelector('[data-copy]').addEventListener('click', async e => {
+      const b = e.currentTarget;
+      try { await navigator.clipboard.writeText(url(chemin, '')); b.textContent = T('Lien copié ✓'); }
+      catch { b.textContent = T('Copie impossible'); }
+      setTimeout(fermer, 1200);
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setTimeout(fermer, 100)));
+  }
+  // Le bouton est dans une carte cliquable : on bloque le clic pour ne pas ouvrir l'article ou la formation
+  document.addEventListener('click', e => {
+    const btn = e.target.closest && e.target.closest('[data-share-url]');
+    if (btn) { e.preventDefault(); e.stopPropagation(); ouvrir(btn); return; }
+    if (menu && !menu.contains(e.target)) fermer();
+  }, true);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') fermer();
+    const btn = e.target.closest && e.target.closest('[data-share-url]');
+    if (btn && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); e.stopPropagation(); ouvrir(btn); }
+  }, true);
+  addEventListener('scroll', fermer, { passive: true });
+  return { url, lien };
+})();

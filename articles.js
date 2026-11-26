@@ -26,7 +26,7 @@ const postCard = a0 => { const a = artL(a0); return `
       <div class="post-meta"><span class="cat">${a.categorie}</span><span>${fmtDate(a.date)}</span><span>· ${a.lecture}</span></div>
       <h3>${a.titre}</h3>
       <p class="excerpt">${a.resume}</p>
-      <span class="more">Lire l'article →</span>
+      <div class="post-foot"><span class="more">Lire l'article →</span><span class="share-btn" role="button" tabindex="0" data-share-url="${lienArticle(a.id)}" data-share-title="${String(a.titre).replace(/"/g, '&quot;')}" aria-label="Partager"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.3M8.3 13.2l7.4 4.3"/></svg><span>Partager</span></span></div>
     </div>
   </a>`; };
 

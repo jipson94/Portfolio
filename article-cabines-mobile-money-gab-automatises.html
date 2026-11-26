@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261125r">
+<link rel="stylesheet" href="style.css?v=20261126a">
 <meta property="article:published_time" content="2026-11-26">
 </head>
 <body>
@@ -63,7 +63,7 @@
     <div class="article-wrap">
       <div class="article-cover" id="a-cover"><img src="images/articles/cabines-mobile-money-gab-automatises.jpg" alt=""></div>
       <div class="article-body" id="a-body">
-<p><strong>Un nouveau GAB Mobile Money a été inauguré à Limbé en octobre. Il permet d’effectuer certaines opérations sans passer par un agent. Mais la borne n’a pas été lancée par MTN et rien ne prouve que les kiosques vont bientôt disparaître. L’automatisation pourrait plutôt transformer une partie du travail des agents.</strong></p>
+<p><strong>Un nouveau GAB Mobile Money a été inauguré à Limbé, ville du département du Fako dans la région du Sud-Ouest du Cameroun, en octobre.</strong> Il permet d’effectuer certaines opérations sans passer par un agent. Mais la borne n’a pas été lancée par MTN et rien ne prouve que les kiosques vont bientôt disparaître. L’automatisation pourrait plutôt transformer une partie du travail des agents. (<a href="https://minat.gov.cm/presentation/carte-des-regions/sud-ouest/" target="_blank" rel="noopener">Ministère de l’Administration territoriale du Cameroun</a>)</p>
 <p>Une image qui circule en ligne annonce la disparition prochaine des cabines Mobile Money et attribue à MTN Cameroon le lancement d’un « GAB Mobile Money ». Les informations disponibles racontent une histoire plus nuancée : le terminal présenté a été lancé par <strong>Mobile Wallet</strong>, une entreprise qui propose une borne compatible avec plusieurs services, dont MTN MoMo.</p>
 <p>Le premier appareil présenté par l’entreprise a été inauguré le 7 octobre 2026 au supermarché BAO de Limbé. Mobile Wallet décrit son terminal comme une borne permettant de déposer et retirer de l’argent, ainsi que d’effectuer des transferts et des paiements. Sa plateforme annonce une compatibilité avec MTN MoMo et Orange Money, entre autres. (<a href="https://cm.linkedin.com/company/mobile-wallet" target="_blank" rel="noopener">Annonce de lancement de Mobile Wallet</a> ; <a href="https://www.mobilewalletinc.com/" target="_blank" rel="noopener">présentation du service</a>)</p>
 <h3>Ce qui change pour les clients</h3>
@@ -115,7 +115,7 @@
 </footer>
 
 <script src="data/articles.js"></script>
-<script src="articles.js?v=2"></script>
+<script src="articles.js?v=3"></script>
 <script src="data/pubs.js"></script>
 <script src="pubs.js"></script>
 <script>window.PAGE_ID = "cabines-mobile-money-gab-automatises";</script>
@@ -155,10 +155,11 @@
     }
 
     // Partage
-    const url = location.href, txt = a.titre;
-    document.getElementById('sh-wa').href = 'https://wa.me/?text=' + encodeURIComponent(txt + ' ' + url);
-    document.getElementById('sh-li').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
-    document.getElementById('sh-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+    const P = window.Partage, url = P ? P.url(lienArticle(a.id), '') : location.href, txt = a.titre;
+    document.getElementById('sh-wa').href = P ? P.lien('whatsapp', lienArticle(a.id), txt) : 'https://wa.me/?text=' + encodeURIComponent(txt + ' ' + url);
+    document.getElementById('sh-li').href = P ? P.lien('linkedin', lienArticle(a.id), txt) : 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
+    document.getElementById('sh-fb').href = P ? P.lien('facebook', lienArticle(a.id), txt) : 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+    addEventListener('load', () => { const Q = window.Partage; if (!Q) return; ['whatsapp', 'linkedin', 'facebook'].forEach(c => { document.getElementById({ whatsapp: 'sh-wa', linkedin: 'sh-li', facebook: 'sh-fb' }[c]).href = Q.lien(c, lienArticle(a.id), txt); }); });
     const copy = document.getElementById('sh-copy');
     copy.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(url); copy.textContent = 'Lien copié ✓'; }
@@ -173,7 +174,7 @@
   }
 </script>
 <script src="data/site.js"></script>
-<script src="site.js?v=2"></script>
+<script src="site.js?v=3"></script>
 <script>I18N.apply()</script>
 <script src="typo.js"></script>
 <script src="motion.js"></script>

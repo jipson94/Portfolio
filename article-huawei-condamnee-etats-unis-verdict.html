@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261125r">
+<link rel="stylesheet" href="style.css?v=20261126a">
 <meta property="article:published_time" content="2026-11-25">
 </head>
 <body>
@@ -113,7 +113,7 @@
 </footer>
 
 <script src="data/articles.js"></script>
-<script src="articles.js?v=2"></script>
+<script src="articles.js?v=3"></script>
 <script src="data/pubs.js"></script>
 <script src="pubs.js"></script>
 <script>window.PAGE_ID = "huawei-condamnee-etats-unis-verdict";</script>
@@ -153,10 +153,11 @@
     }
 
     // Partage
-    const url = location.href, txt = a.titre;
-    document.getElementById('sh-wa').href = 'https://wa.me/?text=' + encodeURIComponent(txt + ' ' + url);
-    document.getElementById('sh-li').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
-    document.getElementById('sh-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+    const P = window.Partage, url = P ? P.url(lienArticle(a.id), '') : location.href, txt = a.titre;
+    document.getElementById('sh-wa').href = P ? P.lien('whatsapp', lienArticle(a.id), txt) : 'https://wa.me/?text=' + encodeURIComponent(txt + ' ' + url);
+    document.getElementById('sh-li').href = P ? P.lien('linkedin', lienArticle(a.id), txt) : 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url);
+    document.getElementById('sh-fb').href = P ? P.lien('facebook', lienArticle(a.id), txt) : 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+    addEventListener('load', () => { const Q = window.Partage; if (!Q) return; ['whatsapp', 'linkedin', 'facebook'].forEach(c => { document.getElementById({ whatsapp: 'sh-wa', linkedin: 'sh-li', facebook: 'sh-fb' }[c]).href = Q.lien(c, lienArticle(a.id), txt); }); });
     const copy = document.getElementById('sh-copy');
     copy.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(url); copy.textContent = 'Lien copié ✓'; }
@@ -171,7 +172,7 @@
   }
 </script>
 <script src="data/site.js"></script>
-<script src="site.js?v=2"></script>
+<script src="site.js?v=3"></script>
 <script>I18N.apply()</script>
 <script src="typo.js"></script>
 <script src="motion.js"></script>

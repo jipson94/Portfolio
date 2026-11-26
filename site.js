@@ -285,32 +285,40 @@ window.Partage = (function () {
       x: 'https://x.com/intent/post?text=' + t + '&url=' + u
     })[canal];
   };
+  const ICO = {
+    whatsapp: '<path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/>',
+    facebook: '<path d="M13.5 21v-7.5H16l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.8 1.4-3.8 3.9v2.3H8v3h2.5V21z"/>',
+    linkedin: '<path d="M5 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3.3 9h3.4v11.5H3.3zM9 9h3.3v1.6h.1c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.4v6.4h-3.4v-5.7c0-1.4 0-3.1-1.9-3.1s-2.2 1.5-2.2 3v5.8H9z"/>',
+    x: '<path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L2 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/>',
+    lien: '<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.2 1.2M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1.2-1.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+    plus: '<circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/>'
+  };
+  const svg = k => '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICO[k] + '</svg>';
   let menu = null;
   const fermer = () => { if (menu) { menu.remove(); menu = null; } };
   function ouvrir(btn) {
     const chemin = btn.dataset.shareUrl, titre = btn.dataset.shareTitle || document.title;
-    // Téléphone : partage natif (WhatsApp, Messenger, SMS… selon les applications installées)
-    if (navigator.share && matchMedia('(pointer:coarse)').matches) {
-      navigator.share({ title: titre, url: url(chemin, 'partage') }).catch(() => {});
-      return;
-    }
     fermer();
     menu = document.createElement('div');
     menu.className = 'share-menu'; menu.setAttribute('role', 'menu');
     menu.innerHTML = [['whatsapp', 'WhatsApp'], ['facebook', 'Facebook'], ['linkedin', 'LinkedIn'], ['x', 'X']]
-      .map(([c, n]) => `<a role="menuitem" href="${lien(c, chemin, titre)}" target="_blank" rel="noopener">${n}</a>`).join('')
-      + `<button type="button" role="menuitem" data-copy>${T('Copier le lien')}</button>`;
+      .map(([c, n]) => `<a role="menuitem" class="sm-${c}" href="${lien(c, chemin, titre)}" target="_blank" rel="noopener" title="${n}" aria-label="${n}">${svg(c)}</a>`).join('')
+      + `<button type="button" role="menuitem" class="sm-lien" data-copy title="${T('Copier le lien')}" aria-label="${T('Copier le lien')}">${svg('lien')}</button>`
+      + (navigator.share ? `<button type="button" role="menuitem" class="sm-plus" data-native title="${T('Plus')}" aria-label="${T('Plus')}">${svg('plus')}</button>` : '')
+      + `<span class="sm-msg" aria-live="polite"></span>`;
     document.body.appendChild(menu);
     const r = btn.getBoundingClientRect(), w = menu.offsetWidth, h = menu.offsetHeight;
     let left = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), innerWidth - w - 8);
     let top = r.bottom + 8; if (top + h > innerHeight - 8) top = r.top - h - 8;
     menu.style.left = (left + scrollX) + 'px'; menu.style.top = (top + scrollY) + 'px';
-    menu.querySelector('[data-copy]').addEventListener('click', async e => {
-      const b = e.currentTarget;
-      try { await navigator.clipboard.writeText(url(chemin, '')); b.textContent = T('Lien copié ✓'); }
-      catch { b.textContent = T('Copie impossible'); }
-      setTimeout(fermer, 1200);
+    const msg = menu.querySelector('.sm-msg');
+    menu.querySelector('[data-copy]').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(url(chemin, '')); msg.textContent = T('Lien copié ✓'); }
+      catch { msg.textContent = T('Copie impossible'); }
+      menu.classList.add('has-msg'); setTimeout(fermer, 1400);
     });
+    const nat = menu.querySelector('[data-native]');
+    if (nat) nat.addEventListener('click', () => { navigator.share({ title: titre, url: url(chemin, 'partage') }).catch(() => {}); fermer(); });
     menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setTimeout(fermer, 100)));
   }
   // Le bouton est dans une carte cliquable : on bloque le clic pour ne pas ouvrir l'article ou la formation

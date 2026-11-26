@@ -1795,3 +1795,22 @@ a.tm-sous:hover{color:#fff}
 .share-menu a,.share-menu button{display:block;text-align:left;font:600 14px var(--font);color:#0b1850;background:none;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;text-decoration:none}
 .share-menu a:hover,.share-menu button:hover{background:#fff4b0}
 @keyframes shareIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* Menu de partage en icônes */
+.share-menu{flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;min-width:0;padding:10px;border-radius:999px}
+.share-menu a,.share-menu button{display:grid;place-items:center;width:44px;height:44px;padding:0;border-radius:50%;color:#fff;transition:transform .15s,filter .15s}
+.share-menu a:hover,.share-menu button:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.share-menu svg{width:22px;height:22px;fill:currentColor}
+.share-menu .sm-whatsapp,.share-menu .sm-whatsapp:hover{background:#25d366}
+.share-menu .sm-facebook,.share-menu .sm-facebook:hover{background:#1877f2}
+.share-menu .sm-linkedin,.share-menu .sm-linkedin:hover{background:#0a66c2}
+.share-menu .sm-x,.share-menu .sm-x:hover{background:#000}
+.share-menu .sm-lien,.share-menu .sm-lien:hover{background:#ffd84a;color:#0b1850}
+.share-menu .sm-plus,.share-menu .sm-plus:hover{background:#e7eaf6;color:#0b1850}
+.share-menu .sm-msg{display:none;flex:1 1 100%;text-align:center;font:600 13px var(--font);color:#0b1850;padding:2px 0 0}
+.share-menu.has-msg{border-radius:22px}
+.share-menu.has-msg .sm-msg{display:block}
+/* Téléphone : « Programme (PDF) » et « Partager » côte à côte (grille de 2 colonnes) */
+@media (max-width:720px){
+  .f-card-full .f-actions .dl-pdf,.f-card-full .f-actions .share-btn{grid-column:auto !important;width:100%;justify-content:center}
+}

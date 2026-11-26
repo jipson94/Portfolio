@@ -1081,5 +1081,6 @@ I18N.load([
   ["Tech et géopolitique","Tech and geopolitics","科技与地缘政治"],
   ["Événements","Events","活动"],
   ["Économie numérique","Digital economy","数字经济"],
-  ["Partager","Share","分享"]
+  ["Partager","Share","分享"],
+  ["Plus","More","更多"]
 ]);

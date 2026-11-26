@@ -1079,5 +1079,6 @@ I18N.load([
   ["Envoi…","Sending…","发送中…"],
   ["Cybersécurité","Cybersecurity","网络安全"],
   ["Tech et géopolitique","Tech and geopolitics","科技与地缘政治"],
-  ["Événements","Events","活动"]
+  ["Événements","Events","活动"],
+  ["Économie numérique","Digital economy","数字经济"]
 ]);
